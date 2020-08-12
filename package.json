@@ -1,0 +1,48 @@
+{
+  "name": "io.cordova.hellocordova",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "author": {
+    "name": "Apache Cordova Team"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "cordova-plugin-whitelist": "^1.3.4",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "_id": "io.cordova.hellocordova@1.0.0",
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {}
+    }
+  },
+  "displayName": "HelloCordova",
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "license": "Apache-2.0",
+  "readme": "ERROR: No README data found!"
+}
