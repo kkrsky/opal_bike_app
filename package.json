@@ -7,16 +7,17 @@
     "name": "Apache Cordova Team"
   },
   "scripts": {
-    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "android": "npm run build && cordova run android"
+    "android": "npm run build && cordova run android",
+    "dev": "vue-cli-service serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "main": "index.js",
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
+    "vuetify": "^2.2.11",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
@@ -28,7 +29,9 @@
     "cordova-plugin-whitelist": "^1.3.4",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.11"
+    "vue-cli-plugin-vuetify": "~2.0.7",
+    "vue-template-compiler": "^2.6.11",
+    "vuetify-loader": "^1.3.0"
   },
   "browserslist": [
     "> 1%",
