@@ -40,6 +40,7 @@ let checkDeviceState = {
       window.document.addEventListener("deviceready", onDeviceReady, false);
     },
     checState_location_init({ state, commit }) {
+      console.log("checState_location_init");
       //デバイス状態　location　をチェックする
       if (state.isDiagnostic && state.isDevice) {
         commit("locationAuthorizationMode");

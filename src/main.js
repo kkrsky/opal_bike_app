@@ -8,7 +8,7 @@ import tes from "./mixins/tes";
 
 Vue.config.productionTip = false;
 // Vue.mixin(tes);
-virtualCordova.start();
+// virtualCordova.start();
 
 new Vue({
   router,
