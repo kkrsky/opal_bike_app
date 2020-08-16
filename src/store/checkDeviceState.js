@@ -5,6 +5,7 @@ let checkDeviceState = {
   state: () => ({
     isDiagnostic: false,
     isDevice: false,
+    isGeolocation: false,
     deviceState: {
       location: {
         isLocationAvailable: false,
@@ -84,6 +85,7 @@ let checkDeviceState = {
         state.deviceInfo = window.device;
         state.deviceInfo.platform = state.deviceInfo.platform.toLowerCase();
       }
+      if (window.navigator.geolocation) state.isGeolocation = true;
     },
 
     /**

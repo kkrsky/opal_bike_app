@@ -10,6 +10,9 @@ Vue.config.productionTip = false;
 // Vue.mixin(tes);
 // virtualCordova.start();
 
+import "vuetify/dist/vuetify.min.css";
+import "../node_modules/leaflet/dist/leaflet.css";
+
 new Vue({
   router,
   store,
