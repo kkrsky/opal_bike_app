@@ -4,6 +4,13 @@ module.exports = {
   publicPath: "./",
   outputDir: "www",
   transpileDependencies: ["vuetify"],
+  css: {
+    loaderOptions: {
+      scss: {
+        prependData: '@import "./src/scss/_index.scss";',
+      },
+    },
+  },
   configureWebpack: {
     plugins: [new Dotenv()],
   },
