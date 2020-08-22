@@ -5,7 +5,7 @@
       :left="leftBtn"
       :right="rightBtnList"
     ></top-header>
-    <v-main>this is {{ title }}</v-main>
+    <v-main>this is tes{{ title }}</v-main>
     <top-footer></top-footer>
   </div>
 </template>
