@@ -2,3 +2,4 @@
 //import at vue.config.js>css>loaderOptions
 
 @import "./fixLibrary.scss";
+@import "./util.scss"; // <=in here @import "./variables.scss";

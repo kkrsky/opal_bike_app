@@ -4,6 +4,7 @@
     <v-btn @click="tes1()">tes1</v-btn>
     <v-btn @click="tes2()">test</v-btn>
     <p>{{ currentPosition }}</p>
+    <div class="title">tes title</div>
     <p>
       this isDiagnostic
       <span>{{ isDiagnostic }}</span>
@@ -33,10 +34,6 @@ import { mapState } from "vuex";
 
 import L from "leaflet";
 import "leaflet.gridlayer.googlemutant/Leaflet.GoogleMutant";
-// import { createClient } from "@google/maps";
-// const googleMaps = createClient({
-//   key: "AIzaSyCQFohqwGfNb236MbTcezXWCTjcz-rO2a",
-// }); //for googlemaplayer in leaflet to register API key
 
 export default {
   data() {
@@ -225,6 +222,6 @@ export default {
 <style lang="scss">
 #leafletMap {
   width: 100%;
-  height: 500px;
+  height: 100px;
 }
 </style>
