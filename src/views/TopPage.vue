@@ -7,7 +7,7 @@
 
     <!-- -->
     <!-- <p>bar</p> -->
-    <top-header :title="'tie'"></top-header>
+    <top-header :title="'standard'"></top-header>
 
     <!-- Sizes your content based upon application components -->
     <v-main>
@@ -53,5 +53,4 @@ export default {
   }),
 };
 </script>
-<style lang="scss">
-</style>
+<style lang="scss"></style>
