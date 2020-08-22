@@ -1,30 +1,40 @@
 <template>
-  <div>
-    <top-header v-bind="tes"></top-header>
-    <p>this is home</p>
+  <div id="topHome">
+    <top-header
+      :title="title"
+      :left="leftBtn"
+      :right="rightBtnList"
+    ></top-header>
+    <v-main>this is {{ title }}</v-main>
+    <top-footer></top-footer>
   </div>
 </template>
 
 <script>
 import TopHeader from "@/components/TopHeader.vue";
+import TopFooter from "@/components/TopFooter.vue";
+
 export default {
   data() {
     return {
-      tes: {
-        id: 1,
-        title: "back",
-        icon: "arrow_back_ios",
-        goto: "back",
-        propItems: {},
-        addCss: {},
-      },
+      //component data
+      title: "home",
+      // rightBtnList: [],
+      // leftBtn: {},
+
+      //methods data
     };
   },
+  computed: {},
+  methods: {},
+  watch: {},
+  beforeCreate() {},
+  mounted() {},
   components: {
     TopHeader,
+    TopFooter,
   },
 };
 </script>
 
-<style>
-</style>
+<style lang="scss"></style>
