@@ -7,7 +7,7 @@
 
     <!-- -->
     <!-- <p>bar</p> -->
-    <top-header :title="'tihge'"></top-header>
+    <top-header :title="'standard'"></top-header>
 
     <!-- Sizes your content based upon application components -->
     <v-main>
