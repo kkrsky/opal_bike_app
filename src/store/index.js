@@ -17,6 +17,7 @@ export default new Vuex.Store({
         // tes: tes,
       },
     },
+
     cds: cds,
   },
 });

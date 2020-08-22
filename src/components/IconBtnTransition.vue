@@ -1,5 +1,5 @@
 <template>
-  <!-- ボタン遷移用のコンポーネント -->
+  <!-- ボタン遷移用（アイコン）のコンポーネント -->
   <div id="iconBtnTransition" class="btn" @click="gotoPage()">
     <v-icon class="material-icons icon-info" :style="addCss">{{icon}}</v-icon>
   </div>

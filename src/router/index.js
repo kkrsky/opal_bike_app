@@ -10,6 +10,8 @@ import TopBike from "../views/TopBike.vue";
 import TopRecord from "../views/TopRecord.vue";
 import TopProfile from "../views/TopProfile.vue";
 import TopSetting from "../views/TopSetting.vue";
+import Login from "../views/Login.vue";
+import SignUp from "../views/SignUp.vue";
 
 Vue.use(VueRouter);
 
@@ -21,7 +23,7 @@ const routes = [
     meta: { requiredAuth: true }, //コンポーネントの表示には認証が必要と定義する
     beforeEnter: (to, from, next) => {
       if (to.matched.some((record) => record.meta.requiredAuth)) {
-        Auth.currentAuthenticatedUser("isAuth") // 認証済みのユーザが存在するかどうかをチェックする関数
+        Auth.currentAuthenticatedUser("isAuth 2") // 認証済みのユーザが存在するかどうかをチェックする関数
           .then(() => {
             next();
           })
@@ -78,8 +80,18 @@ const routes = [
   // },
   {
     path: "/title",
-    name: "titlePage",
+    name: "title",
     component: TitlePage,
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: Login,
+  },
+  {
+    path: "/signUp",
+    name: "signUp",
+    component: SignUp,
   },
 ];
 
@@ -88,7 +100,7 @@ const router = new VueRouter({
   base: "/",
   routes,
   scrollBehavior(to, from, savedPosition) {
-    console.log("savedPosition", savedPosition, to, from);
+    // console.log("savedPosition", savedPosition, to, from);
     if (savedPosition) {
       return savedPosition;
     } else {

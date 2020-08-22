@@ -8,10 +8,14 @@
           <icon-btn-transition v-bind="leftBtn"></icon-btn-transition>
         </v-col>
         <v-col cols class="col-container">
-          <h3 class="centerTitle">{{title}}</h3>
+          <h3 class="centerTitle">{{ title }}</h3>
         </v-col>
         <v-col cols="3" class="col-container rightBtn-container">
-          <div class="btn rightBtn" v-for="rightBtn in rightBtnList" :key="rightBtn.id">
+          <div
+            class="btn rightBtn"
+            v-for="rightBtn in rightBtnList"
+            :key="rightBtn.id"
+          >
             <icon-btn-transition v-bind="rightBtn"></icon-btn-transition>
           </div>
         </v-col>
@@ -31,8 +35,8 @@ export default {
         title: "back",
         icon: "arrow_back_ios",
         goto: "back",
-        propItems: "",
-        addCss: "",
+        propItems: {},
+        addCss: {},
       },
     },
     right: {
@@ -90,7 +94,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 #topHeader {
   padding: 0px;
 
