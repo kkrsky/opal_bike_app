@@ -96,7 +96,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  // mode: "history", //これだと実機でrouterが動かない
   base: "/",
   routes,
   scrollBehavior(to, from, savedPosition) {
