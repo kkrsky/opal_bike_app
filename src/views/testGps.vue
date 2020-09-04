@@ -52,6 +52,7 @@ export default {
   },
   created() {
     this.$store.dispatch("cds/checkState");
+
     // this.initMap();
   },
   mounted() {
@@ -222,6 +223,6 @@ export default {
 <style lang="scss">
 #leafletMap {
   width: 100%;
-  height: 100px;
+  height: 300px;
 }
 </style>

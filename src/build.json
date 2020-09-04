@@ -1,0 +1,12 @@
+{
+  "ios": {
+    "debug": {
+      "codeSignIdentity": "Apple Development: Ryouhei Kurebayashi",
+      "provisioningProfile": "d180f79b-fadc-4d59-8ec8-61e132923748"
+    },
+    "release": {
+      "codeSignIdentity": "Apple Distribution: Ryouhei Kurebayashi",
+      "provisioningProfile": "3f04c3a0-ca4c-46fb-a4e1-836fbacc1727"
+    }
+  }
+}

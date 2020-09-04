@@ -1,10 +1,6 @@
 <template>
   <div id="topHome">
-    <top-header
-      :title="title"
-      :left="leftBtn"
-      :right="rightBtnList"
-    ></top-header>
+    <top-header :title="title"></top-header>
     <v-main>this is tes{{ title }}</v-main>
     <top-footer></top-footer>
   </div>

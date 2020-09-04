@@ -32,7 +32,7 @@ let checkDeviceState = {
   actions: {
     checkState({ commit, dispatch }) {
       let onDeviceReady = () => {
-        console.log("deviceready");
+        console.log("deviceready checkDeviceState");
 
         commit("init");
         dispatch("checState_location_init");
@@ -78,7 +78,7 @@ let checkDeviceState = {
      */
     init(state) {
       //プラグインの状態確認
-      console.log("init", this);
+      // console.log("init", this);
       if (cordova.plugins.diagnostic) state.isDiagnostic = true;
       if (window.device) {
         state.isDevice = true;

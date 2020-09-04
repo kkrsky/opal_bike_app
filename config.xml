@@ -11,6 +11,7 @@
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true"/>
     <access origin="*" />
+    <allow-navigation href="data:image/*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -47,6 +48,7 @@
          -->
     </platform>
     <platform name="ios">
+    <!-- <resource-file src="GoogleService-Info.plist" target="tes/GoogleService-Info.plist" /> -->
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">

@@ -4,19 +4,34 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+import dotenv from "dotenv";
 import checkAuthBeforeRoute from "./router/checkAuthBeforeRoute.js";
+import Fcm from "./fcm.js";
 
 //for test
 import virtualCordova from "./virtualCordova.js";
 import tes from "./mixins/tes";
-virtualCordova.start();
+// virtualCordova.start();
+// Fcm.start();
+
+window.alert("main.js mounted");
+window.document.addEventListener("deviceready", () => {
+  console.log("main.js deviceready");
+  Fcm.init();
+});
 
 //外部jsライブラリ読み込み
-let script = document.createElement("script");
+dotenv.config();
+
+let script = window.document.createElement("script");
 script.src =
   "https://maps.googleapis.com/maps/api/js?key=" +
-  process.env.APIKEY_GOOGLE_ANDROID;
-document.head.appendChild(script);
+  process.env.APIKEY_GOOGLE_ANDROID +
+  "&callback=initMap";
+window.initMap = function() {
+  console.log("google1", window.google);
+};
+window.document.head.appendChild(script);
 // checkAuthBeforeRoute.init(router);
 
 //cssライブラリ読み込み
