@@ -4,6 +4,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+import firebase from "firebase";
+import { firebaseConfig } from "./config/config.js";
 import dotenv from "dotenv";
 import checkAuthBeforeRoute from "./router/checkAuthBeforeRoute.js";
 import Fcm from "./fcm.js";
@@ -12,7 +14,6 @@ import Fcm from "./fcm.js";
 import virtualCordova from "./virtualCordova.js";
 import tes from "./mixins/tes";
 // virtualCordova.start();
-// Fcm.start();
 
 window.alert("main.js mounted");
 window.document.addEventListener("deviceready", () => {
@@ -22,7 +23,7 @@ window.document.addEventListener("deviceready", () => {
 
 //外部jsライブラリ読み込み
 dotenv.config();
-
+firebase.initializeApp(firebaseConfig);
 let script = window.document.createElement("script");
 script.src =
   "https://maps.googleapis.com/maps/api/js?key=" +

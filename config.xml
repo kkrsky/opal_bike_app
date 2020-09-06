@@ -10,6 +10,8 @@
     </author>
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true"/>
+    <preference name="AndroidLaunchMode" value="singleTask" />
+    <preference name="Android-minSdkVersion" value="22" />
     <access origin="*" />
     <allow-navigation href="data:image/*" />
     <allow-intent href="http://*/*" />
@@ -55,4 +57,10 @@
             <string>need location access to find things nearby</string>
         </edit-config> 
     </platform>
+    <universal-links>
+    <host name="opalbikeapp.page.link" scheme="https" />
+    <host name="opal-bike-app.firebaseapp.com" scheme="https">
+        <path url="/__/auth/callback"/>
+    </host>
+</universal-links>
 </widget>

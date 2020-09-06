@@ -23,7 +23,13 @@ const routes = [
     meta: { requiredAuth: true }, //コンポーネントの表示には認証が必要と定義する
     beforeEnter: (to, from, next) => {
       if (to.matched.some((record) => record.meta.requiredAuth)) {
-        Auth.currentAuthenticatedUser("isAuth") // 認証済みのユーザが存在するかどうかをチェックする関数
+        let authDemo = "";
+        if (window.localStorage.getItem("USER_ID") === null) {
+          authDemo = "isAuth2";
+        } else {
+          authDemo = "isAuth";
+        }
+        Auth.currentAuthenticatedUser(authDemo) // 認証済みのユーザが存在するかどうかをチェックする関数
           .then(() => {
             next();
           })

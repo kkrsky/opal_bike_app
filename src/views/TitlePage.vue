@@ -8,7 +8,7 @@
     <v-container class="title-btn-container">
       <v-row no-gutters>
         <v-col :cols="12">
-          <v-btn>Googleで新規登録</v-btn>
+          <v-btn @click="tes1">Googleで新規登録</v-btn>
         </v-col>
       </v-row>
       <v-row no-gutters>
@@ -19,6 +19,7 @@
       <v-row no-gutters>
         <v-col :cols="12">
           <v-btn :to="'login'">ログイン</v-btn>
+          <!-- <v-btn @click="tes1">ログイン</v-btn> -->
         </v-col>
       </v-row>
     </v-container>
@@ -27,6 +28,7 @@
 
 <script>
 import TopFooter from "@/components/TopFooter.vue";
+import firebase from "firebase";
 
 export default {
   data() {
@@ -40,10 +42,63 @@ export default {
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    tes1() {
+      console.log("1");
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithRedirect(provider)
+        .then(function () {
+          console.log("2");
+
+          return firebase.auth().getRedirectResult();
+        })
+        .then(function (result) {
+          console.log("3", result);
+
+          // This gives you a Google Access Token.
+          // You can use it to access the Google API.
+          var token = result.credential.accessToken;
+          // The signed-in user info.
+          var user = result.user;
+          // ...
+        })
+        .catch(function (error) {
+          // Handle Errors here.
+          console.log("4", error);
+
+          var errorCode = error.code;
+          var errorMessage = error.message;
+        });
+    },
+  },
   watch: {},
   beforeCreate() {},
-  mounted() {},
+  mounted() {
+    // window.document.addEventListener("deviceready", () => {
+    //   var provider = new firebase.auth.GoogleAuthProvider();
+    //   firebase
+    //     .auth()
+    //     .signInWithRedirect(provider)
+    //     .then(function() {
+    //       return firebase.auth().getRedirectResult();
+    //     })
+    //     .then(function(result) {
+    //       // This gives you a Google Access Token.
+    //       // You can use it to access the Google API.
+    //       var token = result.credential.accessToken;
+    //       // The signed-in user info.
+    //       var user = result.user;
+    //       // ...
+    //     })
+    //     .catch(function(error) {
+    //       // Handle Errors here.
+    //       var errorCode = error.code;
+    //       var errorMessage = error.message;
+    //     });
+    // });
+  },
 
   components: {
     TopFooter,

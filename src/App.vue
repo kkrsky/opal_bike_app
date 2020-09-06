@@ -21,6 +21,8 @@ export default {
       if (fromName === "title" && toName === "login") {
         console.log("fireee");
         this.transitionName = "slide-up";
+      } else {
+        this.transitionName = "none";
       }
       // this.transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
     },

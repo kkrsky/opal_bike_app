@@ -7,7 +7,7 @@
 
     <!-- -->
     <!-- <p>bar</p> -->
-    <top-header :title="'standard'"></top-header>
+    <top-header :title="title"></top-header>
 
     <!-- Sizes your content based upon application components -->
     <v-main>
@@ -42,6 +42,7 @@ export default {
 
   data: () => ({
     //
+    title: "topPage",
     left: {
       id: 1,
       title: "tes",

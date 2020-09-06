@@ -18,9 +18,16 @@
   "main": "index.js",
   "dependencies": {
     "animate.css": "^4.1.0",
+    "cordova-plugin-browsertab": "0.2.0",
+    "cordova-plugin-buildinfo": "4.0.0",
+    "cordova-plugin-compat": "1.2.0",
+    "cordova-plugin-customurlscheme": "5.0.2",
     "cordova-plugin-device": "2.0.3",
+    "cordova-plugin-inappbrowser": "4.0.0",
+    "cordova-universal-links-plugin": "git+https://github.com/walteram/cordova-universal-links-plugin.git",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
+    "firebase": "^7.19.1",
     "leaflet": "^1.6.0",
     "leaflet.gridlayer.googlemutant": "^0.10.0",
     "material-design-icons-iconfont": "^5.0.1",
@@ -79,7 +86,17 @@
         "ANDROID_FIREBASE_CRASHLYTICS_VERSION": "17.0.1",
         "ANDROID_FIREBASE_CRASHLYTICS_NDK_VERSION": "17.0.1",
         "ANDROID_GSON_VERSION": "2.8.6"
-      }
+      },
+      "cordova-plugin-buildinfo": {},
+      "cordova-plugin-browsertab": {},
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-customurlscheme": {
+        "URL_SCHEME": "jp.opal.bike.app",
+        "ANDROID_SCHEME": " ",
+        "ANDROID_HOST": " ",
+        "ANDROID_PATHPREFIX": "/"
+      },
+      "cordova-universal-links-plugin": {}
     },
     "platforms": [
       "android",
