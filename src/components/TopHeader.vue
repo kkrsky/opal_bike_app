@@ -2,7 +2,7 @@
   <!-- 共通ヘッダーコンポーネント -->
   <v-app-bar>
     <v-container id="topHeader">
-      <v-row no-gutters>
+      <v-row no-gutters v-if="showRight">
         <!-- <v-col class="col-container" v-for="n in 3" :key="n" :cols="initHeaderContainerSize(n)"></v-col> -->
         <v-col cols="3" class="col-container leftBtn-container">
           <icon-btn-transition v-bind="leftBtn"></icon-btn-transition>
@@ -11,13 +11,18 @@
           <h3 class="centerTitle">{{ title }}</h3>
         </v-col>
         <v-col cols="3" class="col-container rightBtn-container">
-          <div
-            class="btn rightBtn"
-            v-for="rightBtn in rightBtnList"
-            :key="rightBtn.id"
-          >
+          <div class="btn rightBtn" v-for="rightBtn in rightBtnList" :key="rightBtn.id">
             <icon-btn-transition v-bind="rightBtn"></icon-btn-transition>
           </div>
+        </v-col>
+      </v-row>
+      <v-row no-gutters v-if="!showRight">
+        <!-- <v-col class="col-container" v-for="n in 3" :key="n" :cols="initHeaderContainerSize(n)"></v-col> -->
+        <v-col class="col-container__no-right">
+          <div class="backbtn-container__no-right">
+            <icon-btn-transition v-bind="leftBtn"></icon-btn-transition>
+          </div>
+          <h3 class="centerTitle__no-right">{{ title }}</h3>
         </v-col>
       </v-row>
     </v-container>
@@ -72,10 +77,17 @@ export default {
     return {
       leftBtn: this.left,
       rightBtnList: this.right[0] ? this.right : [this.right],
+      showRight: true,
     };
   },
 
-  beforeCreate() {},
+  created() {
+    let numRightObjKeys = Object.keys(this.right);
+    console.log("numRightObjKeys", numRightObjKeys);
+    if (numRightObjKeys < 1) {
+      this.showRight = false;
+    }
+  },
   methods: {
     // initHeaderContainerSize(index) {
     //   let colWidth = undefined; //undefined is auto resize
@@ -119,6 +131,20 @@ export default {
   }
   .rightBtn {
     padding: 0.25rem;
+  }
+
+  .col-container__no-right {
+    position: relative;
+  }
+
+  .backbtn-container__no-right {
+    width: 6vw;
+    position: absolute;
+  }
+
+  .centerTitle__no-right {
+    display: flex;
+    justify-content: center;
   }
 }
 </style>
