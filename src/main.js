@@ -13,7 +13,7 @@ import Fcm from "./fcm.js";
 //for test
 import virtualCordova from "./virtualCordova.js";
 import tes from "./mixins/tes";
-// virtualCordova.start();
+virtualCordova.start();
 
 window.alert("main.js mounted");
 window.document.addEventListener("deviceready", () => {
@@ -40,6 +40,7 @@ import "vuetify/dist/vuetify.min.css";
 import "../node_modules/leaflet/dist/leaflet.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import "animate.css/animate.css";
+import "@mdi/font/css/materialdesignicons.css";
 //ライブラリ宣言
 Vue.config.productionTip = false;
 // Vue.mixin(tes);

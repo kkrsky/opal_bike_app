@@ -12,6 +12,7 @@ import TopProfile from "../views/TopProfile.vue";
 import TopSetting from "../views/TopSetting.vue";
 import Login from "../views/Login.vue";
 import SignUp from "../views/SignUp.vue";
+import testGps from "../views/testGps.vue";
 
 Vue.use(VueRouter);
 
@@ -59,6 +60,7 @@ const routes = [
     name: "topRecord",
     component: TopRecord,
   },
+
   {
     path: "/topProfile",
     name: "topProfile",
@@ -98,6 +100,11 @@ const routes = [
     path: "/signUp",
     name: "signUp",
     component: SignUp,
+  },
+  {
+    path: "/test",
+    name: "test",
+    component: testGps,
   },
 ];
 

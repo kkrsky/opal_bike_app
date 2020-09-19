@@ -9,16 +9,32 @@
             </v-col>
           </v-row>
         </v-container>
-        <ValidationProvider v-slot="{ errors }" name="email" rules="required|email">
-          <v-text-field v-model.lazy="email" :error-messages="errors" label="E-mail" required></v-text-field>
+        <ValidationProvider
+          v-slot="{ errors }"
+          name="email"
+          rules="required|email"
+        >
+          <v-text-field
+            v-model.lazy="email"
+            :error-messages="errors"
+            label="E-mail"
+            clearable
+            required
+          ></v-text-field>
         </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" name="password" rules="required|min:8">
+        <ValidationProvider
+          v-slot="{ errors }"
+          name="password"
+          rules="required|min:8"
+        >
           <v-text-field
             v-model="password"
             :error-messages="errors"
             label="Password"
             :type="showPassword ? 'text' : 'password'"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="showPassword = !showPassword"
             required
           ></v-text-field>
         </ValidationProvider>
@@ -127,7 +143,7 @@ export default {
 <style lang="scss">
 #loginPage {
   position: relative;
-  background-color: $title-page-bgcolor;
+  background-color: $__title-page-bgcolor;
   .form {
     position: absolute;
     top: 40%;

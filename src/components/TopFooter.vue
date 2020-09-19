@@ -67,14 +67,14 @@ export default {
 
 <style lang='scss' scoped>
 #topFooter {
-  height: $footer-tab-height;
+  height: $__footer-tab-height;
   padding: 0px;
   .footer-tab-container {
-    height: $footer-tab-height;
+    height: $__footer-tab-height;
     padding: 0px;
   }
   .footer-tab {
-    height: $footer-tab-height;
+    height: $__footer-tab-height;
     display: flex;
     justify-content: center;
     align-items: center;

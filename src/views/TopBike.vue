@@ -1,6 +1,6 @@
 <template>
   <div id="topBike">
-    <top-header :title="title"></top-header>
+    <top-header :title="title" :right="rightBtn"></top-header>
     <v-main>this is bike</v-main>
     <top-footer></top-footer>
   </div>
@@ -17,6 +17,14 @@ export default {
       title: "topBike",
       // rightBtnList: [],
       // leftBtn: {},
+      rightBtn: {
+        id: 1,
+        title: "settings",
+        icon: "settings",
+        goto: "topSetting",
+        propItems: "",
+        addCss: {},
+      },
 
       //methods data
     };

@@ -1,8 +1,11 @@
 <template>
   <!-- ボタン遷移用（アイコン）のコンポーネント -->
   <div id="iconBtnTransition" class="btn" @click="gotoPage()">
-    <v-icon class="material-icons icon-info" :style="addCss">{{icon}}</v-icon>
+    <v-icon class="material-icons icon-info" :style="addCss">{{ icon }}</v-icon>
   </div>
+  <!-- <v-btn icon :ripple="false" class="btn" :disabled="true">
+    <v-icon class="material-icons icon-info" :style="addCss">{{ icon }}</v-icon>
+  </v-btn> -->
 </template>
 
 <script>
@@ -35,10 +38,10 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 #iconBtnTransition {
   .icon-info {
-    font-size: $icon-size__square;
+    font-size: $__icon-size__square;
   }
 }
 </style>

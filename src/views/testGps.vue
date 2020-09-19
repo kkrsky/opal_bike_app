@@ -1,5 +1,6 @@
 <template>
   <div>
+    <top-header></top-header>
     <v-btn @click="getCurrentPosition()">get gps</v-btn>
     <v-btn @click="tes1()">tes1</v-btn>
     <v-btn @click="tes2()">test</v-btn>
@@ -26,11 +27,58 @@
     </ul>
 
     <div id="leafletMap"></div>
+    <v-container id="edit-container">
+      <div class="ride-feel-container">
+        <div class="title">my feeling</div>
+        <v-row no-gutters>
+          <v-col class="ride-feel">
+            <v-btn>good</v-btn>
+          </v-col>
+          <v-col class="ride-feel">
+            <v-btn>normal</v-btn>
+          </v-col>
+          <v-col class="ride-feel">
+            <v-btn>bad</v-btn>
+          </v-col>
+        </v-row>
+      </div>
+      <div class="ride-customize-container">
+        <v-form>
+          <v-text-field
+            v-model="activityTitle"
+            label="アクティビティのタイトル"
+            clearable
+            prepend-icon="title"
+          ></v-text-field>
+          <v-text-field
+            v-model="activityTitle"
+            label="アクティビティのタイトル"
+            :clearable="tes"
+            prepend-icon="insert_photo"
+          ></v-text-field
+          ><v-text-field
+            v-model="activityTitle"
+            label="アクティビティのタイトル"
+            :clearable="tes"
+            prepend-icon="insert_photo"
+          ></v-text-field
+          ><v-text-field
+            v-model="activityTitle"
+            label="アクティビティのタイトル"
+            :clearable="tes"
+            prepend-icon="insert_photo"
+          ></v-text-field>
+        </v-form>
+      </div>
+    </v-container>
+    <top-footer></top-footer>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import TopHeader from "@/components/TopHeader.vue";
+import TopFooter from "@/components/TopFooter.vue";
 
 import L from "leaflet";
 import "leaflet.gridlayer.googlemutant/Leaflet.GoogleMutant";
@@ -216,6 +264,10 @@ export default {
 
       mymap.on("click", onMapClick);
     },
+  },
+  components: {
+    TopHeader,
+    TopFooter,
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <!-- 共通ヘッダーコンポーネント -->
-  <v-app-bar>
+  <v-app-bar id="topHeaderBar" app>
     <v-container id="topHeader">
       <v-row no-gutters v-if="showRight">
         <!-- <v-col class="col-container" v-for="n in 3" :key="n" :cols="initHeaderContainerSize(n)"></v-col> -->
@@ -11,7 +11,11 @@
           <h3 class="centerTitle">{{ title }}</h3>
         </v-col>
         <v-col cols="3" class="col-container rightBtn-container">
-          <div class="btn rightBtn" v-for="rightBtn in rightBtnList" :key="rightBtn.id">
+          <div
+            class="btn rightBtn"
+            v-for="rightBtn in rightBtnList"
+            :key="rightBtn.id"
+          >
             <icon-btn-transition v-bind="rightBtn"></icon-btn-transition>
           </div>
         </v-col>
@@ -83,7 +87,7 @@ export default {
 
   created() {
     let numRightObjKeys = Object.keys(this.right);
-    console.log("numRightObjKeys", numRightObjKeys);
+    // console.log("numRightObjKeys", numRightObjKeys);
     if (numRightObjKeys < 1) {
       this.showRight = false;
     }
@@ -107,44 +111,50 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#topHeader {
-  padding: 0px;
+#topHeaderBar {
+  height: $__header-tab-height;
+  z-index: 10000;
+  #topHeader {
+    padding: 0px;
+    // height: $__header-tab-height;
+    // height: 80px;
 
-  .col-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .leftBtn-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
+    .col-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .leftBtn-container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
 
-  .centerTitle {
-    text-overflow: hidden;
-  }
-  .rightBtn-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-  .rightBtn {
-    padding: 0.25rem;
-  }
+    .centerTitle {
+      text-overflow: hidden;
+    }
+    .rightBtn-container {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .rightBtn {
+      padding: 0.25rem;
+    }
 
-  .col-container__no-right {
-    position: relative;
-  }
+    .col-container__no-right {
+      position: relative;
+    }
 
-  .backbtn-container__no-right {
-    width: 6vw;
-    position: absolute;
-  }
+    .backbtn-container__no-right {
+      width: 6vw;
+      position: absolute;
+    }
 
-  .centerTitle__no-right {
-    display: flex;
-    justify-content: center;
+    .centerTitle__no-right {
+      display: flex;
+      justify-content: center;
+    }
   }
 }
 </style>

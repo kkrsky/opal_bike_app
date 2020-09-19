@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import TopFooter from "@/components/TopFooter.vue";
+// import TopFooter from "@/components/TopFooter.vue";
 
 export default {
   data() {

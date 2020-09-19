@@ -11,16 +11,32 @@
               </v-col>
             </v-row>
           </v-container>
-          <ValidationProvider v-slot="{ errors }" name="email" rules="required|email">
-            <v-text-field v-model.lazy="email" :error-messages="errors" label="E-mail" required></v-text-field>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="email"
+            rules="required|email"
+          >
+            <v-text-field
+              v-model.lazy="email"
+              :error-messages="errors"
+              label="E-mail"
+              clearable
+              required
+            ></v-text-field>
           </ValidationProvider>
 
-          <ValidationProvider v-slot="{ errors }" name="password" rules="required|min:8">
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="password"
+            rules="required|min:8"
+          >
             <v-text-field
               v-model="password"
               :error-messages="errors"
               label="Password"
               :type="showPassword ? 'text' : 'password'"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showPassword = !showPassword"
               required
             ></v-text-field>
           </ValidationProvider>
@@ -90,6 +106,7 @@ export default {
        */
       email: "a@a.com",
       password: "password",
+      showPassword: false,
     };
   },
   computed: {},
@@ -136,7 +153,7 @@ export default {
         const newUser = firebase
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password)
-          .catch(function (error) {
+          .catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -153,11 +170,11 @@ export default {
 
         user
           .sendEmailVerification()
-          .then(function () {
+          .then(function() {
             // Email sent.
             window.alert("send valification email");
           })
-          .catch(function (error) {
+          .catch(function(error) {
             // An error happened.
             window.alert("error cannot send valification email");
             console.error(error);
@@ -204,7 +221,7 @@ export default {
 #signUpPage {
   .v-main {
     position: relative;
-    background-color: $title-page-bgcolor;
+    background-color: $__title-page-bgcolor;
     .form {
       position: absolute;
       top: 30vh;

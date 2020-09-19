@@ -113,7 +113,7 @@ export default {
   position: relative;
   background-image: url("../assets/titlepage-background-v2.png");
   background-size: 100%;
-  background-color: $title-page-bgcolor;
+  background-color: $__title-page-bgcolor;
 
   .title-btn-container {
     position: absolute;
