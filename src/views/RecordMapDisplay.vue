@@ -146,7 +146,7 @@ export default {
   padding: 0px;
 
   .map-content {
-    margin-top: $__header-tab-height;
+    // margin-top: $__header-tab-height;
     width: 100vw;
     height: 100vw;
   }

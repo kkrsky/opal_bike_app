@@ -2,6 +2,7 @@
   <div id="topBike">
     <top-header :title="title" :right="rightBtn"></top-header>
     <v-main>this is bike</v-main>
+    <test-photo></test-photo>
     <top-footer></top-footer>
   </div>
 </template>
@@ -9,7 +10,7 @@
 <script>
 import TopHeader from "@/components/TopHeader.vue";
 import TopFooter from "@/components/TopFooter.vue";
-
+import testPhoto from "../views/testPhoto.vue";
 export default {
   data() {
     return {
@@ -37,6 +38,7 @@ export default {
   components: {
     TopHeader,
     TopFooter,
+    testPhoto,
   },
 };
 </script>

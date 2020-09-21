@@ -128,6 +128,10 @@ export default {
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      .btn {
+        width: 35px;
+        height: 35px;
+      }
     }
 
     .centerTitle {

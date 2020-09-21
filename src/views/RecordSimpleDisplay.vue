@@ -72,7 +72,9 @@ export default {
   $add-info-region: 0.2;
   $title-font-size: 0.1;
 
+  margin-top: -$__header-tab-height;
   padding: 1.5vh;
+
   .running-time-container {
     $running-time-height: 20vh;
     $running-time-font-size: 20vw;

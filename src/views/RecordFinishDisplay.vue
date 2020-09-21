@@ -1,6 +1,6 @@
 <template>
   <div id="finishDisplay">
-    <top-header :title="title" :right="rightBtn"></top-header>
+    <top-header :left="leftBtn" :title="title" :right="rightBtn"></top-header>
     <div id="leafletMapFinish" class="map-content"></div>
     <v-container class="activity-info-container">
       <v-row no-gutters>
@@ -62,13 +62,47 @@
             clearable
             prepend-icon="title"
           ></v-text-field>
-          <v-text-field
-            v-model="activityTitle"
+
+          <div id="uploadPhoto2box">
+            <!-- <v-text-field
+            class="btn-add-photo"
+            @click="getPictureFromAlbum()"
+            outlined
             label="写真を保存"
-            :clearable="tes"
+            readonly
             prepend-icon="insert_photo"
-          ></v-text-field
-          ><v-textarea
+            height="13vh"
+            ></v-text-field>-->
+            <!-- <v-img :src="upImageURI" aspect-ratio="1" v-show="isImageShow"></v-img> -->
+
+            <v-file-input
+              prepend-icon="insert_photo"
+              accept="image/*"
+              multiple
+              v-on:change="inputFileList($event)"
+              label="写真を保存"
+              height="15vh"
+              outlined
+              :clearable="false"
+              message="tes"
+            ></v-file-input>
+            <div class="grid-container-uploaded-image" v-show="isImageShow">
+              <!-- <div class="test-photo-box">aa</div>
+              <div class="test-photo-box">aa</div>
+              <div class="test-photo-box">aa</div>
+              <div class="test-photo-box">aa</div>
+              <div class="test-photo-box">aa</div>-->
+              <div v-for="(image, id) in uploadedImagesForView" :key="id">
+                <v-img
+                  class="uploaded-photo"
+                  :src="image"
+                  @click="deletePhoto(id)"
+                ></v-img>
+              </div>
+            </div>
+          </div>
+          <div class="mt-5"></div>
+          <v-textarea
             v-model="activityTitle"
             label="活動の出来事"
             prepend-icon="notes"
@@ -81,11 +115,14 @@
             label="使用したバイク"
             solo
             prepend-icon="motorcycle"
-          >
-          </v-select>
+          ></v-select>
         </v-form>
         <div class="btn-activity-container">
-          <v-btn class="btn-activity btn-abord-activity" outlined color="red"
+          <v-btn
+            class="btn-activity btn-abord-activity"
+            outlined
+            color="red"
+            @click="deleteActivity"
             >アクティビティを破棄</v-btn
           >
         </div>
@@ -93,7 +130,11 @@
     </v-container>
     <v-footer app>
       <div class="btn-activity-container">
-        <v-btn class="btn-activity  btn-save-activity" raised color="green"
+        <v-btn
+          class="btn-activity btn-save-activity"
+          raised
+          color="green"
+          @click="saveActivity"
           >アクティビティを保存</v-btn
         >
       </div>
@@ -119,6 +160,14 @@ export default {
         propItems: "",
         addCss: {},
       },
+      leftBtn: {
+        id: 1,
+        title: "back",
+        icon: "arrow_back_ios",
+        goto: this.backRecord,
+        propItems: "",
+        addCss: {},
+      },
 
       /**
        * //methods data
@@ -126,7 +175,11 @@ export default {
       activityTitle: "",
       selectBike: "",
       ownBikeList: ["BikeTaro", "BikeZirou"],
-      tes: true,
+      upImageURI: "",
+      isImageShow: false,
+
+      uploadedImagesForView: [],
+      uploadedImages: [],
     };
   },
   computed: {},
@@ -147,6 +200,70 @@ export default {
         zoomControl: false,
       };
       let myMapFinish = L.map(id, options);
+    },
+    getPictureFromAlbum() {
+      let onSuccess = (imageURI) => {
+        console.log("imageURI", imageURI, this);
+        this.upImageURI = imageURI;
+        this.isImageShow = true;
+      };
+      let onFailed = (error) => {
+        console.error("this is error:", error);
+      };
+
+      let options = {
+        quality: 50,
+        destinationType: navigator.camera.DestinationType.FILE_URI,
+        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+        allowEdit: false,
+        encodingType: navigator.camera.EncodingType.JPEG,
+        targetWidth: 100, //px
+        targetHeight: 100, //px,
+        mediaType: navigator.camera.MediaType.ALLMEDIA, //only use except pictureSourceType.CAMERA
+        correctOrientation: false,
+        saveToPhotoAlbum: false,
+      };
+      window.navigator.camera.getPicture(onSuccess, onFailed, options);
+    },
+    inputFileList(event) {
+      const fileList = event;
+      console.log("fileList", fileList);
+      this.uploadedImages = fileList;
+      fileList.forEach((file) => {
+        this.createImage(file);
+      });
+    },
+    createImage(file) {
+      // アップロードした画像を表示
+      this.isImageShow = true;
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        var uploadedImage = e.target.result;
+        this.uploadedImagesForView.push(uploadedImage);
+      };
+      reader.readAsDataURL(file);
+    },
+    deletePhoto(id) {
+      if (window.confirm("削除しますか？")) {
+        this.uploadedImagesForView.splice(id, 1);
+        this.uploadedImages.splice(id, 1);
+
+        if (this.uploadedImagesForView.length <= 0) {
+          this.isImageShow = false;
+        }
+      }
+    },
+    backRecord() {
+      this.$emit("backRecord");
+    },
+    saveActivity() {
+      window.alert("保存しました");
+      this.$router.push("/");
+    },
+    deleteActivity() {
+      if (window.confirm("アクティビティを削除しますか？")) {
+        this.$router.push("/");
+      }
     },
   },
   watch: {},
@@ -281,6 +398,49 @@ export default {
         }
       }
     }
+
+    .btn-add-photo {
+      height: 15vh;
+    }
+    #uploadPhoto2box {
+      $photo-add-container-height: 15vh;
+      $photo-square-size: 10vh;
+
+      position: relative;
+      height: $photo-add-container-height;
+
+      // .v-input__control   .v-text-field__slot {
+      //   height: $photo-add-container-height;
+      //   // z-index: 100;
+      // }
+
+      .v-file-input__text {
+        display: none;
+      }
+      .grid-container-uploaded-image {
+        position: absolute;
+        width: minmax(
+          $photo-square-size,
+          calc(100vw - 12px - 33px - 3vw - 6vw)
+        );
+        top: 50%;
+        left: calc(33px + 3vw);
+        transform: translate(0%, -50%);
+        display: grid;
+        grid-template-rows: $photo-add-container-height - 5;
+        grid-auto-columns: $photo-square-size;
+        column-gap: 1vh;
+        overflow-x: scroll;
+        * {
+          grid-row: 1;
+        }
+      }
+
+      .uploaded-photo {
+        height: $photo-square-size;
+        width: $photo-square-size;
+      }
+    }
   }
 
   .btn-activity-container {
@@ -306,6 +466,13 @@ export default {
   .v-footer {
     height: $__footer-tab-height !important;
     padding: 0;
+  }
+
+  .test-photo-box {
+    width: 10vh;
+    height: 10vh;
+    background-color: #fcc;
+    border: solid 1px black;
   }
 }
 </style>

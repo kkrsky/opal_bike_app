@@ -17,7 +17,10 @@
       ></record-simple-display>
 
       <!--アクティビティ完了画面-->
-      <record-finish-display v-if="isFinishDisplay"></record-finish-display>
+      <record-finish-display
+        v-if="isFinishDisplay"
+        @backRecord="backRecord"
+      ></record-finish-display>
     </v-main>
 
     <!-- <top-footer></top-footer> -->
@@ -126,11 +129,13 @@ export default {
       //終了しますか？確認
       if (window.confirm("終了しますか？")) {
         //初期表示画面
-        this.showBtnChanger(true, true, false);
-        this.$router.push({ name: "recordFinish" });
+        this.showBtnChanger(true, false, false);
+        this.isFinishDisplay = true;
       }
     },
-
+    backRecord() {
+      this.isFinishDisplay = false;
+    },
     /**
      * map
      */
@@ -140,7 +145,9 @@ export default {
   mounted() {
     // this.initMap();
   },
-  created() {},
+  created() {
+    this.isFinishDisplay = false;
+  },
   components: {
     TopHeader,
     TopFooter,

@@ -18,7 +18,7 @@ export default {
     id: Number,
     title: String,
     icon: String,
-    goto: String,
+    goto: [String, Function],
     propItems: Object,
     addCss: Object,
   },
@@ -28,13 +28,20 @@ export default {
 
   methods: {
     gotoPage() {
-      if (this.goto.toLowerCase() === "back") {
+      // console.log(typeof this.goto);
+      if (typeof this.goto === "function") {
+        this.goto();
+      } else if (this.goto.toLowerCase() === "back" && !this.clickFunction) {
         this.$router.go(-1);
+
+        // } else if (this.clickFunction) {
+        //   this.clickFunction();
       } else {
         this.$router.push({ name: this.goto, params: this.propItems });
       }
     },
   },
+  created() {},
 };
 </script>
 

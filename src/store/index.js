@@ -18,6 +18,21 @@ export default new Vuex.Store({
         // tes: tes,
       },
     },
+    main: {
+      namespaced: true,
+      state: {
+        click_iconBtnTransition: false,
+      },
+      mutations: {},
+      actions: {
+        click_iconBtnTransition(state, bool) {
+          state.click_iconBtnTransition = bool;
+        },
+      },
+      modules: {
+        // tes: tes,
+      },
+    },
 
     cds: cds,
     // checkFcmState: checkFcmState,
