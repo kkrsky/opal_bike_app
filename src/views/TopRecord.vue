@@ -76,7 +76,7 @@ export default {
       //component data
       title: "record",
       // rightBtnList: [],
-      // leftBtn: {},
+      leftBtn: null,
       rightBtn: {
         id: 1,
         title: "settings",

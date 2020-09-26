@@ -19,8 +19,8 @@ export default {
     return {
       //component data
       title: "profile",
-      // rightBtnList: [],
-      // leftBtn: {},
+      rightBtnList: null,
+      leftBtn: null,
 
       //methods data
     };

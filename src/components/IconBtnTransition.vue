@@ -36,7 +36,7 @@ export default {
 
         // } else if (this.clickFunction) {
         //   this.clickFunction();
-      } else if (item.propItems === null) {
+      } else if (this.propItems === null) {
         this.$router.push({ name: this.goto });
       } else {
         this.$router.push({ name: this.goto, params: this.propItems });

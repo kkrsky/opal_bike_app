@@ -119,7 +119,7 @@ export default {
 
 <style lang="scss" scoped>
 #topHeaderBar {
-  height: $__header-tab-height;
+  height: $__header-tab-height !important;
   z-index: 10000;
   #topHeader {
     padding: 0px;
