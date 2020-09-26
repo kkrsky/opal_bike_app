@@ -87,9 +87,9 @@ export default {
       },
       leftBtn: {
         id: 1,
-        title: "",
-        icon: "",
-        goto: "",
+        title: "back",
+        icon: "arrow_back_ios",
+        goto: "back",
         propItems: "",
         addCss: {},
       },

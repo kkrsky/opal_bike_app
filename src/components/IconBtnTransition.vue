@@ -19,7 +19,7 @@ export default {
     title: String,
     icon: String,
     goto: [String, Function],
-    propItems: Object,
+    propItems: [Object, String],
     addCss: Object,
   },
   data() {
@@ -36,6 +36,8 @@ export default {
 
         // } else if (this.clickFunction) {
         //   this.clickFunction();
+      } else if (item.propItems === null) {
+        this.$router.push({ name: this.goto });
       } else {
         this.$router.push({ name: this.goto, params: this.propItems });
       }

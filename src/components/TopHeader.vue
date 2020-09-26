@@ -39,37 +39,39 @@ export default {
   props: {
     left: {
       type: Object,
-      default: {
+      default: () => ({
         id: 1,
         title: "back",
         icon: "arrow_back_ios",
         goto: "back",
-        propItems: {},
+        propItems: null,
         addCss: {},
-      },
+      }),
     },
     right: {
       type: Object,
-      default: [
-        //表示的に２個までが限界（iPhoneX)
-        //アイコンサイズをレスポンシブにすれば解決するが面倒
-        {
-          id: 1,
-          title: "notify",
-          icon: "notifications",
-          goto: "notifications",
-          propItems: {},
-          addCss: {},
-        },
-        {
-          id: 2,
-          title: "setting",
-          icon: "settings",
-          goto: "topSetting",
-          propItems: {},
-          addCss: {},
-        },
-      ],
+      default: () => {
+        [
+          //表示的に２個までが限界（iPhoneX)
+          //アイコンサイズをレスポンシブにすれば解決するが面倒
+          {
+            id: 1,
+            title: "notify",
+            icon: "notifications",
+            goto: "notifications",
+            propItems: null,
+            addCss: {},
+          },
+          {
+            id: 2,
+            title: "setting",
+            icon: "settings",
+            goto: "topSetting",
+            propItems: null,
+            addCss: {},
+          },
+        ];
+      },
     },
 
     id: Number,
@@ -80,16 +82,21 @@ export default {
   data() {
     return {
       leftBtn: this.left,
-      rightBtnList: this.right[0] ? this.right : [this.right],
+      rightBtnList:
+        this.right === null ? null : this.right[0] ? this.right : [this.right],
       showRight: true,
     };
   },
 
   created() {
-    let numRightObjKeys = Object.keys(this.right);
-    // console.log("numRightObjKeys", numRightObjKeys);
-    if (numRightObjKeys < 1) {
-      this.showRight = false;
+    if (this.right === null) {
+      //none
+    } else {
+      let numRightObjKeys = Object.keys(this.right);
+      // console.log("numRightObjKeys", numRightObjKeys);
+      if (numRightObjKeys < 1) {
+        this.showRight = false;
+      }
     }
   },
   methods: {

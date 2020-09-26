@@ -2,7 +2,11 @@
   <v-footer id="topFooter" app class="footer-tab-wrapper">
     <v-container class="footer-tab-container">
       <v-row no-gutters>
-        <v-col class="footer-tab" v-for="footerTab in footerTabList" :key="footerTab.id">
+        <v-col
+          class="footer-tab"
+          v-for="footerTab in footerTabList"
+          :key="footerTab.id"
+        >
           <icon-btn-transition v-bind="footerTab"></icon-btn-transition>
         </v-col>
       </v-row>
@@ -21,7 +25,7 @@ export default {
           title: "home",
           icon: "home",
           goto: "topHome",
-          propItems: {},
+          propItems: null,
           addCss: {},
         },
         {
@@ -29,7 +33,7 @@ export default {
           title: "history",
           icon: "motorcycle",
           goto: "topBike",
-          propItems: {},
+          propItems: null,
           addCss: {},
         },
         {
@@ -37,7 +41,7 @@ export default {
           title: "record",
           icon: "fiber_manual_record",
           goto: "topRecord",
-          propItems: {},
+          propItems: null,
           addCss: { color: "red" },
         },
         {
@@ -45,7 +49,7 @@ export default {
           title: "profile",
           icon: "perm_identity",
           goto: "topProfile",
-          propItems: {},
+          propItems: null,
           addCss: {},
         },
         {
@@ -53,7 +57,7 @@ export default {
           title: "setting",
           icon: "settings",
           goto: "topSetting",
-          propItems: {},
+          propItems: null,
           addCss: {},
         },
       ],
@@ -65,7 +69,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 #topFooter {
   height: $__footer-tab-height;
   padding: 0px;
