@@ -161,6 +161,8 @@ export default {
 
 <style lang="scss">
 #topRecord {
+  height: 100vh;
+  width: 100vw;
   $footer-height__here: 15vh;
   $font-size__here: 18vw;
   .v-main {

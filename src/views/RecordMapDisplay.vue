@@ -3,49 +3,66 @@
   <v-container id="mapDisplay">
     <div id="leafletMap" class="map-content"></div>
     <div class="info-container">
-      <v-row no-gutters>
-        <v-col>
-          <!-- 走行時間 -->
-          <div class="running-time-container">
-            <v-row no-gutters>
-              <v-col class="title">タイム</v-col>
-            </v-row>
-            <v-row no-gutters>
-              <v-col class="content">01:24:50</v-col>
-            </v-row>
-          </div>
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <v-col>
-          <!-- 平均速度 -->
-          <div class="average-velocity-container">
-            <v-row no-gutters>
-              <v-col class="title">平均速度(km/h)</v-col>
-            </v-row>
-            <v-row no-gutters>
-              <v-col class="content">30.9</v-col>
-            </v-row>
-            <!-- <v-row no-gutters>
+      <!-- 走行時間 -->
+      <div class="running-time-container">
+        <div class="title">タイム</div>
+        <div class="content">01:24:50</div>
+      </div>
+      <!-- 平均速度 -->
+      <div class="average-velocity-container">
+        <div class="title">平均速度(km/h)</div>
+        <div class="content">30.9</div>
+      </div>
+      <!-- 距離 -->
+      <div class="running-length-container">
+        <div class="title">距離(km)</div>
+        <div class="content">13.4</div>
+      </div>
+      <div class="tes" v-if="false">
+        <v-row no-gutters>
+          <v-col>
+            <!-- 走行時間 -->
+            <div class="running-time-container">
+              <v-row no-gutters>
+                <v-col class="title">タイム</v-col>
+              </v-row>
+              <v-row no-gutters>
+                <v-col class="content">01:24:50</v-col>
+              </v-row>
+            </div>
+          </v-col>
+        </v-row>
+        <v-row no-gutters>
+          <v-col>
+            <!-- 平均速度 -->
+            <div class="average-velocity-container">
+              <v-row no-gutters>
+                <v-col class="title">平均速度(km/h)</v-col>
+              </v-row>
+              <v-row no-gutters>
+                <v-col class="content">30.9</v-col>
+              </v-row>
+              <!-- <v-row no-gutters>
                   <v-col class="add-info">km/h</v-col>
             </v-row>-->
-          </div>
-        </v-col>
-        <v-col>
-          <!-- 距離 -->
-          <div class="running-length-container">
-            <v-row no-gutters>
-              <v-col class="title">距離(km)</v-col>
-            </v-row>
-            <v-row no-gutters>
-              <v-col class="content">13.4</v-col>
-            </v-row>
-            <!-- <v-row no-gutters>
+            </div>
+          </v-col>
+          <v-col>
+            <!-- 距離 -->
+            <div class="running-length-container">
+              <v-row no-gutters>
+                <v-col class="title">距離(km)</v-col>
+              </v-row>
+              <v-row no-gutters>
+                <v-col class="content">13.4</v-col>
+              </v-row>
+              <!-- <v-row no-gutters>
                   <v-col class="add-info">km</v-col>
             </v-row>-->
-          </div>
-        </v-col>
-      </v-row>
+            </div>
+          </v-col>
+        </v-row>
+      </div>
     </div>
   </v-container>
 </template>
@@ -137,6 +154,7 @@ export default {
 #mapDisplay {
   $footer-height__here: 15vh;
   $font-size__here: 18vw;
+  $map-height__here: 40vh;
 
   $title-region: 0.2;
   $content-region: 0.6;
@@ -146,74 +164,157 @@ export default {
   padding: 0px;
 
   .map-content {
-    // margin-top: $__header-tab-height;
     width: 100vw;
-    height: 100vw;
+    height: $map-height__here;
   }
   .info-container {
-    height: calc(
-      100vh - #{$__header-tab-height} - #{$footer-height__here} - 100vw
+    $container-height: calc(
+      100vh - #{$__header-tab-height} - #{$footer-height__here} - 40vh
     );
-
+    height: $container-height;
+    display: grid;
+    grid-template:
+      "header header" 50%
+      "left   right" 50%
+      /50vw 50vw;
     .running-time-container {
-      // $running-time-height: 100vh- $__header-tab-height- $__footer-tab-height-100vw;
-      $running-time-height: 100%;
-      $running-time-font-size: $font-size__here;
-      height: $running-time-height;
-      border-bottom: solid 1px gray;
+      grid-area: header;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      margin: auto 0;
+
+      display: grid;
+      grid-template:
+        "title  " 30%
+        "content" 70%
+        /100%;
+      justify-items: center;
+      align-items: center;
       .title {
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        height: $running-time-height * $title-region;
+        grid-area: title;
+        font-weight: bold;
+        // font-size: calc(#{$container-height} * 0.2) !important;
+        font-size: $font-size__here;
       }
       .content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: $running-time-height * 0.8;
-        font-size: $running-time-font-size;
+        grid-area: content;
+        // font-size: calc(#{$container-height} * 0.2) !important;
+        font-size: $font-size__here;
       }
     }
     .average-velocity-container {
-      $average-velocity-height: 100%;
-      $average-velocity-font-size: $font-size__here;
-      height: $average-velocity-height;
-      border-right: solid 1px gray;
-      .title {
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        height: $average-velocity-height * $title-region;
-      }
-      .content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: $average-velocity-height * $content-region;
-        font-size: $average-velocity-font-size;
-      }
-    }
-    .running-length-container {
-      $running-length-height: 100%;
-      $running-length-font-size: $font-size__here;
-      height: $running-length-height;
-      border-left: solid 1px gray;
+      grid-area: left;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      margin: auto 0;
 
+      display: grid;
+      grid-template:
+        "title  " 30%
+        "content" 70%
+        /100%;
+      justify-items: center;
+      align-items: center;
       .title {
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        height: $running-length-height * $title-region;
+        grid-area: title;
+        font-weight: bold;
+        // font-size: calc(#{$container-height} * 0.2) !important;
+        font-size: $font-size__here;
       }
       .content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: $running-length-height * $content-region;
-        font-size: $running-length-font-size;
+        grid-area: content;
+        // font-size: calc(#{$container-height} * 0.2) !important;
+        font-size: $font-size__here;
       }
     }
+
+    .running-length-container {
+      grid-area: right;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      margin: auto 0;
+
+      display: grid;
+      grid-template:
+        "title  " 30%
+        "content" 70%
+        /100%;
+      justify-items: center;
+      align-items: center;
+      .title {
+        grid-area: title;
+        font-weight: bold;
+        // font-size: calc(#{$container-height} * 0.2) !important;
+        font-size: $font-size__here;
+      }
+      .content {
+        grid-area: content;
+        // font-size: calc(#{$container-height} * 0.2) !important;
+        font-size: $font-size__here;
+      }
+    }
+    // .running-time-container {
+    //   // $running-time-height: 100vh- $__header-tab-height- $__footer-tab-height-100vw;
+    //   $running-time-height: 100%;
+    //   $running-time-font-size: $font-size__here;
+    //   height: $running-time-height;
+    //   border-bottom: solid 1px gray;
+    //   .title {
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: flex-end;
+    //     height: $running-time-height * $title-region;
+    //   }
+    //   .content {
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    //     height: $running-time-height * 0.8;
+    //     font-size: $running-time-font-size;
+    //   }
+    // }
+    // .average-velocity-container {
+    //   $average-velocity-height: 100%;
+    //   $average-velocity-font-size: $font-size__here;
+    //   height: $average-velocity-height;
+    //   border-right: solid 1px gray;
+    //   .title {
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: flex-end;
+    //     height: $average-velocity-height * $title-region;
+    //   }
+    //   .content {
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    //     height: $average-velocity-height * $content-region;
+    //     font-size: $average-velocity-font-size;
+    //   }
+    // }
+    // .running-length-container {
+    //   $running-length-height: 100%;
+    //   $running-length-font-size: $font-size__here;
+    //   height: $running-length-height;
+    //   border-left: solid 1px gray;
+
+    //   .title {
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: flex-end;
+    //     height: $running-length-height * $title-region;
+    //   }
+    //   .content {
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    //     height: $running-length-height * $content-region;
+    //     font-size: $running-length-font-size;
+    //   }
+    // }
   }
 }
 </style>
