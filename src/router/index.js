@@ -12,6 +12,8 @@ import TopProfile from "../views/TopProfile.vue";
 import TopSetting from "../views/TopSetting.vue";
 import Login from "../views/Login.vue";
 import SignUp from "../views/SignUp.vue";
+import BikeActivityHistoryDetail from "../views/BikeActivityHistoryDetail.vue";
+
 import testGps from "../views/testGps.vue";
 
 Vue.use(VueRouter);
@@ -100,6 +102,12 @@ const routes = [
     path: "/signUp",
     name: "signUp",
     component: SignUp,
+  },
+  {
+    path: "/BikeActivityHistoryDetail",
+    name: "BikeActivityHistoryDetail",
+    component: BikeActivityHistoryDetail,
+    props: true,
   },
   {
     path: "/test",

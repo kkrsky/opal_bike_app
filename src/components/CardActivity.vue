@@ -2,15 +2,14 @@
   <div id="CardActivity">
     <v-container fluid>
       <v-row dense>
-        <v-col
-          v-for="cardItem in cardItems"
-          :key="cardItem.cardId"
-          :cols="cardItem.flex"
-        >
+        <v-col :key="cardItem.cardId" :cols="cardItem.flex">
           <v-card>
-            <v-card-title class="activity-header-container"
+            <!-- <v-card-title class="activity-header-container"
               ><user-share-header></user-share-header>
-            </v-card-title>
+            </v-card-title> -->
+            <div class="activity-header-container">
+              <user-share-header></user-share-header>
+            </div>
             <v-card-title class="activity-title-container">{{
               cardItem.userCustomize.title
             }}</v-card-title>
@@ -130,109 +129,58 @@ export default {
         };
       },
     },
-    cardItems: {
-      type: Array,
+    cardItem: {
+      type: Object,
       default: () => {
-        return [
-          {
-            cardId: 1,
-            attribute: "fullActivity",
-            flex: 12,
-            testPicture: "https://picsum.photos/500",
-            userCustomize: {
-              title: "テストのライド",
-              description: "I ride a bike in some",
-              feeling: "good",
-              rideBike: "test zirou",
-              savePhotos: [
-                {
-                  //写真にメモを付属できる
-                  pictureId: 1,
-                  title: "test1",
-                  description: "this is test picture",
-                  src: "https://picsum.photos/400",
-                  position: [134, 30],
-                },
-                {
-                  //写真にメモを付属できる
-                  pictureId: 2,
-                  title: "test2",
-                  description: "this is test picture",
-                  src: "https://picsum.photos/100",
-                  position: [134, 30],
-                },
-              ],
-            },
-            activityData: {
-              runDate: "Sun Sep 27 2020 18:10:50 GMT+0900 (日本標準時)",
-              runTime: 5078, //sec
-              runLength: 13.4, //km
-              averageVeloccity: 30.9, //km/h
-              gpsData: [
-                { time: 0, position: [139.7013586, 35.6875364], speed: null },
-                {
-                  time: 1000,
-                  position: [139.7013586, 35.6874364],
-                  speed: null,
-                },
-                {
-                  time: 2000,
-                  position: [139.7013586, 35.6872364],
-                  speed: null,
-                },
-              ],
-            },
+        return {
+          cardId: 1,
+          attribute: "fullActivity",
+          flex: 12,
+          testPicture: "https://picsum.photos/500",
+          userCustomize: {
+            title: "テストのライド",
+            description: "I ride a bike in some",
+            feeling: "good",
+            rideBike: "test zirou",
+            savePhotos: [
+              {
+                //写真にメモを付属できる
+                pictureId: 1,
+                title: "test1",
+                description: "this is test picture",
+                src: "https://picsum.photos/400",
+                position: [134, 30],
+              },
+              {
+                //写真にメモを付属できる
+                pictureId: 2,
+                title: "test2",
+                description: "this is test picture",
+                src: "https://picsum.photos/100",
+                position: [134, 30],
+              },
+            ],
           },
-          {
-            cardId: 2,
-            attribute: "fullActivity",
-            flex: 12,
-            testPicture: "https://picsum.photos/200",
-            userCustomize: {
-              title: "テストのライド",
-              description: "I got a pen",
-              feeling: "good",
-              rideBike: "test zirou",
-              savePhotos: [
-                {
-                  //写真にメモを付属できる
-                  pictureId: 1,
-                  title: "test1",
-                  description: "this is test picture",
-                  src: "https://picsum.photos/400",
-                  position: [134, 30],
-                },
-                {
-                  //写真にメモを付属できる
-                  pictureId: 2,
-                  title: "test2",
-                  description: "this is test picture",
-                  src: "https://picsum.photos/100",
-                  position: [134, 30],
-                },
-              ],
-            },
-            activityData: {
-              runDate: "Sun Sep 27 2020 18:10:50 GMT+0900 (日本標準時)",
-              runTime: 5078, //sec
-              runLength: 13.4, //km
-              averageVeloccity: 30.9, //km/h
-              gpsData: [
-                { time: 0, position: [139.7013586, 35.6875364], speed: null },
-                {
-                  time: 1000,
-                  position: [139.7013586, 35.6874364],
-                  speed: null,
-                },
-                {
-                  time: 2000,
-                  position: [139.7013586, 35.6872364],
-                  speed: null,
-                },
-              ],
-            },
+          activityData: {
+            runDate: "Sun Sep 27 2020 18:10:50 GMT+0900 (日本標準時)",
+            runTime: 5078, //sec
+            runLength: 13.4, //km
+            averageVeloccity: 30.9, //km/h
+            gpsData: [
+              { time: 0, position: [139.7013586, 35.6875364], speed: null },
+              {
+                time: 1000,
+                position: [139.7013586, 35.6874364],
+                speed: null,
+              },
+              {
+                time: 2000,
+                position: [139.7013586, 35.6872364],
+                speed: null,
+              },
+            ],
           },
-        ];
+        };
       },
     },
   },
@@ -267,9 +215,11 @@ export default {
 #CardActivity {
   $font-size__here: 6vw;
   $items-padding__here: 8px;
-
+  .container {
+    padding: 0;
+  }
   .activity-header-container {
-    padding: $items-padding__here;
+    padding: 0 $items-padding__here;
     height: $__user-share-header-height;
   }
   .activity-title-container {

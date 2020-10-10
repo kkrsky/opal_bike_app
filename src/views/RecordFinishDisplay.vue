@@ -403,14 +403,13 @@ export default {
       height: 15vh;
     }
     #uploadPhoto2box {
-      $photo-add-container-height: 15vh;
       $photo-square-size: 10vh;
 
       position: relative;
-      height: $photo-add-container-height;
+      height: $__uploaded-photo-container-height;
 
       // .v-input__control   .v-text-field__slot {
-      //   height: $photo-add-container-height;
+      //   height: $__uploaded-photo-container-height;
       //   // z-index: 100;
       // }
 
@@ -427,7 +426,7 @@ export default {
         left: calc(33px + 3vw);
         transform: translate(0%, -50%);
         display: grid;
-        grid-template-rows: $photo-add-container-height - 5;
+        grid-template-rows: $__uploaded-photo-container-height - 5;
         grid-auto-columns: $photo-square-size;
         column-gap: 1vh;
         overflow-x: scroll;
