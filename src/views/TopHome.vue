@@ -1,8 +1,9 @@
 <template>
   <div id="topHome">
-    <top-header :title="title"></top-header>
-    <v-main>this is tes{{ title }}</v-main>
-    <test-file-up></test-file-up>
+    <!-- <top-header :title="title"></top-header> -->
+    <!-- <v-main>this is tes{{ title }}</v-main> -->
+    <!-- <test-file-up></test-file-up> -->
+    <record-finish></record-finish>
     <top-footer></top-footer>
   </div>
 </template>
@@ -10,7 +11,8 @@
 <script>
 import TopHeader from "@/components/TopHeader.vue";
 import TopFooter from "@/components/TopFooter.vue";
-import testFileUp from "../views/testFileUp.vue";
+// import testFileUp from "../views/testFileUp.vue";
+import RecordFinish from "./RecordFinishDisplay.vue";
 export default {
   data() {
     return {
@@ -34,7 +36,8 @@ export default {
   components: {
     TopHeader,
     TopFooter,
-    testFileUp,
+    // testFileUp,
+    RecordFinish,
   },
 };
 </script>

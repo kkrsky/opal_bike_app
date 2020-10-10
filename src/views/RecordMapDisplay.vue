@@ -18,51 +18,6 @@
         <div class="title">距離(km)</div>
         <div class="content">13.4</div>
       </div>
-      <div class="tes" v-if="false">
-        <v-row no-gutters>
-          <v-col>
-            <!-- 走行時間 -->
-            <div class="running-time-container">
-              <v-row no-gutters>
-                <v-col class="title">タイム</v-col>
-              </v-row>
-              <v-row no-gutters>
-                <v-col class="content">01:24:50</v-col>
-              </v-row>
-            </div>
-          </v-col>
-        </v-row>
-        <v-row no-gutters>
-          <v-col>
-            <!-- 平均速度 -->
-            <div class="average-velocity-container">
-              <v-row no-gutters>
-                <v-col class="title">平均速度(km/h)</v-col>
-              </v-row>
-              <v-row no-gutters>
-                <v-col class="content">30.9</v-col>
-              </v-row>
-              <!-- <v-row no-gutters>
-                  <v-col class="add-info">km/h</v-col>
-            </v-row>-->
-            </div>
-          </v-col>
-          <v-col>
-            <!-- 距離 -->
-            <div class="running-length-container">
-              <v-row no-gutters>
-                <v-col class="title">距離(km)</v-col>
-              </v-row>
-              <v-row no-gutters>
-                <v-col class="content">13.4</v-col>
-              </v-row>
-              <!-- <v-row no-gutters>
-                  <v-col class="add-info">km</v-col>
-            </v-row>-->
-            </div>
-          </v-col>
-        </v-row>
-      </div>
     </div>
   </v-container>
 </template>
@@ -156,6 +111,7 @@ export default {
   $font-size__here: 18vw;
   $map-height__here: 40vh;
 
+  $info-title-size__adjust: 0.3;
   $title-region: 0.2;
   $content-region: 0.6;
   $add-info-region: 0.2;
@@ -179,82 +135,25 @@ export default {
       /50vw 50vw;
     .running-time-container {
       grid-area: header;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      margin: auto 0;
-
-      display: grid;
-      grid-template:
-        "title  " 30%
-        "content" 70%
-        /100%;
-      justify-items: center;
-      align-items: center;
-      .title {
-        grid-area: title;
-        font-weight: bold;
-        // font-size: calc(#{$container-height} * 0.2) !important;
-        font-size: $font-size__here;
-      }
-      .content {
-        grid-area: content;
-        // font-size: calc(#{$container-height} * 0.2) !important;
-        font-size: $font-size__here;
-      }
+      @include activity-info-grid__record(
+        $font-size__here,
+        $info-title-size__adjust
+      );
     }
     .average-velocity-container {
       grid-area: left;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      margin: auto 0;
-
-      display: grid;
-      grid-template:
-        "title  " 30%
-        "content" 70%
-        /100%;
-      justify-items: center;
-      align-items: center;
-      .title {
-        grid-area: title;
-        font-weight: bold;
-        // font-size: calc(#{$container-height} * 0.2) !important;
-        font-size: $font-size__here;
-      }
-      .content {
-        grid-area: content;
-        // font-size: calc(#{$container-height} * 0.2) !important;
-        font-size: $font-size__here;
-      }
+      @include activity-info-grid__record(
+        $font-size__here,
+        $info-title-size__adjust
+      );
     }
 
     .running-length-container {
       grid-area: right;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      margin: auto 0;
-
-      display: grid;
-      grid-template:
-        "title  " 30%
-        "content" 70%
-        /100%;
-      justify-items: center;
-      align-items: center;
-      .title {
-        grid-area: title;
-        font-weight: bold;
-        // font-size: calc(#{$container-height} * 0.2) !important;
-        font-size: $font-size__here;
-      }
-      .content {
-        grid-area: content;
-        // font-size: calc(#{$container-height} * 0.2) !important;
-        font-size: $font-size__here;
-      }
+      @include activity-info-grid__record(
+        $font-size__here,
+        $info-title-size__adjust
+      );
     }
     // .running-time-container {
     //   // $running-time-height: 100vh- $__header-tab-height- $__footer-tab-height-100vw;

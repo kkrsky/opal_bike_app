@@ -210,8 +210,8 @@ export default {
 };
 </script>
 
-<style style="sass">
-/* #itemList {
-  
-} */
+<style lang="sass" scoped>
+// #itemList {
+
+// }
 </style>
