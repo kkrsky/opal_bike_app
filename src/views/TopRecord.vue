@@ -98,7 +98,7 @@ export default {
       showStop: false,
       showFinish: false,
       isSimpleDisplay: false,
-      isFinishDisplay: true,
+      isFinishDisplay: false,
     };
   },
   computed: {},
@@ -134,7 +134,7 @@ export default {
       }
     },
     backRecord() {
-      this.isFinishDisplay = false;
+      // this.isFinishDisplay = false;
     },
     /**
      * map
@@ -146,7 +146,7 @@ export default {
     // this.initMap();
   },
   created() {
-    this.isFinishDisplay = true;
+    this.isFinishDisplay = false;
   },
   components: {
     TopHeader,

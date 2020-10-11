@@ -2,6 +2,7 @@
   <div id="TopBike">
     <top-header :left="leftBtn" :title="title" :right="rightBtn"></top-header>
     <v-main>
+      <v-btn @click="tesDate()">date</v-btn>
       <div
         class="activity-history-container"
         v-for="cardItem in activityCardList"
@@ -185,6 +186,11 @@ export default {
         params: { cardItem: cardItem },
       });
     },
+    tesDate(){
+      let date=new Date()
+      var getFullYear = date.getTime();
+      console.log(date)
+    }
   },
   watch: {},
   beforeCreate() {},
