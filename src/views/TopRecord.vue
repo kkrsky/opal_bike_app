@@ -146,7 +146,7 @@ export default {
     // this.initMap();
   },
   created() {
-    this.isFinishDisplay = false;
+    this.isFinishDisplay = true;
   },
   components: {
     TopHeader,

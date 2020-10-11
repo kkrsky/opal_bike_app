@@ -6,7 +6,7 @@
       :right="rightBtnList"
     ></top-header>
     <v-main>this is {{ title }}</v-main>
-    <activity-detail></activity-detail>
+    <activity-detail-content></activity-detail-content>
     <card-activity></card-activity>
     <top-footer></top-footer>
   </div>
@@ -16,7 +16,7 @@
 import TopHeader from "@/components/TopHeader.vue";
 import TopFooter from "@/components/TopFooter.vue";
 import CardActivity from "@/components/CardActivity.vue";
-import ActivityDetail from "@/components/ActivityDetail.vue";
+import ActivityDetailContent from "@/components/ActivityDetailContent.vue";
 export default {
   data() {
     return {
@@ -37,7 +37,7 @@ export default {
     TopHeader,
     TopFooter,
     CardActivity,
-    ActivityDetail,
+    ActivityDetailContent,
   },
 };
 </script>

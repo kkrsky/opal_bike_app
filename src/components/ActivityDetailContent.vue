@@ -1,5 +1,5 @@
 <template>
-  <div id="ActivityDetail">
+  <div id="ActivityDetailContent">
     <v-container fluid>
       <v-row dense>
         <v-col>
@@ -45,7 +45,7 @@
             <div class="activity-feeling-container">
               {{ cardItem.userCustomize.feeling }}
             </div>
-            <div class="mt-5"></div>
+            <!-- <div class="mt-5"></div> -->
             <div class="uploaded-photo-container">
               <photo-carousel
                 :savePhotos="cardItem.userCustomize.savePhotos"
@@ -238,7 +238,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-#ActivityDetail {
+#ActivityDetailContent {
   $font-size__here: 6vw;
   $items-padding__here: 8px;
 

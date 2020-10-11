@@ -85,13 +85,24 @@
               outlined
               :clearable="false"
               message="tes"
-            ></v-file-input>
-            <div class="grid-container-uploaded-image" v-show="isImageShow">
-              <!-- <div class="test-photo-box">aa</div>
+              class="file-input-container"
+              
+            >
+            
+            </v-file-input>
+            <div class="uploaded-photo-container">
+              <photo-carousel 
+              v-show="isImageShow" 
+              isDeletePhoto 
+              :savePhotos="uploadedPhotos"
+              @empty-photo="emptyPhoto"></photo-carousel>
+            </div>
+            <!-- <div class="grid-container-uploaded-image" v-show="isImageShow">
               <div class="test-photo-box">aa</div>
               <div class="test-photo-box">aa</div>
               <div class="test-photo-box">aa</div>
-              <div class="test-photo-box">aa</div>-->
+              <div class="test-photo-box">aa</div>
+              <div class="test-photo-box">aa</div>
               <div v-for="(image, id) in uploadedImagesForView" :key="id">
                 <v-img
                   class="uploaded-photo"
@@ -99,7 +110,7 @@
                   @click="deletePhoto(id)"
                 ></v-img>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="mt-5"></div>
           <v-textarea
@@ -144,6 +155,7 @@
 
 <script>
 import TopHeader from "@/components/TopHeader.vue";
+import PhotoCarousel from "@/components/PhotoCarousel.vue"
 import L from "leaflet";
 export default {
   data() {
@@ -179,7 +191,16 @@ export default {
       isImageShow: false,
 
       uploadedImagesForView: [],
-      uploadedImages: [],
+      currentUploadedImages: [],
+      uploadedPhotos:[
+        // {
+        //   pictureId: 2,
+        //   title: "test2",
+        //   description: "this is test picture 2",
+        //   src: "https://picsum.photos/100",
+        //   position: [134, 30],
+        // }
+        ]
     };
   },
   computed: {},
@@ -228,7 +249,7 @@ export default {
     inputFileList(event) {
       const fileList = event;
       console.log("fileList", fileList);
-      this.uploadedImages = fileList;
+      this.currentUploadedImages = fileList;
       fileList.forEach((file) => {
         this.createImage(file);
       });
@@ -238,21 +259,43 @@ export default {
       this.isImageShow = true;
       let reader = new FileReader();
       reader.onload = (e) => {
-        var uploadedImage = e.target.result;
-        this.uploadedImagesForView.push(uploadedImage);
+        let photoDataUrl = e.target.result;
+        // this.uploadedImagesForView.push(photoDataUrl);
+        let uploadPhotoObj=this.createUploadedPhotos(photoDataUrl,file.name)
+        console.log(uploadPhotoObj)
+        this.uploadedPhotos.push(uploadPhotoObj)
       };
       reader.readAsDataURL(file);
     },
-    deletePhoto(id) {
-      if (window.confirm("削除しますか？")) {
-        this.uploadedImagesForView.splice(id, 1);
-        this.uploadedImages.splice(id, 1);
+    createUploadedPhotos(photoDataUrl,fileTitle){
 
-        if (this.uploadedImagesForView.length <= 0) {
-          this.isImageShow = false;
+      let res={
+          pictureId: null,
+          title: fileTitle,
+          description: "this is uploaded from device",
+          src: photoDataUrl,
+          position: [134, 30],
         }
+
+      if(this.uploadedPhotos.length<=0){
+        res.pictureId=0
       }
+      else{
+          let maxPictureIdObj=this.uploadedPhotos.reduce((acc,val)=>{
+          return acc.pictureId>val.pictureId?acc:val
+        })
+        
+        res.pictureId=maxPictureIdObj.pictureId+1
+      }
+      
+      
+      return res
     },
+    emptyPhoto(){
+      this.isImageShow = false;
+      
+    },
+    
     backRecord() {
       this.$emit("backRecord");
     },
@@ -272,7 +315,7 @@ export default {
     this.initMap();
   },
   components: {
-    TopHeader,
+    TopHeader,PhotoCarousel
   },
 };
 </script>
@@ -416,29 +459,42 @@ export default {
       .v-file-input__text {
         display: none;
       }
-      .grid-container-uploaded-image {
+      .uploaded-photo-container{
         position: absolute;
-        width: minmax(
-          $photo-square-size,
-          calc(100vw - 12px - 33px - 3vw - 6vw)
-        );
-        top: 50%;
-        left: calc(33px + 3vw);
+        height:calc($__uploaded-photo-container-height - 5vh);
+        max-width:calc(100vw - 12px - 33px - 3vw - 6vw) ;
+        z-index: 1;
+        top:50%;
+        left:calc(12px + 33px);
         transform: translate(0%, -50%);
-        display: grid;
-        grid-template-rows: $__uploaded-photo-container-height - 5;
-        grid-auto-columns: $photo-square-size;
-        column-gap: 1vh;
-        overflow-x: scroll;
-        * {
-          grid-row: 1;
-        }
       }
 
-      .uploaded-photo {
-        height: $photo-square-size;
-        width: $photo-square-size;
-      }
+      // .file-input-container{
+      //   z-index:10
+      // }
+      // .grid-container-uploaded-image {
+      //   position: absolute;
+      //   width: minmax(
+      //     $photo-square-size,
+      //     calc(100vw - 12px - 33px - 3vw - 6vw)
+      //   );
+      //   top: 50%;
+      //   left: calc(33px + 3vw);
+      //   transform: translate(0%, -50%);
+      //   display: grid;
+      //   grid-template-rows: $__uploaded-photo-container-height - 5;
+      //   grid-auto-columns: $photo-square-size;
+      //   column-gap: 1vh;
+      //   overflow-x: scroll;
+      //   * {
+      //     grid-row: 1;
+      //   }
+      // }
+
+      // .uploaded-photo {
+      //   height: $photo-square-size;
+      //   width: $photo-square-size;
+      // }
     }
   }
 

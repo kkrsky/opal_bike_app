@@ -1,6 +1,6 @@
 <template>
   <div id="TopBike">
-    <top-header :title="title" :right="rightBtn"></top-header>
+    <top-header :left="leftBtn" :title="title" :right="rightBtn"></top-header>
     <v-main>
       <div
         class="activity-history-container"
@@ -19,7 +19,7 @@
 import TopHeader from "@/components/TopHeader.vue";
 import TopFooter from "@/components/TopFooter.vue";
 import CardActivity from "@/components/CardActivity.vue";
-import ActivityDetail from "@/components/ActivityDetail.vue";
+import ActivityDetailContent from "@/components/ActivityDetailContent.vue";
 import UserShareHeader from "@/components/UserShareHeader.vue";
 
 export default {
@@ -28,7 +28,7 @@ export default {
       //component data
       title: "アクティビティ履歴",
       // rightBtnList: [],
-      // leftBtn: {},
+      leftBtn: {},
       rightBtn: {
         id: 1,
         title: "settings",
@@ -193,7 +193,7 @@ export default {
     TopHeader,
     TopFooter,
     CardActivity,
-    ActivityDetail,
+    ActivityDetailContent,
     UserShareHeader,
   },
 };

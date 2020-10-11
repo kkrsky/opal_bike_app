@@ -2,10 +2,10 @@
   <div id="BikeActivityHistoryDetail">
     <top-header :title="title" :right="rightBtn"></top-header>
     <v-main
-      ><activity-detail
+      ><activity-detail-content
         class="activity-detail-container"
         :cardItem="cardItem"
-      ></activity-detail
+      ></activity-detail-content
     ></v-main>
 
     <top-footer></top-footer>
@@ -15,7 +15,7 @@
 <script>
 import TopHeader from "@/components/TopHeader.vue";
 import TopFooter from "@/components/TopFooter.vue";
-import ActivityDetail from "@/components/ActivityDetail.vue";
+import ActivityDetailContent from "@/components/ActivityDetailContent.vue";
 
 export default {
   props: { cardItem: { type: Object } },
@@ -37,7 +37,7 @@ export default {
   watch: {},
   beforeCreate() {},
   mounted() {},
-  components: { TopHeader, TopFooter, ActivityDetail },
+  components: { TopHeader, TopFooter, ActivityDetailContent },
 };
 </script>
 

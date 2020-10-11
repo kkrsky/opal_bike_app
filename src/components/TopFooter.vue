@@ -20,14 +20,14 @@ export default {
   data() {
     return {
       footerTabList: [
-        {
-          id: 1,
-          title: "home",
-          icon: "home",
-          goto: "topHome",
-          propItems: null,
-          addCss: {},
-        },
+        // {
+        //   id: 1,
+        //   title: "home",
+        //   icon: "home",
+        //   goto: "topHome",
+        //   propItems: null,
+        //   addCss: {},
+        // },
         {
           id: 2,
           title: "history",
@@ -44,14 +44,14 @@ export default {
           propItems: null,
           addCss: { color: "red" },
         },
-        {
-          id: 4,
-          title: "profile",
-          icon: "perm_identity",
-          goto: "topProfile",
-          propItems: null,
-          addCss: {},
-        },
+        // {
+        //   id: 4,
+        //   title: "profile",
+        //   icon: "perm_identity",
+        //   goto: "topProfile",
+        //   propItems: null,
+        //   addCss: {},
+        // },
         {
           id: 5,
           title: "setting",
