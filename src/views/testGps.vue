@@ -105,6 +105,8 @@ export default {
   },
   created() {
     this.$store.dispatch("cds/checkState");
+    this.$store.dispatch("recordState/deleteCurrentWatchPosition");
+    this.$store.dispatch("recordState/initCurrentWatchPosition");
 
     // this.initMap();
   },

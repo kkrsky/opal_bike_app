@@ -152,73 +152,13 @@ export default {
       this.isFinishDisplay = false;
     },
 
+    onPause() {
+      console.log("pause");
+    },
+    onResume() {
+      console.log("resume");
+    },
     //functions
-    getCurrentPosition() {
-      // console.log("getCurrentPosition start", window.navigator.geolocation);
-
-      let options = {
-        maximumAge: 3000,
-        enableHighAccuracy: true,
-        timeout: 50000,
-      };
-      let timerStart = window.performance.now();
-      window.navigator.geolocation.getCurrentPosition(
-        (position) => {
-          console.log(position);
-          let timerStop = performance.now();
-          console.log("perform time", timerStop - timerStart);
-
-          this.displayPosition = [
-            position.coords.longitude,
-            position.coords.latitude,
-          ];
-
-          this.positionHistory.push(this.displayPosition);
-        },
-        (error) => {
-          console.log(("error:", error));
-        },
-        options
-      );
-    },
-    watchCurrentPosition() {
-      console.log("start watch position");
-      let timerStart = window.performance.now();
-      let onSuccess = (position) => {
-        console.log("watch position:", position);
-        let timerStop = window.performance.now();
-        console.log("perform time", timerStop - timerStart);
-        timerStart = timerStop;
-
-        let currentPosition = [
-          position.coords.longitude,
-          position.coords.latitude,
-        ];
-        this.displayPosition = currentPosition;
-        this.positionHistory.push(currentPosition);
-      };
-      let onFailed = (error) => {
-        window.alert(
-          "code: " + error.code + "\n" + "message: " + error.message + "\n"
-        );
-      };
-      let options = {
-        maximumAge: 3000,
-        enableHighAccuracy: true,
-        timeout: 5000,
-      };
-
-      let watchId = window.navigator.geolocation.watchPosition(
-        onSuccess,
-        onFailed,
-        options
-      );
-      this.watchPositionId = watchId;
-    },
-    watchCurrentPositionEnd() {
-      console.log("end watch position");
-      window.navigator.geolocation.clearWatch(this.watchPositionId);
-    },
 
     /**
      * map
@@ -232,6 +172,11 @@ export default {
   created() {
     this.isFinishDisplay = false;
     this.$store.dispatch("recordState/initRecordState");
+    // this.$store.dispatch("recordState/deleteCurrentWatchPosition");
+    this.$store.dispatch("recordState/initCurrentWatchPosition");
+    // this.$store.dispatch("recordState/initGetCurrentPosition");
+    document.addEventListener("pause", this.onPause, false);
+    document.addEventListener("resume", this.onResume, false);
   },
   components: {
     TopHeader,

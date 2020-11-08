@@ -177,14 +177,18 @@ export default {
         params: { cardItem: cardItem },
       });
     },
-    tesDate(){
-      let date=new Date()
+    tesDate() {
+      let date = new Date();
       var getFullYear = date.getTime();
-      console.log(date)
-    }
+      console.log(date);
+    },
   },
   watch: {},
   beforeCreate() {},
+  created() {
+    this.$store.dispatch("recordState/deleteCurrentWatchPosition");
+    this.$store.dispatch("recordState/initCurrentWatchPosition");
+  },
   mounted() {},
   components: {
     TopHeader,

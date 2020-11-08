@@ -25,6 +25,9 @@ let checkDeviceState = {
         //ios
         ios_locationAccuracyAuthorization: "", //FULL or REDUCED
       },
+      network: {
+        connection: null,
+      },
     },
     deviceInfo: { platform: "none" },
   }),
@@ -32,10 +35,11 @@ let checkDeviceState = {
   actions: {
     checkState({ commit, dispatch }) {
       let onDeviceReady = () => {
-        console.log("deviceready checkDeviceState");
+        console.log("[start] checkDeviceState");
 
         commit("init");
         dispatch("checState_location_init");
+        dispatch("checState_network_init");
       };
 
       window.document.addEventListener("deviceready", onDeviceReady, false);
@@ -67,6 +71,25 @@ let checkDeviceState = {
           commit("getLocationAccuracyAuthorization_ios");
           commit("registerLocationStateChangeHandler_ios");
           //requestTemporaryFullAccuracyAuthorization_ios
+        }
+      }
+    },
+    checState_network_init({ state, commit }) {
+      if (window.navigator.connection) {
+        // state.deviceState.network.connection
+        var networkState = window.navigator.connection.type;
+        var states = {};
+        states[window.navigator.connection.UNKNOWN] = "Unknown connection";
+        states[window.navigator.connection.ETHERNET] = "Ethernet connection";
+        states[window.navigator.connection.WIFI] = "WiFi connection";
+        states[window.navigator.connection.CELL_2G] = "Cell 2G connection";
+        states[window.navigator.connection.CELL_3G] = "Cell 3G connection";
+        states[window.navigator.connection.CELL_4G] = "Cell 4G connection";
+        states[window.navigator.connection.CELL] = "Cell generic connection";
+        states[window.navigator.connection.NONE] = "No network connection";
+        window.alert(networkState);
+        if (networkState === states[Connection.NONE]) {
+          window.alert("Connection type: " + states[networkState]);
         }
       }
     },

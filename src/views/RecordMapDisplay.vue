@@ -8,13 +8,13 @@
         <div class="title">タイム</div>
         <div class="content">
           {{ displayTime }}
-          <!-- <v-btn @click="test1()">test1</v-btn> -->
+          <v-btn @click="test1()">test1</v-btn>
         </div>
       </div>
       <!-- 平均速度 -->
       <div class="average-velocity-container">
         <div class="title">平均速度(km/h)</div>
-        <div class="content">30.9</div>
+        <div class="content">{{ displaySpeed }}</div>
       </div>
       <!-- 距離 -->
       <div class="running-length-container">
@@ -53,6 +53,8 @@ export default {
       },
       mapComponent: (state) => state.recordState.mapComponent,
       displayPosition: (state) => state.recordState.displayPosition,
+      displaySpeed: (state) =>
+        state.recordState.DisplaySpeedAnimator.displaySpeed,
     }),
     // ...mapGetters({
     //   displayPosition2: (getters) => {
@@ -67,6 +69,8 @@ export default {
   },
   methods: {
     test1() {
+      console.log(this.$store.state.recordState.positionHistory);
+
       // console.log(this.tes);
       // let LatLng = { lat: 35.6831925, lng: 139.7511307 };
       // let tes = {
@@ -97,406 +101,229 @@ export default {
     },
     initMap() {
       //変数宣言
-      let id = "leafletMap";
 
-      //タイル設定
-      let tile_kokudochiriin = new L.tileLayer(
-        "http://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png",
-        {
-          attribution:
-            "<a href='http://www.gsi.go.jp/kikakuchousei/kikakuchousei40182.html' target='_blank'>国土地理院</a>",
-        }
-      );
+      let that = this;
+      let top = {
+        myMap: null,
+        defaultZoom: 15,
+        mapId: "leafletMap",
 
-      let tile_openStreetMap = new L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-          attribution:
-            '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-        }
-      );
-      var GmapsROA = L.gridLayer.googleMutant({
-        maxZoom: 24,
-        type: "roadmap", //地図
-      });
+        //init
+        tileList: {},
+        initTile() {
+          //タイル設定
+          let tile_kokudochiriin = new L.tileLayer(
+            "http://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png",
+            {
+              attribution:
+                "<a href='http://www.gsi.go.jp/kikakuchousei/kikakuchousei40182.html' target='_blank'>国土地理院</a>",
+            }
+          );
 
-      var GmapsSAT = L.gridLayer.googleMutant({
-        maxZoom: 24,
-        type: "satellite", //航空写真
-      });
-      var GmapsHYB = L.gridLayer.googleMutant({
-        maxZoom: 24,
-        type: "hybrid", //航空写真&ラベル
-      });
-      var GmapsTER = L.gridLayer.googleMutant({
-        maxZoom: 24,
-        type: "terrain", //地形地図
-      });
+          let tile_openStreetMap = new L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+              attribution:
+                '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            }
+          );
+          var GmapsROA = L.gridLayer.googleMutant({
+            maxZoom: 24,
+            type: "roadmap", //地図
+          });
 
-      //地図生成
-      let myMap = L.map(id, {
-        center: this.displayPosition,
-        zoom: 15,
-        layers: [tile_openStreetMap],
-        zoomControl: false,
-      });
-      this.$store.dispatch("recordState/setMapComponent", myMap);
+          var GmapsSAT = L.gridLayer.googleMutant({
+            maxZoom: 24,
+            type: "satellite", //航空写真
+          });
+          var GmapsHYB = L.gridLayer.googleMutant({
+            maxZoom: 24,
+            type: "hybrid", //航空写真&ラベル
+          });
+          var GmapsTER = L.gridLayer.googleMutant({
+            maxZoom: 24,
+            type: "terrain", //地形地図
+          });
 
-      //現在位置のピンを生成
-      let pulsingIcon2 = L.icon.pulse({
-        iconSize: [15, 15],
-        color: "#57c6fd",
-        fillColor: "#57c6fd",
-        heartbeat: 2,
-      });
-      this.$store.dispatch("recordState/setPositionIcon", pulsingIcon2);
-
-      let [lat, lng] = this.displayPosition;
-      // if (lat === 35.6831925 && lng === 139.7511307) {
-      //   //none
-      // } else {
-      //   L.marker(this.displayPosition, { icon: pulsingIcon2 }).addTo(myMap);
-      // }
-
-      //地図タイルコントロール生成
-      myMap.addControl(
-        new L.Control.Layers(
-          {
-            "Google Roadmap": GmapsROA,
-            "Google Satellite": GmapsSAT,
-            "Google Hybrid": GmapsHYB,
-            "Google Terrain": GmapsTER,
-            "open Street Map": tile_openStreetMap,
-            "国土地理院 ": tile_kokudochiriin,
-          },
-          {}
-        )
-      );
-      let pulsingIcon3 = L.icon.pulse({
-        iconSize: [15, 15],
-        color: "#5f16fd",
-        fillColor: "#57c6fd",
-        heartbeat: 2,
-      });
-      //現在位置コントロール追加
-      let locateOptions = {
-        position: "bottomright",
-
-        // markerStyle: pulsingIcon3,
-        // strings: {
-        //   title: "現在地を表示",
-        //   popup: "いまここ",
-        // },
-        // watch: true,
-        // locate: true,
-        // setView: true,
-        // enableHighAccuracy: true,
-
-        setView: "untilPanOrZoom",
-        clickBehavior: {
-          inView: "setView",
-          outOfView: "setView",
-          inViewNotFollowing: "setView",
-        },
-        flyTo: true,
-        returnToPrevBounds: true,
-        cacheLocation: true,
-        showCompass: true, //丸全体を表示するか
-        drawCircle: true, //位置精度を表示するか //.leaflet-control-locate-circle
-        drawMarker: true, //位置マーカーを表示するか //.leaflet-control-locate-marker
-        // markerStyle: pulsingIcon3,
-        markerStyle: {
-          color: "#fff",
-          fillColor: "#2A93EE",
-          fillOpacity: 1,
-          weight: 3,
-          opacity: 1,
-          radius: 9,
-        },
-        followMarkerStyle: {
-          color: "#fcc",
-          fillColor: "#FC8328",
-          fillOpacity: 1,
-          weight: 3,
-          opacity: 1,
-          radius: 9,
-        },
-        icon: "fa fa-map-marker",
-        iconLoading: "fa fa-map-marker",
-        iconElementTag: "v-icon",
-        locateOptions: {
-          watch: true,
-          enableHighAccuracy: true,
-        },
-        getLocationBounds: function(locationEvent) {
-          //位置を指定すると、カメラが変わる(setViewと同じ）
-          // console.log("locationEvent", locationEvent);
-
-          // let currentPosition = { lat: 35.6831925, lng: 139.7511307 };
-          // locationEvent.bounds._southWest = currentPosition;
-          // locationEvent.bounds._southWest = currentPosition;
-          return locationEvent.bounds;
-        },
-        onLocationError: function(err) {
-          //一応載せとく
-          alert(err.message);
-        }, // define an error callback function
-        onLocationOutsideMapBounds: function(context) {
-          //一応載せとく
-          // called when outside map boundaries
-          alert(context.options.strings.outsideMapBoundsMsg);
-        },
-      };
-      // L.Control.MyLocate = L.Control.Locate.extend({
-      //   // _drawMarker: function() {
-      //   //   // override to customize the marker
-      //   // },
-      //   _setLocation(positionData) {
-      //     // console.log(this);
-      //     let { lat, lng, accuracy } = positionData;
-      //     let latlng = { lat: lat, lng: lng };
-      //     console.log("this.event,activate", this._event, this._active);
-
-      //     //set
-      //     this._event.latlng = latlng;
-      //     this._event.accuracy = accuracy;
-
-      //     this._onLocationFound(this._event);
-      //   },
-      // });
-      // L.control.MyLocate = function(opts) {
-      //   return new L.Control.MyLocate(opts);
-      // };
-      var lc = L.control.locate(locateOptions).addTo(myMap);
-      lc.start();
-      // this.tes = lc;
-    },
-    // initMapWithPosition() {
-    //   let initMap = (currentPosition) => {
-    //     //init
-    //     let { lat, lng } = currentPosition;
-    //     currentPosition = [lat, lng];
-
-    //     //parameter
-    //     let id = "leafletMap";
-
-    //     //タイルを設定
-    //     let tile_kokudochiriin = new L.tileLayer(
-    //       "http://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png",
-    //       {
-    //         attribution:
-    //           "<a href='http://www.gsi.go.jp/kikakuchousei/kikakuchousei40182.html' target='_blank'>国土地理院</a>",
-    //       }
-    //     );
-
-    //     let tile_openStreetMap = new L.tileLayer(
-    //       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    //       {
-    //         attribution:
-    //           '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-    //       }
-    //     );
-    //     var GmapsROA = L.gridLayer.googleMutant({
-    //       maxZoom: 24,
-    //       type: "roadmap", //地図
-    //     });
-
-    //     var GmapsSAT = L.gridLayer.googleMutant({
-    //       maxZoom: 24,
-    //       type: "satellite", //航空写真
-    //     });
-    //     var GmapsHYB = L.gridLayer.googleMutant({
-    //       maxZoom: 24,
-    //       type: "hybrid", //航空写真&ラベル
-    //     });
-    //     var GmapsTER = L.gridLayer.googleMutant({
-    //       maxZoom: 24,
-    //       type: "terrain", //地形地図
-    //     });
-
-    //     //地図生成
-    //     let myMap = L.map(id, {
-    //       center: currentPosition,
-    //       zoom: 13,
-    //       layers: [tile_openStreetMap],
-    //       zoomControl: false,
-    //     });
-    //     //現在位置のピンを生成
-    //     // let myIcon = L.icon({
-    //     //   iconUrl: "@/assets/position/pin01.png", //画像ファイルパス
-    //     //   iconRetinaUrl: "@/assets/position/pin01.png", //モバイル用画像ファイルパス
-    //     //   iconSize: [70, 70], //アイコンのサイズ
-    //     //   iconAnchor: [25, 50], //画像のオフセット位置
-    //     //   popupAnchor: [8, -42], //ポップアップの表示位置
-    //     // });
-    //     let pulsingIcon2 = L.icon.pulse({
-    //       iconSize: [15, 15],
-    //       color: "#57c6fd",
-    //       fillColor: "#57c6fd",
-    //       heartbeat: 2,
-    //     });
-    //     // L.marker(currentPosition, { icon: pulsingIcon2 }).addTo(myMap);
-
-    //     //地図コントロール追加
-    //     myMap.addControl(
-    //       new L.Control.Layers(
-    //         {
-    //           "Google Roadmap": GmapsROA,
-    //           "Google Satellite": GmapsSAT,
-    //           "Google Hybrid": GmapsHYB,
-    //           "Google Terrain": GmapsTER,
-    //           "open Street Map": tile_openStreetMap,
-    //           "国土地理院 ": tile_kokudochiriin,
-    //         },
-    //         {}
-    //       )
-    //     );
-
-    //     //現在位置コントロール追加
-    //     let locateOptions = {
-    //       position: "bottomright",
-    //       strings: {
-    //         title: "現在地を表示",
-    //         popup: "いまここ",
-    //       },
-    //       locateOptions: {
-    //         enableHighAccuracy: true,
-    //       },
-    //     };
-    //     let lc = L.control.locate(locateOptions).addTo(myMap);
-    //     lc.start();
-    //     console.log("lc", lc);
-    //   };
-
-    //   let options = {
-    //     maximumAge: 3000,
-    //     enableHighAccuracy: true,
-    //     timeout: 50000,
-    //   };
-    //   let timerStart = window.performance.now();
-    //   window.navigator.geolocation.getCurrentPosition(
-    //     (position) => {
-    //       console.log(position);
-    //       let timerStop = performance.now();
-    //       console.log("perform time", timerStop - timerStart);
-
-    //       // let currentPosition = [
-    //       //   position.coords.latitude,
-    //       //   position.coords.longitude,
-    //       // ];
-    //       let currentPosition = {
-    //         lat: position.coords.latitude,
-    //         lng: position.coords.longitude,
-    //       };
-
-    //       // this.displayPosition = currentPosition;
-    //       // this.positionHistory.push(currentPosition);
-    //       initMap(currentPosition);
-    //       // this.$store.dispatch('recordState/setDisplayPosition',currentPosition)
-    //     },
-    //     (error) => {
-    //       console.log(("error:", error));
-    //       window.alert("位置情報の取得に失敗しました。");
-    //     },
-    //     options
-    //   );
-    // },
-    getCurrentPosition() {
-      // console.log("getCurrentPosition start", window.navigator.geolocation);
-
-      let options = {
-        maximumAge: 3000,
-        enableHighAccuracy: true,
-        timeout: 50000,
-      };
-      let timerStart = window.performance.now();
-      window.navigator.geolocation.getCurrentPosition(
-        (position) => {
-          console.log(position);
-          let timerStop = performance.now();
-          console.log("perform time", timerStop - timerStart);
-
-          let currentPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
+          this.tileList = {
+            tile_kokudochiriin,
+            tile_openStreetMap,
+            GmapsROA,
+            GmapsSAT,
+            GmapsHYB,
+            GmapsTER,
           };
-          this.$store.dispatch(
-            "recordState/setDisplayPosition",
-            currentPosition
+        },
+        initPositionIcon() {
+          //現在位置のピンを生成
+          let pulsingIcon2 = L.icon.pulse({
+            iconSize: [15, 15],
+            color: "#57c6fd",
+            fillColor: "#57c6fd",
+            heartbeat: 2,
+          });
+          this.$store.dispatch("recordState/setPositionIcon", pulsingIcon2);
+        },
+        initControllExtendLocationClass() {
+          L.Control.MyLocate = L.Control.Locate.extend({
+            // _drawMarker: function() {
+            //   // override to customize the marker
+            // },
+            _setLocation(positionData) {
+              // console.log(this);
+              let { lat, lng, accuracy } = positionData;
+              let latlng = { lat: lat, lng: lng };
+              console.log("this.event,activate", this._event, this._active);
+
+              //set
+              this._event.latlng = latlng;
+              this._event.accuracy = accuracy;
+
+              this._onLocationFound(this._event);
+            },
+          });
+          L.control.MyLocate = function(opts) {
+            return new L.Control.MyLocate(opts);
+          };
+        },
+        generateMap() {
+          //地図生成
+          let myMap = null;
+
+          myMap = L.map(this.mapId, {
+            center: that.displayPosition,
+            zoom: this.defaultZoom,
+            layers: [this.tileList.tile_openStreetMap],
+            zoomControl: false,
+          });
+          that.$store.dispatch("recordState/setMapComponent", myMap);
+          this.myMap = myMap;
+        },
+        addPositionTile() {
+          //現在位置コントロール追加
+          let locateOptions = {
+            position: "bottomright",
+
+            // markerStyle: pulsingIcon3,
+            // strings: {
+            //   title: "現在地を表示",
+            //   popup: "いまここ",
+            // },
+            // watch: true,
+            // locate: true,
+            // setView: true,
+            // enableHighAccuracy: true,
+
+            setView: "untilPanOrZoom",
+            clickBehavior: {
+              inView: "setView",
+              outOfView: "setView",
+              inViewNotFollowing: "setView",
+            },
+            flyTo: true,
+            returnToPrevBounds: true,
+            cacheLocation: true,
+            showCompass: true, //丸全体を表示するか
+            drawCircle: true, //位置精度を表示するか //.leaflet-control-locate-circle
+            drawMarker: true, //位置マーカーを表示するか //.leaflet-control-locate-marker
+            // markerStyle: pulsingIcon3,
+            markerStyle: {
+              color: "#fff",
+              fillColor: "#2A93EE",
+              fillOpacity: 1,
+              weight: 3,
+              opacity: 1,
+              radius: 9,
+            },
+            followMarkerStyle: {
+              color: "#fcc",
+              fillColor: "#FC8328",
+              fillOpacity: 1,
+              weight: 3,
+              opacity: 1,
+              radius: 9,
+            },
+            icon: "fa fa-map-marker",
+            iconLoading: "fa fa-spinner fa-spin",
+            iconElementTag: "v-icon",
+            locateOptions: {
+              watch: true,
+              enableHighAccuracy: true,
+            },
+            getLocationBounds: function(locationEvent) {
+              //位置を指定すると、カメラが変わる(setViewと同じ）
+              // console.log("locationEvent", locationEvent);
+
+              // let currentPosition = { lat: 35.6831925, lng: 139.7511307 };
+              // locationEvent.bounds._southWest = currentPosition;
+              // locationEvent.bounds._southWest = currentPosition;
+              return locationEvent.bounds;
+            },
+            onLocationError: function(err) {
+              //一応載せとく
+              alert(err.message);
+            }, // define an error callback function
+            onLocationOutsideMapBounds: function(context) {
+              //一応載せとく
+              // called when outside map boundaries
+              alert(context.options.strings.outsideMapBoundsMsg);
+            },
+          };
+          var lc = L.control.locate(locateOptions).addTo(this.myMap);
+          lc.start();
+        },
+        addMapTile() {
+          //地図タイルコントロール生成
+          this.myMap.addControl(
+            new L.Control.Layers(
+              {
+                "Google Roadmap": this.tileList.GmapsROA,
+                "Google Satellite": this.tileList.GmapsSAT,
+                "Google Hybrid": this.tileList.GmapsHYB,
+                "Google Terrain": this.tileList.GmapsTER,
+                "open Street Map": this.tileList.tile_openStreetMap,
+                "国土地理院 ": this.tileList.tile_kokudochiriin,
+              },
+              {}
+            )
           );
         },
-        (error) => {
-          console.log(("getCurrentPosition error:", error));
+        watchPositionFoundByMap() {
+          function onLocationFound(obj) {
+            console.log("[found] position by map");
+            let accuracy = obj.accuracy;
+            // let foundedObj = {
+            //   lat: obj.latitude,
+            //   lng: obj.longitude,
+            //   timestamp: obj.timestamp,
+            //   accuracy: accuracy,
+            // };
+            // console.log(obj);
+
+            that.$store.dispatch("recordState/setRecordHistory", obj);
+            // L.marker(e.latlng)
+            //   .addTo(map)
+            //   .bindPopup("You are within " + radius + " meters from this point")
+            //   .openPopup();
+            // L.circle(e.latlng, radius).addTo(map);
+          }
+          this.myMap.on("locationfound", onLocationFound);
         },
-        options
-      );
-    },
-    watchCurrentPosition_noRecord() {
-      console.log("start watch position");
-      let timerStart = window.performance.now();
-      let onSuccess = (position) => {
-        console.log("watch position:", position);
-        let timerStop = window.performance.now();
-        console.log("perform time", timerStop - timerStart);
-        timerStart = timerStop;
-
-        let currentPosition = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-
-        // this.displayPosition = currentPosition;
-        // this.positionHistory.push(currentPosition);
-        this.$store.dispatch("recordState/setDisplayPosition", currentPosition);
-      };
-      let onFailed = (error) => {
-        window.alert(
-          "watchCurrentPosition_noRecord on failed \n code: " +
-            error.code +
-            "\n" +
-            "message: " +
-            error.message +
-            "\n"
-        );
-      };
-      let options = {
-        maximumAge: 3000,
-        enableHighAccuracy: true,
-        timeout: 5000,
+        start() {
+          this.initTile();
+          this.generateMap();
+          this.addMapTile();
+          this.addPositionTile();
+          this.watchPositionFoundByMap();
+        },
       };
 
-      let watchId = window.navigator.geolocation.watchPosition(
-        onSuccess,
-        onFailed,
-        options
-      );
-      let keyName = "watchCurrentPosition_noRecord";
-      this.$store.dispatch("recordState/setWatchPositionId", {
-        id: watchId,
-        keyName: keyName,
-      });
+      top.start();
     },
   },
-  watch: {
-    // displayPosition3(displayPosition) {
-    //   console.log("aaaaaaaa");
-    //   let [lat, lng] = displayPosition;
-    //   // let positionIcon = this.$store.state.recordState.positionIcon;
-    //   if (lat === 35.6831925 && lng === 139.7511307) {
-    //     //none
-    //   } else {
-    //     // window.alert("add");
-    //     L.marker(displayPosition, { icon: this.positionIcon }).addTo(
-    //       this.mapComponent
-    //     );
-    //   }
-    // },
-  },
+  watch: {},
   beforeCreate() {},
-  created() {
-    this.getCurrentPosition();
-    // this.watchCurrentPosition_noRecord();
-  },
+  created() {},
   mounted() {
     // this.initMapWithPosition();
     this.initMap();

@@ -233,6 +233,20 @@ class PositionAnimator {
   }
 }
 
+class DisplaySpeedAnimator {
+  constructor() {
+    this.displaySpeed = 0;
+  }
+  start() {}
+  stop() {}
+  update() {}
+
+  //
+  setDisplaySpeed(speed) {
+    this.displaySpeed = speed;
+  }
+}
+
 let recordState = {
   namespaced: true,
   state: () => ({
@@ -240,6 +254,8 @@ let recordState = {
     isInit: false,
     TimeAnimator: null,
     PositionAnimator: null,
+    DisplaySpeedAnimator: null,
+    isWatchPositionEnabled: false,
 
     // startTime:0,
     // stopTime:0,
@@ -248,6 +264,9 @@ let recordState = {
     //direct state
     watchPositionId: {},
     positionHistory: [],
+    recordHistory: [],
+    recordDataId: 0,
+    recordCalcSpeed: 0, // km/h
     displayPosition: [35.6831925, 139.7511307],
     positionIcon: {},
     mapComponent: {},
@@ -255,6 +274,10 @@ let recordState = {
   getters: {
     displayPosition: (state) => {
       return state.displayPosition;
+    },
+    getLastRecordHistory(state) {
+      //最新のデータを１件取得
+      return state.recordHistory.slice(-1)[0];
     },
   },
   mutations: {},
@@ -265,8 +288,10 @@ let recordState = {
       } else {
         state.TimeAnimator = new TimeAnimator();
         state.PositionAnimator = new PositionAnimator();
+        state.DisplaySpeedAnimator = new DisplaySpeedAnimator();
         state.Updater = new Updater();
         dispatch("initTimer");
+        dispatch("initDisplaySpeed");
         // dispatch('initPosition')
         state.isInit = true;
       }
@@ -279,34 +304,56 @@ let recordState = {
     initPosition({ state }) {
       state.Updater.add(state.PositionAnimator);
     },
-
-    //direct state
-    initDisplayPosition({ dispatch }) {
-      let options = {
-        maximumAge: 3000,
-        enableHighAccuracy: true,
-        timeout: 50000,
-      };
-
-      window.navigator.geolocation.getCurrentPosition(
-        (position) => {
-          let currentPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          dispatch("setDisplayPosition", currentPosition);
-        },
-        (error) => {
-          console.log(("error:", error));
-        },
-        options
-      );
-
-      // state.displayPosition
+    initDisplaySpeed({ state }) {
+      state.Updater.add(state.DisplaySpeedAnimator);
     },
+
+    //setter
     setWatchPositionId({ state }, { id, keyName }) {
       console.log("[set] WatchPositionId");
       state.watchPositionId[keyName] = id;
+    },
+    setRecordHistory({ state, getters, dispatch }, foundedObj) {
+      //記録時
+      let { latitude, longitude, timestamp, speed } = foundedObj;
+
+      // let timeStamp = new Date().getTime(); //offlineで使えない
+      let recordObj = {
+        // latlng:{lat:lat,lng:lng},
+        // position:[lat, lng],
+        id: state.recordDataId,
+        lat: latitude,
+        lng: longitude,
+        speed: null,
+        timestamp: timestamp,
+      };
+
+      if (state.recordHistory.length === 0) {
+        //
+        speed = 0;
+      } else if (typeof speed === "number") {
+        // speed = speed;
+        // this.displaySpeed = speed;
+      } else {
+        //deplicated
+        let before = getters.getLastRecordHistory;
+        let current = recordObj;
+        let calcSpeedObj = {
+          before: before,
+          current: current,
+        };
+        dispatch("calculateSpeed", calcSpeedObj);
+        speed = state.recordCalcSpeed;
+      }
+
+      speed = speed.toPrecision(3);
+      recordObj.speed = speed;
+      state.recordCalcSpeed = speed;
+      state.DisplaySpeedAnimator.setDisplaySpeed(speed);
+      state.recordHistory.push(recordObj);
+      // console.log("recordObj", recordObj, recordObj.speed, foundedObj.speed);
+      state.displayPosition = [latitude, longitude];
+      state.recordDataId++;
     },
     setPositionHistory({ state }, { lat, lng }) {
       //記録時
@@ -328,6 +375,136 @@ let recordState = {
     setMapComponent({ state }, mapComponent) {
       console.log("[set] setMapComponent");
       state.mapComponent = mapComponent;
+    },
+
+    //functions
+    deleteCurrentWatchPosition({ state }) {
+      let keyName = "initCurrentWatchPosition";
+      console.log("[delete watch]: deleteCurrentWatchPosition");
+
+      if (state.watchPositionId[keyName] !== undefined) {
+        let watchId = state.watchPositionId[keyName];
+        window.navigator.geolocation.clearWatch(watchId);
+        state.isWatchPositionEnabled = false;
+      }
+    },
+    initCurrentWatchPosition({ state, dispatch }) {
+      console.log("state.isWatchPositionEnabled", state.isWatchPositionEnabled);
+      if (state.isWatchPositionEnabled) {
+        //既にposition watchを有効化済
+      } else {
+        console.log("[start] watch position");
+        let timerStart = window.performance.now();
+        let onSuccess = (position) => {
+          console.log("[watch] position:", position);
+          let timerStop = window.performance.now();
+          console.log("perform time", timerStop - timerStart);
+          timerStart = timerStop;
+
+          let currentPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          // this.displayPosition = currentPosition;
+          // this.positionHistory.push(currentPosition);
+          dispatch("setDisplayPosition", currentPosition);
+          state.isWatchPositionEnabled = true;
+        };
+        let onFailed = (error) => {
+          window.alert(
+            "initCurrentWatchPosition on failed \n code: " +
+              error.code +
+              "\n" +
+              "message: " +
+              error.message +
+              "\n"
+          );
+          state.isWatchPositionEnabled = false;
+        };
+        let options = {
+          maximumAge: 3000,
+          enableHighAccuracy: true,
+          timeout: 10000,
+        };
+
+        let watchId = window.navigator.geolocation.watchPosition(
+          onSuccess,
+          onFailed,
+          options
+        );
+        let keyName = "initCurrentWatchPosition";
+        dispatch("setWatchPositionId", {
+          id: watchId,
+          keyName: keyName,
+        });
+      }
+    },
+    initGetCurrentPosition({ dispatch }) {
+      // console.log("getCurrentPosition start", window.navigator.geolocation);
+
+      let options = {
+        maximumAge: 3000,
+        enableHighAccuracy: true,
+        timeout: 50000,
+      };
+      let timerStart = window.performance.now();
+      window.navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("[get] get current position", position);
+          let timerStop = performance.now();
+          console.log("perform time", timerStop - timerStart);
+
+          let currentPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          dispatch("setDisplayPosition", currentPosition);
+        },
+        (error) => {
+          console.log(("getCurrentPosition error:", error));
+        },
+        options
+      );
+    },
+    calculateSpeed({ state }, tes) {
+      let { before, current } = tes;
+      // console.log("before", before, current, tes);
+      let t1 = before.timestamp;
+      let lat1 = before.lat;
+      let lng1 = before.lng;
+      let t2 = current.timestamp;
+      let lat2 = current.lat;
+      let lng2 = current.lng;
+      // From Caspar Kleijne's answer starts
+      /** Converts numeric degrees to radians */
+      // if (typeof Number.prototype.toRad === "undefined") {
+      //   Number.prototype.toRad = function() {
+      //     return (this * Math.PI) / 180;
+      //   };
+      // }
+      function toRad(num) {
+        return (num * Math.PI) / 180;
+      }
+      // From Caspar Kleijne's answer ends
+      // From cletus' answer starts
+      var R = 6371; // km
+      var dLat = toRad(lat2 - lat1);
+      var dLon = toRad(lng2 - lng1);
+      lat1 = toRad(lat1);
+      lat2 = toRad(lat2);
+
+      var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.sin(dLon / 2) *
+          Math.sin(dLon / 2) *
+          Math.cos(lat1) *
+          Math.cos(lat2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var distance = R * c;
+      // From cletus' answer ends
+      // console.log("distance,", distance, t2 - t1, t2, t1);
+      state.recordCalcSpeed = (distance / (t2 - t1)) * 1000 * 3600;
     },
   },
 };

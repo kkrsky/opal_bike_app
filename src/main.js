@@ -59,4 +59,5 @@ let app = new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 
-app.$store.dispatch("recordState/initDisplayPosition");
+// app.$store.dispatch("recordState/initCurrentWatchPosition");
+app.$store.dispatch("cds/checkState");

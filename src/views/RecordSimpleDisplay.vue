@@ -7,7 +7,7 @@
         <v-col class="title">タイム</v-col>
       </v-row>
       <v-row no-gutters>
-        <v-col class="content">{{displayTime}}</v-col>
+        <v-col class="content">{{ displayTime }}</v-col>
       </v-row>
     </div>
 
@@ -17,7 +17,7 @@
         <v-col class="title">平均速度</v-col>
       </v-row>
       <v-row no-gutters>
-        <v-col class="content">30.9</v-col>
+        <v-col class="content">{{ displaySpeed }}</v-col>
       </v-row>
       <v-row no-gutters>
         <v-col class="add-info">km/h</v-col>
@@ -41,7 +41,7 @@
 
 <script>
 // import TopFooter from "@/components/TopFooter.vue";
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -56,8 +56,10 @@ export default {
   },
   computed: {
     ...mapState({
-      displayTime:state=>state.recordState.TimeAnimator.displayTime
-    })
+      displayTime: (state) => state.recordState.TimeAnimator.displayTime,
+      displaySpeed: (state) =>
+        state.recordState.DisplaySpeedAnimator.displaySpeed,
+    }),
   },
   methods: {},
   watch: {},
