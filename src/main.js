@@ -15,7 +15,7 @@ import virtualCordova from "./virtualCordova.js";
 import tes from "./mixins/tes";
 // virtualCordova.start();
 
-window.alert("main.js mounted");
+// window.alert("main.js mounted");
 window.document.addEventListener("deviceready", () => {
   console.log("main.js deviceready");
   Fcm.init();
@@ -37,18 +37,26 @@ window.document.head.appendChild(script);
 
 //cssライブラリ読み込み
 import "vuetify/dist/vuetify.min.css";
-import "../node_modules/leaflet/dist/leaflet.css";
+import "leaflet/dist/leaflet.css";
+import "@ansur/leaflet-pulse-icon/dist/L.Icon.Pulse.css";
+import "leaflet.locatecontrol/dist/L.Control.Locate.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import "animate.css/animate.css";
 import "@mdi/font/css/materialdesignicons.css";
+import "@fortawesome/fontawesome-free/js/fontawesome";
+import "@fortawesome/fontawesome-free/js/solid";
+import "@fortawesome/fontawesome-free/js/regular";
+
 //ライブラリ宣言
 Vue.config.productionTip = false;
 // Vue.mixin(tes);
 
 //Vue初期化
-new Vue({
+let app = new Vue({
   router,
   store,
   vuetify,
   render: (h) => h(App),
 }).$mount("#app");
+
+app.$store.dispatch("recordState/initDisplayPosition");

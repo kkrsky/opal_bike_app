@@ -66,9 +66,13 @@ import IconBtnTransition from "@/components/IconBtnTransition.vue";
 import RecordMapDisplay from "./RecordMapDisplay.vue";
 import RecordSimpleDisplay from "./RecordSimpleDisplay.vue";
 import RecordFinishDisplay from "./RecordFinishDisplay.vue";
+import { mapState } from "vuex";
 
 import L from "leaflet";
-import "leaflet.gridlayer.googlemutant/Leaflet.GoogleMutant";
+import "leaflet.gridlayer.googlemutant/Leaflet.GoogleMutant.js"; //L.gridLayer.googleMutant
+import "@ansur/leaflet-pulse-icon/dist/L.Icon.Pulse.js"; //L.icon.pulse
+import "leaflet.locatecontrol/dist/L.Control.Locate.min.js"; //L.control.locate
+// import "leaflet.locatecontrol/src/L.Control.Locate.js"; //L.control.locate
 
 export default {
   data() {
@@ -99,9 +103,17 @@ export default {
       showFinish: false,
       isSimpleDisplay: false,
       isFinishDisplay: false,
+      displayPosition: [],
+      positionHistory: [],
+      watchPositionId: null,
     };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      Updater: (state) => state.recordState.Updater,
+      displayTime: (state) => state.recordState.TimeAnimator.displayTime,
+    }),
+  },
   methods: {
     showBtnChanger(start, stop, finish) {
       if (start === "allToggle") {
@@ -121,21 +133,93 @@ export default {
     },
     startRecord() {
       this.showBtnChanger(false, true, false);
+      this.Updater.start();
     },
     stopRecord() {
       this.showBtnChanger(true, false, true);
+      this.Updater.stop();
     },
     finishRecord() {
       //終了しますか？確認
       if (window.confirm("終了しますか？")) {
         //初期表示画面
-        this.showBtnChanger(true, false, false);
+        this.Updater.finish();
         this.isFinishDisplay = true;
+        this.showBtnChanger(true, false, false);
       }
     },
     backRecord() {
-      // this.isFinishDisplay = false;
+      this.isFinishDisplay = false;
     },
+
+    //functions
+    getCurrentPosition() {
+      // console.log("getCurrentPosition start", window.navigator.geolocation);
+
+      let options = {
+        maximumAge: 3000,
+        enableHighAccuracy: true,
+        timeout: 50000,
+      };
+      let timerStart = window.performance.now();
+      window.navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log(position);
+          let timerStop = performance.now();
+          console.log("perform time", timerStop - timerStart);
+
+          this.displayPosition = [
+            position.coords.longitude,
+            position.coords.latitude,
+          ];
+
+          this.positionHistory.push(this.displayPosition);
+        },
+        (error) => {
+          console.log(("error:", error));
+        },
+        options
+      );
+    },
+    watchCurrentPosition() {
+      console.log("start watch position");
+      let timerStart = window.performance.now();
+      let onSuccess = (position) => {
+        console.log("watch position:", position);
+        let timerStop = window.performance.now();
+        console.log("perform time", timerStop - timerStart);
+        timerStart = timerStop;
+
+        let currentPosition = [
+          position.coords.longitude,
+          position.coords.latitude,
+        ];
+        this.displayPosition = currentPosition;
+        this.positionHistory.push(currentPosition);
+      };
+      let onFailed = (error) => {
+        window.alert(
+          "code: " + error.code + "\n" + "message: " + error.message + "\n"
+        );
+      };
+      let options = {
+        maximumAge: 3000,
+        enableHighAccuracy: true,
+        timeout: 5000,
+      };
+
+      let watchId = window.navigator.geolocation.watchPosition(
+        onSuccess,
+        onFailed,
+        options
+      );
+      this.watchPositionId = watchId;
+    },
+    watchCurrentPositionEnd() {
+      console.log("end watch position");
+      window.navigator.geolocation.clearWatch(this.watchPositionId);
+    },
+
     /**
      * map
      */
@@ -147,6 +231,7 @@ export default {
   },
   created() {
     this.isFinishDisplay = false;
+    this.$store.dispatch("recordState/initRecordState");
   },
   components: {
     TopHeader,

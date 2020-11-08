@@ -3,7 +3,9 @@
     <top-header></top-header>
     <v-btn @click="getCurrentPosition()">get gps</v-btn>
     <v-btn @click="tes1()">tes1</v-btn>
-    <v-btn @click="tes2()">test</v-btn>
+    <v-btn @click="tes2()">test2</v-btn>
+    <v-btn @click="tes3()">test3</v-btn>
+    <v-btn @click="addPosition()">add position</v-btn>
     <p>{{ currentPosition }}</p>
     <div class="title">tes title</div>
     <p>
@@ -94,6 +96,9 @@ export default {
   },
   computed: {
     ...mapState("cds", ["isDevice", "isDiagnostic", "isGeolocation"]),
+    ...mapState({
+      watchPositionId: (state) => state.recordState.watchPositionId,
+    }),
     watchedPosition() {
       // return ...this.watchPosition
     },
@@ -109,10 +114,31 @@ export default {
   },
   methods: {
     tes1() {
-      this.$store.dispatch("cds/checkState");
+      // this.$store.dispatch("cds/checkState");
+      console.log(this.watchPositionId);
     },
     tes2() {
-      // ftes();
+      this.$store.dispatch("recordState/setWatchPositionId", {
+        id: "0001",
+        keyName: "test",
+      });
+      console.log("set");
+    },
+    tes3() {
+      // this.$store.dispatch("recordState/setWatchPositionId", {
+      //   keyName: "test3",
+      //   id: "0003",
+      // });
+      // console.log("set");
+      let dp = [35.6831925, 139.7511307];
+      this.mapComponent.setView(dp, 10);
+    },
+    addPosition() {
+      let position = {
+        lat: 35.6831925,
+        lng: 139.7511307,
+      };
+      this.$store.dispatch("recordState/setDisplayPosition", position);
     },
     getCurrentPosition() {
       console.log("getCurrentPosition start", window.navigator.geolocation);
@@ -216,6 +242,7 @@ export default {
         layers: [tile_openStreetMap],
         zoomControl: false,
       });
+      // this.$store.dispatch("recordState/setMapComponent", mymap);
 
       mymap.addControl(
         new L.Control.Layers(
@@ -231,6 +258,17 @@ export default {
         )
       );
 
+      //現在位置のピンを生成
+      let pulsingIcon2 = L.icon.pulse({
+        iconSize: [15, 15],
+        color: "#57c6fd",
+        fillColor: "#57c6fd",
+        heartbeat: 2,
+      });
+      // this.$store.dispatch("recordState/setPositionIcon", pulsingIcon2);
+      let dp = [35.6831925, 139.7511307];
+      L.marker(dp, { icon: pulsingIcon2 }).addTo(mymap);
+      mymap.setView([35.4, 136], 10);
       var marker = L.marker([51.5, -0.09]).addTo(mymap);
       var circle = L.circle([51.508, -0.11], {
         color: "red",
@@ -263,6 +301,7 @@ export default {
       }
 
       mymap.on("click", onMapClick);
+      this.mapComponent = mymap;
     },
   },
   components: {

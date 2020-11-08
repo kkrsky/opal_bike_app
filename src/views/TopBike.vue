@@ -2,7 +2,6 @@
   <div id="TopBike">
     <top-header :left="leftBtn" :title="title" :right="rightBtn"></top-header>
     <v-main>
-      <v-btn @click="tesDate()">date</v-btn>
       <div
         class="activity-history-container"
         v-for="cardItem in activityCardList"
@@ -42,7 +41,6 @@ export default {
         {
           cardId: 1,
           attribute: "fullActivity",
-          isShowDetail: true,
           flex: 12,
           testPicture: "https://picsum.photos/500",
           userCustomize: {
@@ -167,18 +165,11 @@ export default {
           },
         },
       ],
-      isShowDetail: false,
       //methods data
     };
   },
   computed: {},
   methods: {
-    // showDetail(index) {
-    //   window.alert(index);
-    //   this.activityCardList[index].isShowDetail = !this.activityCardList[index]
-    //     .isShowDetail;
-    //   console.log(this.activityCardList[index].isShowDetail);
-    // },
     gotoDetail(cardItem) {
       // window.alert(cardItem.cardId);
       this.$router.push({

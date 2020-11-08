@@ -7,7 +7,7 @@
         <v-col class="title">タイム</v-col>
       </v-row>
       <v-row no-gutters>
-        <v-col class="content">01:24:50</v-col>
+        <v-col class="content">{{displayTime}}</v-col>
       </v-row>
     </div>
 
@@ -41,6 +41,7 @@
 
 <script>
 // import TopFooter from "@/components/TopFooter.vue";
+import {mapState} from 'vuex'
 
 export default {
   data() {
@@ -53,7 +54,11 @@ export default {
        */
     };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      displayTime:state=>state.recordState.TimeAnimator.displayTime
+    })
+  },
   methods: {},
   watch: {},
   beforeCreate() {},

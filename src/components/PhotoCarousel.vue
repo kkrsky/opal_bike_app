@@ -24,51 +24,51 @@ export default {
       type: Array,
       default() {
         return [
-              {
-                //写真にメモを付属できる
-                pictureId: 1,
-                title: "test1",
-                description: "this is test picture 1",
-                src: "https://picsum.photos/100",
-                position: [134, 30],
-              },
-              {
-                //写真にメモを付属できる
-                pictureId: 2,
-                title: "test2",
-                description: "this is test picture 2",
-                src: "https://picsum.photos/100",
-                position: [134, 30],
-              },
-              {
-                pictureId: 3,
-                title: "test3",
-                description: "this is test picture 3",
-                src: "https://picsum.photos/100",
-                position: [134, 30],
-              },
-              {
-                pictureId: 4,
-                title: "test4",
-                description: "this is test picture 4",
-                src: "https://picsum.photos/100",
-                position: [134, 30],
-              },
-              {
-                pictureId: 5,
-                title: "test5",
-                description: "this is test picture 5",
-                src: "https://picsum.photos/100",
-                position: [134, 30],
-              },
-              {
-                pictureId: 6,
-                title: "test6",
-                description: "this is test picture 6",
-                src: "https://picsum.photos/100",
-                position: [134, 30],
-              },
-            ]
+          {
+            //写真にメモを付属できる
+            pictureId: 1,
+            title: "test1",
+            description: "this is test picture 1",
+            src: "https://picsum.photos/100",
+            position: [134, 30],
+          },
+          {
+            //写真にメモを付属できる
+            pictureId: 2,
+            title: "test2",
+            description: "this is test picture 2",
+            src: "https://picsum.photos/100",
+            position: [134, 30],
+          },
+          {
+            pictureId: 3,
+            title: "test3",
+            description: "this is test picture 3",
+            src: "https://picsum.photos/100",
+            position: [134, 30],
+          },
+          {
+            pictureId: 4,
+            title: "test4",
+            description: "this is test picture 4",
+            src: "https://picsum.photos/100",
+            position: [134, 30],
+          },
+          {
+            pictureId: 5,
+            title: "test5",
+            description: "this is test picture 5",
+            src: "https://picsum.photos/100",
+            position: [134, 30],
+          },
+          {
+            pictureId: 6,
+            title: "test6",
+            description: "this is test picture 6",
+            src: "https://picsum.photos/100",
+            position: [134, 30],
+          },
+        ];
       },
     },
   },
@@ -80,11 +80,11 @@ export default {
       if (this.isDeletePhoto || this.isDeletePhoto === "") {
         if (window.confirm("削除しますか？")) {
           this.savePhotos.splice(obj.index, 1);
-          
-          console.log(this.savePhotos.length)
+
+          console.log(this.savePhotos.length);
           if (this.savePhotos.length <= 0) {
-          this.$emit("empty-photo")
-        }
+            this.$emit("empty-photo");
+          }
         }
       }
     },
@@ -98,10 +98,10 @@ export default {
 
   width: 100%;
   // height: $__uploaded-photo-container-height;
-  height:100%;
+  height: 100%;
 
   display: grid;
-  grid-template-rows: $__uploaded-photo-container-height - 5;
+  grid-template-rows: 10vh; //calc($__uploaded-photo-container-height - 5vh);
   grid-auto-columns: $photo-square-size;
   column-gap: 0.5vh;
   align-content: center;
