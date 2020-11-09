@@ -54,6 +54,7 @@ class TimeAnimator {
     this.startTime = 0;
     this.stopDiffTime = 0;
     this.displayTime = "00:00:00";
+    this.displayTime_raw = 0;
   }
 
   // アニメーション開始時の時間を取得
@@ -89,6 +90,7 @@ class TimeAnimator {
     let displayTime = currentTime - this.startTime;
     // console.log(displayTime,currentTime,this.startTime)
     this.displayTime = this.calcDisplayTime(displayTime);
+    this.displayTime_raw = displayTime;
   }
 
   calcDisplayTime(time) {
@@ -96,7 +98,7 @@ class TimeAnimator {
       return ("00" + time).slice(-2);
     }
     let hour = Math.floor(time / 1000 / 60 / 60);
-    let minute = Math.floor(time / 1000 / 60) % 6;
+    let minute = Math.floor(time / 1000 / 60) % 60;
     let second = Math.floor(time / 1000) % 60;
 
     let timeArry = [under2(hour), under2(minute), under2(second)];
@@ -233,17 +235,45 @@ class PositionAnimator {
   }
 }
 
-class DisplaySpeedAnimator {
+class DisplayAnimator {
   constructor() {
-    this.displaySpeed = 0;
+    this.displaySpeed = 0; //km/h
+    this.displayLength = 0;
+    this.displayLength_raw = 0; //km
+    this.TimerInstance = null;
+    this.calcLengthTimeBefore = 0;
   }
   start() {}
   stop() {}
   update() {}
 
   //
+  tes() {
+    console.log(this.TimerInstance);
+    console.log(this);
+    this.calcDisplayLength();
+  }
+  setTimerInstance(TimerInstance) {
+    this.TimerInstance = TimerInstance;
+  }
   setDisplaySpeed(speed) {
-    this.displaySpeed = speed;
+    this.displaySpeed = Math.floor(speed * 10) / 10;
+  }
+  calcDisplayLength() {
+    // this.displayLength = length;
+    let rt = this.TimerInstance.displayTime_raw;
+    let diffTime =
+      this.TimerInstance.displayTime_raw - this.calcLengthTimeBefore;
+    this.calcLengthTimeBefore = this.TimerInstance.displayTime_raw;
+    let diffTime_hour = diffTime / (1000 * 3600);
+    let length_km = this.displaySpeed * diffTime_hour;
+    this.displayLength_raw += length_km;
+    let rw = this.displayLength_raw;
+    this.displayLength = Math.floor(rw * 10) / 10;
+
+    console.log("calcDisplayLength", rt, diffTime, rw);
+
+    // this.displayLength=this.displayLength_raw.toPrecision(3)
   }
 }
 
@@ -254,7 +284,7 @@ let recordState = {
     isInit: false,
     TimeAnimator: null,
     PositionAnimator: null,
-    DisplaySpeedAnimator: null,
+    DisplayAnimator: null,
     isWatchPositionEnabled: false,
 
     // startTime:0,
@@ -282,16 +312,19 @@ let recordState = {
   },
   mutations: {},
   actions: {
+    tes({ state }) {
+      state.DisplayAnimator.tes();
+    },
     initRecordState({ state, dispatch }) {
       if (state.isInit) {
         //none
       } else {
         state.TimeAnimator = new TimeAnimator();
         state.PositionAnimator = new PositionAnimator();
-        state.DisplaySpeedAnimator = new DisplaySpeedAnimator();
+        state.DisplayAnimator = new DisplayAnimator();
         state.Updater = new Updater();
         dispatch("initTimer");
-        dispatch("initDisplaySpeed");
+        dispatch("initDisplayAnimator");
         // dispatch('initPosition')
         state.isInit = true;
       }
@@ -304,8 +337,9 @@ let recordState = {
     initPosition({ state }) {
       state.Updater.add(state.PositionAnimator);
     },
-    initDisplaySpeed({ state }) {
-      state.Updater.add(state.DisplaySpeedAnimator);
+    initDisplayAnimator({ state }) {
+      state.DisplayAnimator.setTimerInstance(state.TimeAnimator);
+      state.Updater.add(state.DisplayAnimator);
     },
 
     //setter
@@ -322,9 +356,11 @@ let recordState = {
         // latlng:{lat:lat,lng:lng},
         // position:[lat, lng],
         id: state.recordDataId,
+        latlng: [latitude, longitude],
         lat: latitude,
         lng: longitude,
         speed: null,
+        length: state.DisplayAnimator.displayLength_raw,
         timestamp: timestamp,
       };
 
@@ -346,10 +382,11 @@ let recordState = {
         speed = state.recordCalcSpeed;
       }
 
-      speed = speed.toPrecision(3);
+      speed = Math.floor(speed * 10) / 10;
       recordObj.speed = speed;
-      state.recordCalcSpeed = speed;
-      state.DisplaySpeedAnimator.setDisplaySpeed(speed);
+      // state.recordCalcSpeed = speed;
+      state.DisplayAnimator.setDisplaySpeed(speed);
+      state.DisplayAnimator.calcDisplayLength();
       state.recordHistory.push(recordObj);
       // console.log("recordObj", recordObj, recordObj.speed, foundedObj.speed);
       state.displayPosition = [latitude, longitude];

@@ -19,7 +19,7 @@
       <!-- 距離 -->
       <div class="running-length-container">
         <div class="title">距離(km)</div>
-        <div class="content">13.4</div>
+        <div class="content">{{ displayLength }}</div>
       </div>
     </div>
   </v-container>
@@ -53,8 +53,8 @@ export default {
       },
       mapComponent: (state) => state.recordState.mapComponent,
       displayPosition: (state) => state.recordState.displayPosition,
-      displaySpeed: (state) =>
-        state.recordState.DisplaySpeedAnimator.displaySpeed,
+      displaySpeed: (state) => state.recordState.DisplayAnimator.displaySpeed,
+      displayLength: (state) => state.recordState.DisplayAnimator.displayLength,
     }),
     // ...mapGetters({
     //   displayPosition2: (getters) => {
@@ -69,8 +69,8 @@ export default {
   },
   methods: {
     test1() {
-      console.log(this.$store.state.recordState.positionHistory);
-
+      // console.log(this.$store.state.recordState.positionHistory);
+      this.$store.dispatch("recordState/tes");
       // console.log(this.tes);
       // let LatLng = { lat: 35.6831925, lng: 139.7511307 };
       // let tes = {

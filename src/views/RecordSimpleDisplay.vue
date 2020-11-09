@@ -30,7 +30,7 @@
         <v-col class="title">距離</v-col>
       </v-row>
       <v-row no-gutters>
-        <v-col class="content">13.4</v-col>
+        <v-col class="content">{{ displayLength }}</v-col>
       </v-row>
       <v-row no-gutters>
         <v-col class="add-info">km</v-col>
@@ -57,8 +57,8 @@ export default {
   computed: {
     ...mapState({
       displayTime: (state) => state.recordState.TimeAnimator.displayTime,
-      displaySpeed: (state) =>
-        state.recordState.DisplaySpeedAnimator.displaySpeed,
+      displaySpeed: (state) => state.recordState.DisplayAnimator.displaySpeed,
+      displayLength: (state) => state.recordState.DisplayAnimator.displayLength,
     }),
   },
   methods: {},
