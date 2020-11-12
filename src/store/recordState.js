@@ -271,7 +271,7 @@ class DisplayAnimator {
     let rw = this.displayLength_raw;
     this.displayLength = Math.floor(rw * 10) / 10;
 
-    console.log("calcDisplayLength", rt, diffTime, rw);
+    console.log("calcDisplayLength[km]", rw);
 
     // this.displayLength=this.displayLength_raw.toPrecision(3)
   }
@@ -313,7 +313,9 @@ let recordState = {
   mutations: {},
   actions: {
     tes({ state }) {
-      state.DisplayAnimator.tes();
+      // state.DisplayAnimator.tes();
+      console.log("isStart", state.Updater.isStart);
+      console.log("histort", state.recordHistory);
     },
     initRecordState({ state, dispatch }) {
       if (state.isInit) {
@@ -387,10 +389,13 @@ let recordState = {
       // state.recordCalcSpeed = speed;
       state.DisplayAnimator.setDisplaySpeed(speed);
       state.DisplayAnimator.calcDisplayLength();
-      state.recordHistory.push(recordObj);
+      if (state.Updater.isStart) {
+        //記録中
+        state.recordHistory.push(recordObj);
+        state.recordDataId++;
+      }
       // console.log("recordObj", recordObj, recordObj.speed, foundedObj.speed);
       state.displayPosition = [latitude, longitude];
-      state.recordDataId++;
     },
     setPositionHistory({ state }, { lat, lng }) {
       //記録時
