@@ -1,14 +1,19 @@
 .DS_Store
 node_modules
 /dist
-www
-platforms
-plugins
+/www
+/platforms
+/plugins
 
 
 # local env files
 .env.local
 .env.*.local
+/.env
+
+# Firebase
+GoogleService-Info.plist
+google-services.json
 
 # Log files
 npm-debug.log*

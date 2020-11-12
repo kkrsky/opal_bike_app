@@ -1,60 +1,72 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <HelloWorld/>
-    </v-main>
+    <transition :name="transitionName" mode="out-in">
+      <router-view />
+    </transition>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
 export default {
-  name: 'App',
-
-  components: {
-    HelloWorld,
+  name: "App",
+  data() {
+    return { transitionName: "none" };
   },
 
-  data: () => ({
-    //
-  }),
+  watch: {
+    $route(to, from) {
+      const toName = to.name;
+      const fromName = from.name;
+
+      if (fromName === "title" && toName === "login") {
+        console.log("fireee");
+        this.transitionName = "slide-up";
+      } else {
+        this.transitionName = "none";
+      }
+      // this.transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
+    },
+  },
 };
 </script>
+<style lang="scss">
+// .tes {
+//   animation: fadeOutUpBig; /* referring directly to the animation's @keyframe declaration */
+//   animation-duration: 2s;
+// }
+
+// -enter{}
+// -enter-active{}
+// -enter-to{}
+// -leave{}
+// -leave-active{}
+// -leave-to{}
+
+/**
+.slide-up
+ */
+
+// .slide-up-enter {
+//   background-color: red;
+// }
+// .slide-up-enter-to {
+//   background-color: red;
+// }
+// .slide-up-enter-active {
+//   animation: fadeOutDown; /* referring directly to the animation's @keyframe declaration */
+//   animation-duration: 3s;
+//   background-color: red;
+// }
+
+.slide-up-leave {
+  background-color: red;
+}
+.slide-up-leave-to {
+  background-color: red;
+}
+.slide-up-leave-active {
+  animation: fadeOutUpBig; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 1s;
+  background-color: red;
+}
+</style>
