@@ -187,7 +187,7 @@ export default {
   beforeCreate() {},
   created() {
     this.$store.dispatch("recordState/deleteCurrentWatchPosition");
-    this.$store.dispatch("recordState/initCurrentWatchPosition");
+    // this.$store.dispatch("recordState/initCurrentWatchPosition");
   },
   mounted() {},
   components: {

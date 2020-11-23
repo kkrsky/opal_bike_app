@@ -2862,7 +2862,7 @@ let virtualCordova = {
     // window.NativeStorage = this.nativeStorage;
     window.device = this.device_obj.android;
     window.FirebasePlugin = this.FirebasePlugin;
-    // window.ble = this.ble;
+    window.ble = this.ble;
     window.cordova = {
       plugins: {
         diagnostic: this.diagnostic,

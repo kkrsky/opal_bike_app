@@ -13,8 +13,10 @@ import TopSetting from "../views/TopSetting.vue";
 import Login from "../views/Login.vue";
 import SignUp from "../views/SignUp.vue";
 import BikeActivityHistoryDetail from "../views/BikeActivityHistoryDetail.vue";
+import SettingBle from "../views/SettingBle.vue";
 
 import testGps from "../views/testGps.vue";
+import testBle from "../views/testBle.vue";
 
 Vue.use(VueRouter);
 
@@ -78,6 +80,11 @@ const routes = [
     name: "notifications",
     component: TopSetting,
   },
+  {
+    path: "/settingBle",
+    name: "settingBle",
+    component: SettingBle,
+  },
 
   // {
   //   path: "/about",
@@ -110,9 +117,10 @@ const routes = [
     props: true,
   },
   {
-    path: "/test",
-    name: "test",
-    component: testGps,
+    path: "/testBle",
+    name: "testBle",
+    // component: testGps,
+    component: testBle,
   },
 ];
 

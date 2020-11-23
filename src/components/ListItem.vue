@@ -197,7 +197,7 @@ export default {
     clickedItem(listItem) {
       // listItem.active = !listItem.active;
       if (typeof listItem.goto === "function") {
-        listItem.goto();
+        listItem.goto(listItem.propItems);
       } else if (listItem.goto === null) {
         //none
       } else if (listItem.propItems === null) {

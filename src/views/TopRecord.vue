@@ -172,9 +172,9 @@ export default {
   created() {
     this.isFinishDisplay = false;
     this.$store.dispatch("recordState/initRecordState");
-    this.$store.dispatch("recordState/deleteCurrentWatchPosition");
+    // this.$store.dispatch("recordState/deleteCurrentWatchPosition");
     // this.$store.dispatch("recordState/initCurrentWatchPosition");
-    // this.$store.dispatch("recordState/initGetCurrentPosition");
+    this.$store.dispatch("recordState/initGetCurrentPosition");
     document.addEventListener("pause", this.onPause, false);
     document.addEventListener("resume", this.onResume, false);
   },

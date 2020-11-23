@@ -7,7 +7,7 @@
     "name": "Apache Cordova Team"
   },
   "scripts": {
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && cordova prepare",
     "android": "npm run build && cordova run android",
     "android -d": "npm run build && cordova run android -device",
     "android -e": "npm run build && cordova run android -emulator",
@@ -49,6 +49,7 @@
     "cordova-ios": "^6.1.0",
     "cordova-plugin-androidx": "^2.0.0",
     "cordova-plugin-androidx-adapter": "^1.1.1",
+    "cordova-plugin-ble-central": "^1.3.1",
     "cordova-plugin-camera": "^5.0.0",
     "cordova-plugin-firebasex": "^10.2.0-cli",
     "cordova-plugin-geolocation": "^4.0.2",
@@ -105,6 +106,10 @@
       "cordova-plugin-camera": {
         "CAMERA_USAGE_DESCRIPTION": "use to take a picture",
         "PHOTOLIBRARY_USAGE_DESCRIPTION": "use to take a picture"
+      },
+      "cordova-plugin-ble-central": {
+        "BLUETOOTH_USAGE_DESCRIPTION": "use for connect to the bike",
+        "IOS_INIT_ON_LOAD": "false"
       }
     },
     "platforms": [

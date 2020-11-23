@@ -8,7 +8,7 @@
         <div class="title">タイム</div>
         <div class="content">
           {{ displayTime }}
-          <v-btn @click="test1()">test1</v-btn>
+          <!-- <v-btn @click="test1()">test1</v-btn> -->
         </div>
       </div>
       <!-- 平均速度 -->

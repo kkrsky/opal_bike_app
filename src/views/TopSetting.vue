@@ -97,7 +97,7 @@ export default {
           iconRight: "arrow_forward_ios",
           iconLeft: "bluetooth",
           pictureLeftSrc: null,
-          goto: null,
+          goto: "settingBle",
           propItems: null,
           addCss: {},
           active: false,
@@ -294,8 +294,8 @@ export default {
   watch: {},
   beforeCreate() {},
   created() {
-    // this.$store.dispatch("recordState/deleteCurrentWatchPosition");
-    this.$store.dispatch("recordState/initCurrentWatchPosition");
+    this.$store.dispatch("recordState/deleteCurrentWatchPosition");
+    // this.$store.dispatch("recordState/initCurrentWatchPosition");
   },
   mounted() {},
   components: {

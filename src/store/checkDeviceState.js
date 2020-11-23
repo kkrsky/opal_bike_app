@@ -87,7 +87,7 @@ let checkDeviceState = {
         states[window.navigator.connection.CELL_4G] = "Cell 4G connection";
         states[window.navigator.connection.CELL] = "Cell generic connection";
         states[window.navigator.connection.NONE] = "No network connection";
-        window.alert(networkState);
+        // window.alert(networkState);
         if (networkState === states[Connection.NONE]) {
           window.alert("Connection type: " + states[networkState]);
         }
