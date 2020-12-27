@@ -1,5 +1,8 @@
 <template>
   <v-app>
+    <v-snackbar v-model="isSnackbar" app top :timeout="snackbarObj.timeout">{{
+      snackbarObj.message
+    }}</v-snackbar>
     <transition :name="transitionName" mode="out-in">
       <router-view />
     </transition>
@@ -10,9 +13,37 @@
 export default {
   name: "App",
   data() {
-    return { transitionName: "none" };
+    return {
+      transitionName: "none",
+      // isSnackbar: true,
+      // snackbarMessage: "hello",
+    };
   },
-
+  computed: {
+    isSnackbar: {
+      get() {
+        return this.$store.getters["snackbarState/getIsSnackbar"];
+      },
+      set(bool) {
+        this.$store.dispatch("snackbarState/setIsSnackbar", bool);
+      },
+    },
+    snackbarObj: {
+      get() {
+        return this.$store.getters["snackbarState/getSnackbarObj"];
+      },
+      // set(val) {
+      //   this.$store.dispatch("snackbarState/setMessage", val);
+      // },
+    },
+  },
+  methods: {
+    test() {
+      // console.log(this.$store.getters["snackbarState/getMessage"]);
+      // console.log(this.isSnackbar, this.snackbarMessage);
+      this.$store.dispatch("snackbarState/fire", { message: "fireee" });
+    },
+  },
   watch: {
     $route(to, from) {
       const toName = to.name;

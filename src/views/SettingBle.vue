@@ -43,13 +43,21 @@ export default {
           subItems: null,
         },
       ],
+
       //locals
+      isSnackbar: false,
+      snackbarMessage: "hello",
     };
   },
   methods: {
     test01() {
       // console.log(this.scanDeviceList);
-      console.log(this.$store.state.settingState.ble.connectedList);
+      // console.log(this.$store.state.settingState.ble.connectedList);
+      // this.isSnackbar = !this.isSnackbar;
+      this.$store.dispatch("snackbarState/fire", {
+        message: "fireee",
+        // timeout: 5000,
+      });
     },
     onBleScan() {
       this.addScanBleList("reset");

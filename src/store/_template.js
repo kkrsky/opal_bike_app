@@ -1,6 +1,6 @@
 let transitionState = {
   namespaced: true,
-  state() {},
+  state: () => ({}),
   getters: {},
   mutations: {},
   actions: {},

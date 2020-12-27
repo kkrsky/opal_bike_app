@@ -4,6 +4,7 @@ import cds from "./checkDeviceState.js";
 import recordState from "./recordState.js";
 import settingState from "./settingState.js";
 import dbState from "./dbState.js";
+import snackbarState from "./snackbarState.js";
 // import checkFcmState from "./checkFcmState.js";
 
 Vue.use(Vuex);
@@ -38,10 +39,11 @@ export default new Vuex.Store({
       },
     },
 
-    cds: cds,
-    recordState: recordState,
-    settingState: settingState,
-    dbState: dbState,
+    cds,
+    recordState,
+    settingState,
+    dbState,
+    snackbarState,
     // checkFcmState: checkFcmState,
   },
 });
