@@ -2371,6 +2371,42 @@ let virtualCordova = {
       id === "success" ? successCallback(passItem) : errorCallback(passItem);
     },
   },
+  sqlitePlugin: {
+    deleteDatabase: function(first, success, error) {},
+    echoTest: function(okcb, errorcb) {
+      let success = true;
+      if (success) {
+        okcb();
+      } else {
+        errorcb();
+      }
+    },
+    openDatabase: function(obj) {
+      let { name, location, dblocation } = obj;
+
+      let resObj = {
+        dbname: name,
+        openError: (e) => {},
+        openSuccess: () => {},
+        openargs: {
+          dblocation: dblocation,
+          location: location,
+          name: name,
+        },
+      };
+      return resObj;
+    },
+    selfTest: function(successcb, errorcb) {
+      let success = true;
+      if (success) {
+        successcb();
+      } else {
+        errorcb();
+      }
+    },
+    sqliteFeatures: { isSQLitePlugin: true },
+  },
+
   FirebasePlugin: {
     item0: "success",
     item1: "success",

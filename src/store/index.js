@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import cds from "./checkDeviceState.js";
 import recordState from "./recordState.js";
 import settingState from "./settingState.js";
+import dbState from "./dbState.js";
 // import checkFcmState from "./checkFcmState.js";
 
 Vue.use(Vuex);
@@ -30,6 +31,7 @@ export default new Vuex.Store({
         click_iconBtnTransition(state, bool) {
           state.click_iconBtnTransition = bool;
         },
+        setStorage({ state }, { key, obj }) {},
       },
       modules: {
         // tes: tes,
@@ -39,6 +41,7 @@ export default new Vuex.Store({
     cds: cds,
     recordState: recordState,
     settingState: settingState,
+    dbState: dbState,
     // checkFcmState: checkFcmState,
   },
 });

@@ -26,6 +26,7 @@
     "cordova-plugin-customurlscheme": "5.0.2",
     "cordova-plugin-device": "2.0.3",
     "cordova-plugin-inappbrowser": "4.0.0",
+    "cordova-sqlite-storage": "5.1.0",
     "cordova-universal-links-plugin": "git+https://github.com/walteram/cordova-universal-links-plugin.git",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
@@ -110,7 +111,8 @@
       "cordova-plugin-ble-central": {
         "BLUETOOTH_USAGE_DESCRIPTION": "use for connect to the bike",
         "IOS_INIT_ON_LOAD": "false"
-      }
+      },
+      "cordova-sqlite-storage": {}
     },
     "platforms": [
       "android",

@@ -262,9 +262,8 @@ class DisplayAnimator {
   calcDisplayLength() {
     // this.displayLength = length;
     let rt = this.TimerInstance.displayTime_raw;
-    let diffTime =
-      this.TimerInstance.displayTime_raw - this.calcLengthTimeBefore;
-    this.calcLengthTimeBefore = this.TimerInstance.displayTime_raw;
+    let diffTime = rt - this.calcLengthTimeBefore;
+    this.calcLengthTimeBefore = rt;
     let diffTime_hour = diffTime / (1000 * 3600);
     let length_km = this.displaySpeed * diffTime_hour;
     this.displayLength_raw += length_km;
@@ -368,6 +367,8 @@ let recordState = {
 
       if (state.recordHistory.length === 0) {
         //
+        speed = 0;
+      } else if (isNaN(Number(speed))) {
         speed = 0;
       } else if (typeof speed === "number") {
         // speed = speed;

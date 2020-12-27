@@ -16,7 +16,8 @@
       <v-container>
         <p>container</p>
         <!-- <test-gps></test-gps> -->
-        <test-ble></test-ble>
+        <!-- <test-ble></test-ble> -->
+        <test-sql></test-sql>
       </v-container>
     </v-main>
     <top-footer></top-footer>
@@ -26,6 +27,7 @@
 <script>
 import testGps from "./testGps.vue";
 import testBle from "./testBle.vue";
+import testSql from "./testSQL.vue";
 import IconBtnTransition from "../components/IconBtnTransition.vue";
 import TopHeader from "../components/TopHeader.vue";
 import TopFooter from "@/components/TopFooter.vue";
@@ -38,6 +40,7 @@ export default {
     IconBtnTransition,
     TopHeader,
     TopFooter,
+    testSql,
   },
   mounted() {
     console.log("top", this.$router);

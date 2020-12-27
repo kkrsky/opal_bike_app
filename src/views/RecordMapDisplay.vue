@@ -244,8 +244,9 @@ export default {
               radius: 9,
             },
             icon: "fa fa-map-marker",
-            iconLoading: "fa fa-spinner fa-spin",
-            iconElementTag: "v-icon",
+            iconLoading: "fa fa-map-marker",
+            // iconLoading: "fa fa-spinner fa-spin",
+            // iconElementTag: "v-icon",
             locateOptions: {
               watch: true,
               enableHighAccuracy: true,
