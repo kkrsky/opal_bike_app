@@ -1,10 +1,6 @@
 <template>
   <div id="SettingBle">
-    <top-header
-      :title="title"
-      :left="leftBtn"
-      :right="rightBtnList"
-    ></top-header>
+    <top-header :title="title" :right="rightBtnList"></top-header>
     <v-main app>
       <v-btn @click="onBleScan()">scan</v-btn>
 
@@ -45,19 +41,15 @@ export default {
       ],
 
       //locals
-      isSnackbar: false,
-      snackbarMessage: "hello",
     };
   },
   methods: {
     test01() {
       // console.log(this.scanDeviceList);
       // console.log(this.$store.state.settingState.ble.connectedList);
-      // this.isSnackbar = !this.isSnackbar;
-      this.$store.dispatch("snackbarState/fire", {
-        message: "fireee",
-        // timeout: 5000,
-      });
+
+      console.log(this.helper);
+      this.helper.snackFire({ message: "tes" });
     },
     onBleScan() {
       this.addScanBleList("reset");
@@ -83,7 +75,11 @@ export default {
       console.log("connect device id:", deviceId);
       let success = (deviceInfo) => {
         // window.alert("success AutoConnect: ");
-        window.alert("接続成功");
+        // window.alert("接続成功");
+
+        //success fire
+        this.helper.snackFire({ message: "接続成功" });
+
         console.log("connected device info:", deviceInfo);
         this.$store.dispatch("settingState/setConnectedDevice", deviceInfo);
         this.$router.push({ name: "testBle" });
@@ -91,7 +87,10 @@ export default {
       };
       let failed = (e) => {
         console.log("auto connect error:", e);
-        window.alert("接続できませんでした。");
+        // window.alert("接続できませんでした。");
+        //failed fire
+        this.helper.snackFire({ message: "接続できませんでした。" });
+
         // this.onBleConnect(deviceId);
       };
       ble.autoConnect(deviceId, success, failed);
@@ -102,21 +101,28 @@ export default {
       let deviceId = id;
       console.log("connect device id:", deviceId);
       let success = (deviceInfo) => {
-        window.alert("success Connect: ");
+        // window.alert("success Connect: ");
+        this.helper.snackFire({ message: "接続成功" });
         console.log("connected device info:", deviceInfo);
         this.$store.dispatch("settingState/setConnectedDevice", deviceInfo);
       };
       let failed = function(e) {
+        this.helper.snackFire({ message: "接続できませんでした。" });
         console.log("connect error:", e);
       };
       ble.autoConnect(deviceId, success, failed);
     },
     onBleDisConnect() {
       let deviceId = this.$store.state.settingState.ble.currentConnectDeviceId;
-      if (deviceId === null) window.alert("まだ接続していません。");
+      if (deviceId === null)
+        this.helper.snackFire({
+          message: "接続しているデバイスがありません。",
+        });
+
       console.log(deviceId);
       let success = () => {
         // window.alert("success disconnect: " + getID);
+        this.helper.snackFire({ message: "接続解除" });
         this.$store.dispatch("settingState/setDisconnectState", deviceId);
       };
       let failed = function(e) {
@@ -155,7 +161,7 @@ export default {
       }
     },
   },
-
+  computed: {},
   components: {
     TopHeader,
     ListItem,
