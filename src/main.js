@@ -9,11 +9,12 @@ import { firebaseConfig } from "./config/config.js";
 import dotenv from "dotenv";
 import checkAuthBeforeRoute from "./router/checkAuthBeforeRoute.js";
 import Fcm from "./fcm.js";
+import helpers from "./mixins/helpers";
 
 //for test
 import virtualCordova from "./virtualCordova.js";
-import tes from "./mixins/tes";
-// virtualCordova.start();
+// import tes from "./mixins/tes";
+virtualCordova.start();
 
 // window.alert("main.js mounted");
 window.document.addEventListener("deviceready", () => {
@@ -49,13 +50,14 @@ import "@fortawesome/fontawesome-free/js/regular";
 
 //ライブラリ宣言
 Vue.config.productionTip = false;
-// Vue.mixin(tes);
+Vue.mixin(helpers);
 
 //Vue初期化
 let app = new Vue({
   router,
   store,
   vuetify,
+  helpers,
   render: (h) => h(App),
 }).$mount("#app");
 
