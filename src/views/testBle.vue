@@ -16,6 +16,17 @@
         <h2>connected device info</h2>
         <div>-----------------------------</div>
         <div>name:{{ connectDeviceInfo.name }}</div>
+        <div>
+          <div>-----------------------------</div>
+          <v-btn @click="opalModeChanger('connect')">opal 接続</v-btn>
+          <v-btn @click="opalModeChanger('normal')">normal</v-btn>
+          <v-btn @click="opalModeChanger('eco')">eco</v-btn>
+          <v-btn @click="opalModeChanger('snow')">snow</v-btn>
+          <v-btn @click="opalModeChanger('sports')">sports</v-btn>
+          <v-btn @click="opalModeChanger('sportsPlus')">sports plus</v-btn>
+          <v-btn @click="opalModeChanger('extreme')">extreme</v-btn>
+          <div>-----------------------------</div>
+        </div>
         <ul>
           <p>service:</p>
           <v-btn
@@ -175,6 +186,69 @@ export default {
       console.log(this.selectServiceId);
 
       // this.onBLEScan();
+    },
+    opalModeChanger(val) {
+      let device_id = this.connectDeviceInfo.id;
+      let opalWriter = (writeVal) => {
+        let service_uuid = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
+        let characteristic_uuid = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
+
+        // let service_uuid = "0000";
+        // let characteristic_uuid = "66F17DC4-5D6B-425F-9951-5342D85CB01B";
+        let success = (ok) => {
+          // window.alert("success write: ", ok);
+          this.helper.snackFire({ message: "書き込み成功" });
+          console.log("success write: ", ok);
+        };
+        let failed = (e) => {
+          this.helper.snackFire({ message: "書き込み失敗" });
+          console.log("write error:", e);
+        };
+        let writeData = new Uint16Array(1);
+        // writeData16[0] = Number(this.writeData16);
+        writeData[0] = Number(writeVal);
+        // let writeData16_bytes = this.stringToBytes(this.writeData16);
+        console.log("writeData16", writeData);
+        ble.write(
+          device_id,
+          service_uuid,
+          characteristic_uuid,
+          writeData.buffer,
+          success,
+          failed
+        );
+      };
+      //write
+      switch (val) {
+        case "connect": {
+          opalWriter(16);
+          break;
+        }
+        case "normal": {
+          opalWriter(1);
+          break;
+        }
+        case "eco": {
+          opalWriter(2);
+          break;
+        }
+        case "snow": {
+          opalWriter(3);
+          break;
+        }
+        case "sports": {
+          opalWriter(4);
+          break;
+        }
+        case "sports plus": {
+          opalWriter(5);
+          break;
+        }
+        case "extreme": {
+          opalWriter(10);
+          break;
+        }
+      }
     },
     onBleScan() {
       ble.scan(

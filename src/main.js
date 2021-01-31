@@ -14,7 +14,7 @@ import helpers from "./mixins/helpers";
 //for test
 import virtualCordova from "./virtualCordova.js";
 // import tes from "./mixins/tes";
-virtualCordova.start();
+// virtualCordova.start();
 
 // window.alert("main.js mounted");
 window.document.addEventListener("deviceready", () => {
