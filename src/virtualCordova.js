@@ -2371,6 +2371,492 @@ let virtualCordova = {
       id === "success" ? successCallback(passItem) : errorCallback(passItem);
     },
   },
+  sqlitePlugin: {
+    deleteDatabase: function(first, success, error) {},
+    echoTest: function(okcb, errorcb) {
+      let success = true;
+      if (success) {
+        okcb();
+      } else {
+        errorcb();
+      }
+    },
+    openDatabase: function(obj) {
+      let { name, location, dblocation } = obj;
+
+      let resObj = {
+        dbname: name,
+        openError: (e) => {},
+        openSuccess: () => {},
+        openargs: {
+          dblocation: dblocation,
+          location: location,
+          name: name,
+        },
+      };
+      return resObj;
+    },
+    selfTest: function(successcb, errorcb) {
+      let success = true;
+      if (success) {
+        successcb();
+      } else {
+        errorcb();
+      }
+    },
+    sqliteFeatures: { isSQLitePlugin: true },
+  },
+
+  FirebasePlugin: {
+    item0: "success",
+    item1: "success",
+    passItemFcm: "this is passItem",
+    activateFetched(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    addDocumentToFirestoreCollection(document, collection, success, error) {
+      console.log(c.cyan + "[fcm start]", "", document, collection);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    authenticateUserWithApple(success, error, locale) {
+      console.log(c.cyan + "[fcm start]", "", locale);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    authenticateUserWithGoogle(clientId, success, error) {
+      console.log(c.cyan + "[fcm start]", "", clientId);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    clearAllNotifications(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    createChannel(options, success, error) {
+      console.log(c.cyan + "[fcm start]", "", options);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    createUserWithEmailAndPassword(email, password, success, error) {
+      console.log(c.cyan + "[fcm start]", "", email, password);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    deleteChannel(channelID, success, error) {
+      console.log(c.cyan + "[fcm start]", "", channelID);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    deleteDocumentFromFirestoreCollection(
+      documentId,
+      collection,
+      success,
+      error
+    ) {
+      console.log(c.cyan + "[fcm start]", "", documentId, collection);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    deleteUser(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    documentExistsInFirestoreCollection(
+      documentId,
+      collection,
+      success,
+      error
+    ) {
+      console.log(c.cyan + "[fcm start]", "", documentId, collection);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    fetch(cacheExpirationSeconds, success, error) {
+      console.log(c.cyan + "[fcm start]", "", cacheExpirationSeconds);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    fetchDocumentInFirestoreCollection(documentId, collection, success, error) {
+      console.log(c.cyan + "[fcm start]", "", documentId, collection);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    fetchFirestoreCollection(collection, filters, success, error) {
+      console.log(c.cyan + "[fcm start]", "", collection, filters);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    getAPNSToken(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    getBadgeNumber(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    getByteArray(key, success, error) {
+      console.log(c.cyan + "[fcm start]", "", key);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    getCurrentUser(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    getId(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    getInfo(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    getToken(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    getValue(key, success, error) {
+      console.log(c.cyan + "[fcm start]", "", key);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    grantPermission(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    hasPermission(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    incrementCounter(name, counterNamed, success, error) {
+      console.log(c.cyan + "[fcm start]", "", name, counterNamed);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    isAnalyticsCollectionEnabled(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    isAutoInitEnabled(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    isCrashlyticsCollectionEnabled(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    isPerformanceCollectionEnabled(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    isUserSignedIn(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    linkUserWithCredential(credential, success, error) {
+      console.log(c.cyan + "[fcm start]", "", credential);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    listChannels(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    logError(message, stackTrace, success, error) {
+      console.log(c.cyan + "[fcm start]", "", message, stackTrace);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    logEvent(name, params, success, error) {
+      console.log(c.cyan + "[fcm start]", "", name, params);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    logMessage(message, success, error) {
+      console.log(c.cyan + "[fcm start]", "", message);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    onApnsTokenReceived(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    onMessageReceived(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    onTokenRefresh(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    reauthenticateWithCredential(credential, success, error) {
+      console.log(c.cyan + "[fcm start]", "", credential);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    registerAuthStateChangeListener(fn) {
+      console.log(c.cyan + "[fcm start]", "", fn);
+      let passItem = passItemFcm;
+      // this.item0===this.item1? success(this.passItem):error(this.passItem);
+    },
+    reloadCurrentUser(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    sendCrash(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    sendUserEmailVerification(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    sendUserPasswordResetEmail(email, success, error) {
+      console.log(c.cyan + "[fcm start]", "", email);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setAnalyticsCollectionEnabled(enabled, success, error) {
+      console.log(c.cyan + "[fcm start]", "", enabled);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setAutoInitEnabled(enabled, success, error) {
+      console.log(c.cyan + "[fcm start]", "", enabled);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setBadgeNumber(number, success, error) {
+      console.log(c.cyan + "[fcm start]", "", number);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setConfigSettings(settings, success, error) {
+      console.log(c.cyan + "[fcm start]", "", settings);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setCrashlyticsCollectionEnabled(enabled, success, error) {
+      console.log(c.cyan + "[fcm start]", "", enabled);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setCrashlyticsUserId(userId, success, error) {
+      console.log(c.cyan + "[fcm start]", "", userId);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setDefaultChannel(options, success, error) {
+      console.log(c.cyan + "[fcm start]", "", options);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setDefaults(defaults, success, error) {
+      console.log(c.cyan + "[fcm start]", "", defaults);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setDocumentInFirestoreCollection(
+      documentId,
+      document,
+      collection,
+      success,
+      error
+    ) {
+      console.log(c.cyan + "[fcm start]", "", documentId, document, collection);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setPerformanceCollectionEnabled(enabled, success, error) {
+      console.log(c.cyan + "[fcm start]", "", enabled);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setScreenName(name, success, error) {
+      console.log(c.cyan + "[fcm start]", "", name);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setUserId(id, success, error) {
+      console.log(c.cyan + "[fcm start]", "", id);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    setUserProperty(name, value, success, error) {
+      console.log(c.cyan + "[fcm start]", "", name, value);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    signInUserAnonymously(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    signInUserWithCustomToken(customToken, success, error) {
+      console.log(c.cyan + "[fcm start]", "", customToken);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    signInUserWithEmailAndPassword(email, password, success, error) {
+      console.log(c.cyan + "[fcm start]", "", email, password);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    signInWithCredential(credential, success, error) {
+      console.log(c.cyan + "[fcm start]", "", credential);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    signOutUser(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    startTrace(name, success, error) {
+      console.log(c.cyan + "[fcm start]", "", name);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    stopTrace(name, success, error) {
+      console.log(c.cyan + "[fcm start]", "", name);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    subscribe(topic, success, error) {
+      console.log(c.cyan + "[fcm start]", "", topic);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    unregister(success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    unsubscribe(topic, success, error) {
+      console.log(c.cyan + "[fcm start]", "", topic);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    updateDocumentInFirestoreCollection(
+      documentId,
+      document,
+      collection,
+      success,
+      error
+    ) {
+      console.log(c.cyan + "[fcm start]", "", documentId, document, collection);
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    updateUserEmail(email, success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    updateUserPassword(password, success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    updateUserProfile(profile, success, error) {
+      console.log(c.cyan + "[fcm start]", "");
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    verifyPhoneNumber(
+      success,
+      error,
+      number,
+      timeOutDuration,
+      fakeVerificationCode
+    ) {
+      console.log(
+        c.cyan + "[fcm start]",
+        "",
+        number,
+        timeOutDuration,
+        fakeVerificationCode
+      );
+      let passItem = passItemFcm;
+      this.item0 === this.item1 ? success(this.passItem) : error(this.passItem);
+    },
+    _onAuthStateChange(userSignedIn) {
+      console.log(c.cyan + "[fcm start]", "", userSignedIn);
+      let passItem = passItemFcm;
+      // this.item0===this.item1? success(this.passItem):error(this.passItem);
+    },
+  },
+  firebase: {
+    authResult: {
+      additionalUserInfo: {
+        isNewUser: true,
+
+        profile: {
+          email: "tool0628@gmail.com",
+          family_name: "伊藤",
+          given_name: "広",
+          granted_scopes:
+            "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid",
+          id: "109008683200796115380",
+          locale: "ja",
+          name: "伊藤広",
+          picture:
+            "https://lh5.googleusercontent.com/-Smv4C8fcx5Q/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckMb5gXA6A1mnoOzyH2V4w2-i4cCw/photo.jpg",
+          verified_email: true,
+        },
+        providerId: "google.com",
+      },
+      credential: {
+        a: null,
+        accessToken:
+          "ya29a0AfH6SMCDm89jv8Osgf0n-akGv12l88SxFo7vr8B4uFTF_JHo_fDUW3Vz9g7NX92KULeelOPSClL5TxBGaJwne7AtMjbZfEYFysDdXrcXXoQj6crWWDdCJs_CBoMVgnQohUWfvfSxZfrj1ucihPxvBGAXZsAUnQufQ",
+        idToken:
+          "eyJhbGciOiJSUzI1NiIsImtpZC6ImJjNDk1MzBlMWZmOTA4M2RkNWVlYWEwNmJlMmNlNDM3ZjQ5YzkwNWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMTA5MDExMTkzOTk2NC1wMGVsamlpcmozY2Zhb29nbzdjMWVpZDUxcWs3OWk2ay5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF1ZCI6IjEwOTAxMTE5Mzk5NjQtcDBlbGppaXJqM2NmYW9vZ283YzFlaWQ1MXFrNzlpNmsuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDkwMDg2ODMyMDA3OTYxMTUzODAiLCJlbWFpbCI6InRvb2wwNjI4QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoid0RBMTgtX2phVWFRbzd4ZDg5ZFdhZyIsImlhdCI6MTU5OTIzMDM4MiwiZXhwIjoxNTk5MjMzOTgyfQ.vZtVQoCDW4RKnZTSqeIgaPOPE_GgbwH-TW-fML1kCnDdExtjMfciSzSw59IZI8C5z9bnlo1zX4tZjNjeVXE4qnB_OIxeRPq9aSiKmAdaAzqK4Zxqneslqh4eG6a_LIgfMNxoK6wG3-JIbwwnQoV9ZepSQ6ZELcDq6SKvrQLhEcHwDZcAIukz_OAseE7vx_pDub-L10Uo0iyLaEbaNOeIbTUEDaVh3L2BROPwuGkpIRdtrDT4EwRoN9ZeVN1ayV3dM9W9I0reEVOJ8PPLzo5uzg1aF-r0acAETLfSfcC7sN-ntOGMztsbwm-r7B5nRb05BQYUvQ_f3UbTtt5_csir0",
+        providerId: "google.com",
+        signInMethod: "google.com",
+      },
+      operationType: "signIn",
+      user: {
+        displayName: "伊藤広",
+        eb: null,
+        email: "tool0628@gmail.com",
+        emailVerified: true,
+        isAnonymous: false,
+        phoneNumber: null,
+        photoURL:
+          "https://lh5.googleusercontent.com/-Smv4C8fcx5Q/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckMb5gXA6A1mnoOzyH2V4w2-i4cCw/photo.jpg",
+        refreshToken:
+          "AE0u-Nf_PmUTc-Z3MgmuCJfa6_bvXJTAm5FgPN6e_oUPaBmQEX132ebHwBrQI2KcLmo-CIgNiFDiJH9pYIB_lKM7TaSOe4RHSe90uGUWxk-DS1dB38g5Z45xxSUH37k2Y9WPK-OtVrcIS0p3mnKufYn7yi9wPkb3atq2TLpUvp22nrpBBEVkwcz20X24Nk-5D4jsDwy11WXRqjuPantKGE_bKEMrqSM54QR_PQ8zuoMOGVNEGyISMAS6mCRNOl-BEsWFli2YLEhKrb7t5nc-1gQKKL5BXgdrGY3NGqRlGq_mt8tbUs3jkDggg_w0PyjS9ElcY51p1K2GdFKhi4aocM6_7yuwSYeGcoctEjvRidqx5ZXU_TPVHPijB4nNVzr3NC5IlXA-U9FFgjDpehcKIqwNy83ZjMPhXl08EUbhT15_ABR_y2I6m0iOP1ZHkT5RK",
+        s: "opal-bike-app.firebaseapp.com",
+        uid: "k7nGdDCUTHUENEAM7QQedAFbkj1",
+      },
+    },
+  },
   //各種登録
   startDeviceReady() {
     /**
@@ -2411,7 +2897,8 @@ let virtualCordova = {
     };
     // window.NativeStorage = this.nativeStorage;
     window.device = this.device_obj.android;
-    // window.ble = this.ble;
+    window.FirebasePlugin = this.FirebasePlugin;
+    window.ble = this.ble;
     window.cordova = {
       plugins: {
         diagnostic: this.diagnostic,

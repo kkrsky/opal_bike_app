@@ -1,5 +1,5 @@
 {
-  "name": "jp.opal.bike.app.test",
+  "name": "jp.opal.bike.app.rel",
   "version": "1.0.0",
   "private": true,
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
@@ -48,7 +48,7 @@
     "last 2 versions",
     "not dead"
   ],
-  "_id": "jp.opal.bike.app.test@1.0.0",
+  "_id": "jp.opal.bike.app.rel@1.0.0",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},

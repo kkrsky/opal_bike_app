@@ -1,8 +1,11 @@
 <template>
-  <!-- ボタン遷移用のコンポーネント -->
+  <!-- ボタン遷移用（アイコン）のコンポーネント -->
   <div id="iconBtnTransition" class="btn" @click="gotoPage()">
-    <v-icon class="material-icons icon-info" :style="addCss">{{icon}}</v-icon>
+    <v-icon class="material-icons icon-info" :style="addCss">{{ icon }}</v-icon>
   </div>
+  <!-- <v-btn icon :ripple="false" class="btn" :disabled="true">
+    <v-icon class="material-icons icon-info" :style="addCss">{{ icon }}</v-icon>
+  </v-btn> -->
 </template>
 
 <script>
@@ -15,8 +18,8 @@ export default {
     id: Number,
     title: String,
     icon: String,
-    goto: String,
-    propItems: Object,
+    goto: [String, Function],
+    propItems: [Object, String],
     addCss: Object,
   },
   data() {
@@ -25,20 +28,29 @@ export default {
 
   methods: {
     gotoPage() {
-      if (this.goto.toLowerCase() === "back") {
+      // console.log(typeof this.goto);
+      if (typeof this.goto === "function") {
+        this.goto();
+      } else if (this.goto.toLowerCase() === "back" && !this.clickFunction) {
         this.$router.go(-1);
+
+        // } else if (this.clickFunction) {
+        //   this.clickFunction();
+      } else if (this.propItems === null) {
+        this.$router.push({ name: this.goto });
       } else {
         this.$router.push({ name: this.goto, params: this.propItems });
       }
     },
   },
+  created() {},
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 #iconBtnTransition {
   .icon-info {
-    font-size: $icon-size__square;
+    font-size: $__icon-size__square;
   }
 }
 </style>

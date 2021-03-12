@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import cds from "./checkDeviceState.js";
+import checkDeviceState from "./checkDeviceState.js";
+import snackbarState from "./snackbarState.js";
+import settingState from "./settingState.js";
 
 Vue.use(Vuex);
 
@@ -17,7 +19,9 @@ export default new Vuex.Store({
         // tes: tes,
       },
     },
-    cds: cds,
+    checkDeviceState,
+    snackbarState,
+    settingState,
   },
 });
 

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 
-<widget id="jp.opal.bike.app.test" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/assets/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>e-xross_test</name>
+<widget id="jp.opal.bike.app.rel" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/assets/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>e-xross</name>
     <description>
         A sample opal_bike_app
     </description>
@@ -29,25 +29,11 @@
         <icon src="res/android/icon/mdpi.png" density="mdpi" />
         <icon src="res/android/icon/hdpi.png" density="hdpi" />
         <icon src="res/android/icon/xhdpi.png" density="xhdpi" />
-
         <!-- splash screen -->
-        <!-- <splash src="res/android/splash_jpg/splash-land-hdpi.jpg" density="land-hdpi" />
-        <splash src="res/android/splash_jpg/splash-land-ldpi.jpg" density="land-ldpi" />
-        <splash src="res/android/splash_jpg/splash-land-mdpi.jpg" density="land-mdpi" />
-        <splash src="res/android/splash_jpg/splash-land-xhdpi.jpg" density="land-xhdpi" /> -->
-
-        <splash src="res/android/splash/splash-land-hdpi.png" density="land-hdpi" />
+        <!-- <splash src="res/android/splash/splash-land-hdpi.png" density="land-hdpi" />
         <splash src="res/android/splash/splash-land-ldpi.png" density="land-ldpi" />
         <splash src="res/android/splash/splash-land-mdpi.png" density="land-mdpi" />
-        <splash src="res/android/splash/splash-land-xhdpi.png" density="land-xhdpi" />
-        <!-- <splash src="res/android/splash/splash-land-xxhdpi.png" density="land-xxhdpi" />
-        <splash src="res/android/splash/splash-land-xxxhdpi.png" density="land-xxxhdpi" /> -->
-
-
-        <!-- <splash src="res/android/splash_jpg/splash-port-hdpi.jpg" density="port-hdpi" />
-        <splash src="res/android/splash_jpg/splash-port-ldpi.jpg" density="port-ldpi" />
-        <splash src="res/android/splash_jpg/splash-port-mdpi.jpg" density="port-mdpi" />
-        <splash src="res/android/splash_jpg/splash-port-xhdpi.jpg" density="port-xhdpi" /> -->
+        <splash src="res/android/splash/splash-land-xhdpi.png" density="land-xhdpi" /> -->
         <splash src="res/android/splash/splash-port-hdpi.png" density="port-hdpi" />
         <splash src="res/android/splash/splash-port-ldpi.png" density="port-ldpi" />
         <splash src="res/android/splash/splash-port-mdpi.png" density="port-mdpi" />
