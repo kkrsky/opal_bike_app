@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 
-<widget id="jp.opal.bike.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>opal_bike_app</name>
+<widget id="jp.opal.bike.app.test" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/assets/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>e-xross_test</name>
     <description>
         A sample opal_bike_app
     </description>
@@ -10,6 +10,8 @@
     </author>
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true"/>
+    <preference name="AndroidLaunchMode" value="singleTask" />
+    <preference name="Android-minSdkVersion" value="22" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -17,24 +19,58 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <!-- <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="5000" /> -->
+    <!-- <preference name="SplashScreenDelay" value="10000" /> -->
+    <preference name="ShowSplashScreenSpinner" value="true"/>
     <platform name="android">
+        <!-- icon -->
+        <icon src="res/android/icon/ldpi.png" density="ldpi" />
+        <icon src="res/android/icon/mdpi.png" density="mdpi" />
+        <icon src="res/android/icon/hdpi.png" density="hdpi" />
+        <icon src="res/android/icon/xhdpi.png" density="xhdpi" />
+
+        <!-- splash screen -->
+        <!-- <splash src="res/android/splash_jpg/splash-land-hdpi.jpg" density="land-hdpi" />
+        <splash src="res/android/splash_jpg/splash-land-ldpi.jpg" density="land-ldpi" />
+        <splash src="res/android/splash_jpg/splash-land-mdpi.jpg" density="land-mdpi" />
+        <splash src="res/android/splash_jpg/splash-land-xhdpi.jpg" density="land-xhdpi" /> -->
+
+        <splash src="res/android/splash/splash-land-hdpi.png" density="land-hdpi" />
+        <splash src="res/android/splash/splash-land-ldpi.png" density="land-ldpi" />
+        <splash src="res/android/splash/splash-land-mdpi.png" density="land-mdpi" />
+        <splash src="res/android/splash/splash-land-xhdpi.png" density="land-xhdpi" />
+        <!-- <splash src="res/android/splash/splash-land-xxhdpi.png" density="land-xxhdpi" />
+        <splash src="res/android/splash/splash-land-xxxhdpi.png" density="land-xxxhdpi" /> -->
+
+
+        <!-- <splash src="res/android/splash_jpg/splash-port-hdpi.jpg" density="port-hdpi" />
+        <splash src="res/android/splash_jpg/splash-port-ldpi.jpg" density="port-ldpi" />
+        <splash src="res/android/splash_jpg/splash-port-mdpi.jpg" density="port-mdpi" />
+        <splash src="res/android/splash_jpg/splash-port-xhdpi.jpg" density="port-xhdpi" /> -->
+        <splash src="res/android/splash/splash-port-hdpi.png" density="port-hdpi" />
+        <splash src="res/android/splash/splash-port-ldpi.png" density="port-ldpi" />
+        <splash src="res/android/splash/splash-port-mdpi.png" density="port-mdpi" />
+        <splash src="res/android/splash/splash-port-xhdpi.png" density="port-xhdpi" />
+        <!-- <splash src="res/android/splash/splash-port-xxhdpi.png" density="port-xxhdpi" />
+        <splash src="res/android/splash/splash-port-xxxhdpi.png" density="port-xxxhdpi" />  -->
         <allow-intent href="market:*" />
         <config-file target="AndroidManifest.xml" parent="/manifest">
-            <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+            <!-- <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" /> -->
             <uses-permission android:name="android.permission.BLUETOOTH" />
             <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
             <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-            <uses-permission android:name="android.permission.RECORD_AUDIO" />
-            <uses-permission android:name="android.permission.CAMERA" />
+            <!-- <uses-permission android:name="android.permission.RECORD_AUDIO" /> -->
+            <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-            <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-            <uses-permission android:name="android.permission.READ_CONTACTS" />
-            <uses-permission android:name="android.permission.READ_CALENDAR" />
+            <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
+            <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
+            <!-- <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> -->
+            <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
+            <!-- <uses-permission android:name="android.permission.READ_CALENDAR" /> -->
         </config-file>
          <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:usesCleartextTraffic="true" />

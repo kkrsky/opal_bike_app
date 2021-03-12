@@ -9,19 +9,11 @@ import checkAuthBeforeRoute from "./router/checkAuthBeforeRoute.js";
 //for test
 import virtualCordova from "./virtualCordova.js";
 import tes from "./mixins/tes";
-virtualCordova.start();
-
-//外部jsライブラリ読み込み
-let script = document.createElement("script");
-script.src =
-  "https://maps.googleapis.com/maps/api/js?key=" +
-  process.env.APIKEY_GOOGLE_ANDROID;
-document.head.appendChild(script);
-// checkAuthBeforeRoute.init(router);
+// virtualCordova.start();
 
 //cssライブラリ読み込み
 import "vuetify/dist/vuetify.min.css";
-import "../node_modules/leaflet/dist/leaflet.css";
+// import "../node_modules/leaflet/dist/leaflet.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 
 //ライブラリ宣言

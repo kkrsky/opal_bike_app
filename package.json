@@ -1,5 +1,5 @@
 {
-  "name": "jp.opal.bike.app",
+  "name": "jp.opal.bike.app.test",
   "version": "1.0.0",
   "private": true,
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
@@ -19,8 +19,6 @@
   "dependencies": {
     "cordova-plugin-device": "2.0.3",
     "core-js": "^3.6.5",
-    "leaflet": "^1.6.0",
-    "leaflet.gridlayer.googlemutant": "^0.10.0",
     "material-design-icons-iconfont": "^5.0.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
@@ -35,6 +33,7 @@
     "cordova-android": "^9.0.0",
     "cordova-ios": "^6.1.0",
     "cordova-plugin-geolocation": "^4.0.2",
+    "cordova-plugin-splashscreen": "^6.0.0",
     "cordova-plugin-whitelist": "^1.3.4",
     "cordova.plugins.diagnostic": "^6.0.2",
     "dotenv-webpack": "^2.0.0",
@@ -49,7 +48,7 @@
     "last 2 versions",
     "not dead"
   ],
-  "_id": "jp.opal.bike.app@1.0.0",
+  "_id": "jp.opal.bike.app.test@1.0.0",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
@@ -57,11 +56,12 @@
       "cordova.plugins.diagnostic": {
         "ANDROIDX_VERSION": "1.+"
       },
-      "cordova-plugin-geolocation": {}
+      "cordova-plugin-geolocation": {},
+      "cordova-plugin-splashscreen": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   },
   "displayName": "HelloCordova",

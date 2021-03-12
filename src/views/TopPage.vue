@@ -15,7 +15,10 @@
       <!-- Provides the application the proper gutter -->
       <v-container>
         <p>container</p>
-        <test-gps></test-gps>
+        <v-btn @click="isOpen = !isOpen">open</v-btn>
+        <div v-show="isOpen">
+          this is open
+        </div>
       </v-container>
     </v-main>
     <top-footer></top-footer>
@@ -23,7 +26,6 @@
 </template>
 
 <script>
-import testGps from "./testGps.vue";
 import IconBtnTransition from "../components/IconBtnTransition.vue";
 import TopHeader from "../components/TopHeader.vue";
 import TopFooter from "@/components/TopFooter.vue";
@@ -31,7 +33,6 @@ export default {
   name: "App",
 
   components: {
-    testGps,
     IconBtnTransition,
     TopHeader,
     TopFooter,
@@ -50,6 +51,7 @@ export default {
       propItems: "",
       addCss: {},
     },
+    isOpen: false,
   }),
 };
 </script>

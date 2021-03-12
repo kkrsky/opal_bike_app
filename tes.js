@@ -393,7 +393,7 @@ registerLocationStateChangeHandler(state) {
    */
 
   let onSuccess = (state) => {
-    if (
+    if (    
       (that.device.platform === "android" &&
         state !== cordova.plugins.diagnostic.locationMode.LOCATION_OFF) ||
       (that.device.platform === "ios" &&
