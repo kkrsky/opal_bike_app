@@ -3,7 +3,7 @@ let snackbarState = {
   state: () => ({
     isSnackbar: false,
     message: "tes",
-    timeout: 1000,
+    timeout: 2000,
     btnArry: [
       // {
       //   title: "testBtn",

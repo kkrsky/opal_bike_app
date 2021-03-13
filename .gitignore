@@ -2,6 +2,7 @@
 node_modules
 /dist
 /www
+www
 /platforms
 /plugins
 

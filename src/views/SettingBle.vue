@@ -33,7 +33,9 @@
         </v-card-actions>
       </v-card>
       <div class="mt-5"></div>
-      <v-btn @click="onBleScan()" width="100vw">検索</v-btn>
+      <v-btn @click="onBleScan()" width="100vw" :loading="isScanLoading"
+        >検索</v-btn
+      >
 
       <list-item :listItems="scanDeviceList"></list-item>
       <!-- 
@@ -70,6 +72,7 @@ export default {
           subItems: null,
         },
       ],
+      isScanLoading: false,
 
       //locals
     };
@@ -98,7 +101,18 @@ export default {
       };
       console.log("window", window);
       console.log("cordova", cordova);
+      this.isScanLoading = true;
       ble.scan([], 5, success, failed);
+      window.setTimeout(() => {
+        this.isScanLoading = false;
+        if (this.scanDeviceList.length <= 1) {
+          //周りに検索可能なデバイスがない
+
+          this.helper.snackFire({
+            message: "周辺に検索可能なデバイスがありません。",
+          });
+        }
+      }, 5000);
     },
     onBleAutoConnect(id) {
       //disconnectを呼ぶと、自動接続が解除される
@@ -166,33 +180,39 @@ export default {
 
     //
     addScanBleList(deviceInfo) {
-      if (deviceInfo === "reset") {
-        let title = this.scanDeviceList.find((val) => {
-          return val.attribute === "title";
-        });
-        this.scanDeviceList = [title];
-      } else {
-        let { name, id, rssi } = deviceInfo;
+      switch (deviceInfo) {
+        case "reset": {
+          let title = this.scanDeviceList.find((val) => {
+            return val.attribute === "title";
+          });
+          this.scanDeviceList = [title];
+        }
+        case "scanDeviceListLength": {
+          return this.scanDeviceList.length;
+        }
+        default: {
+          let { name, id, rssi } = deviceInfo;
 
-        let maxId = this.scanDeviceList.reduce((acc, val) => {
-          return acc.id > val.id ? acc : val;
-        }).id;
+          let maxId = this.scanDeviceList.reduce((acc, val) => {
+            return acc.id > val.id ? acc : val;
+          }).id;
 
-        // console.log(maxId);
-        let addObj = {
-          id: maxId + 1,
-          attribute: "item",
-          title: name,
-          iconRight: null,
-          iconLeft: "bluetooth",
-          pictureLeftSrc: null,
-          goto: this.onBleAutoConnect,
-          propItems: id,
-          addCss: {},
-          active: false,
-          subItems: null,
-        };
-        this.scanDeviceList.push(addObj);
+          // console.log(maxId);
+          let addObj = {
+            id: maxId + 1,
+            attribute: "item",
+            title: name,
+            iconRight: null,
+            iconLeft: "bluetooth",
+            pictureLeftSrc: null,
+            goto: this.onBleAutoConnect,
+            propItems: id,
+            addCss: {},
+            active: false,
+            subItems: null,
+          };
+          this.scanDeviceList.push(addObj);
+        }
       }
     },
   },

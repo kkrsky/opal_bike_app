@@ -354,7 +354,7 @@ export default {
       //
       this.helper.snackFire({
         message: "BluetoothがOFFです",
-        timeout: "100000",
+        timeout: "10000",
         btnArry: [
           {
             title: "設定を開く",
