@@ -462,6 +462,7 @@ let virtualCordova = {
       let id = idWrapper;
       let passItem = passItemWrapper;
       //////////////////////////
+      // errorCallback(passItem);
       id === idWrapper ? successCallback(passItem) : errorCallback(passItem);
     },
 
@@ -689,6 +690,7 @@ let virtualCordova = {
       let id = idWrapper;
       let passItem = "TO_UPPER_CASE"; //passItemWrapper
       //////////////////////////
+      // errorCallback(passItem);
       id === idWrapper ? successCallback(passItem) : errorCallback(passItem);
     },
 

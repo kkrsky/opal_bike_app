@@ -1,8 +1,21 @@
 <template>
   <v-app>
-    <v-snackbar v-model="isSnackbar" app top :timeout="snackbarObj.timeout">{{
-      snackbarObj.message
-    }}</v-snackbar>
+    <v-snackbar v-model="isSnackbar" app top :timeout="snackbarObj.timeout"
+      >{{ snackbarObj.message }}
+      <template v-slot:action="{ attrs }">
+        <div v-for="(btnObj, index) in snackbarObj.btnArry" :key="index">
+          <v-btn
+            :icon="btnObj.isIcon"
+            @click="
+              isSnackbar = false;
+              btnObj.click();
+            "
+            :style="btnObj.style"
+            >{{ btnObj.title }}</v-btn
+          >
+        </div>
+      </template>
+    </v-snackbar>
     <transition :name="transitionName" mode="out-in">
       <router-view />
     </transition>

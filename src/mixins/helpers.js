@@ -53,10 +53,11 @@ let helpers = {
       }
     },
     //void
-    snackFire({ message, timeout }) {
+    snackFire({ message, timeout, btnArry }) {
       this.$store.dispatch("snackbarState/fire", {
         message: message,
         timeout: timeout ? timeout : null,
+        btnArry: btnArry ? btnArry : null,
       });
     },
   },

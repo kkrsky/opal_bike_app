@@ -96,7 +96,8 @@ export default {
       let failed = (e) => {
         console.log("error:ble scan failed", e);
       };
-
+      console.log("window", window);
+      console.log("cordova", cordova);
       ble.scan([], 5, success, failed);
     },
     onBleAutoConnect(id) {

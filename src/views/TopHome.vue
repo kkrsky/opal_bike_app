@@ -1,6 +1,33 @@
 <template>
   <div id="topHome">
     <!-- <top-header :title="title"></top-header> -->
+
+    <v-container id="topHeader_here">
+      <v-row>
+        <v-col cols="10"></v-col>
+        <v-col cols="2">
+          <v-btn
+            icon
+            class="ble-state-button"
+            @click="
+              currentBleIsAvailable ? goto('settingBle') : notifyBleSetting()
+            "
+          >
+            <v-icon>
+              {{
+                currentBleIsAvailable
+                  ? currentBleConnectDevice.isConnect
+                    ? "bluetooth_connected"
+                    : "bluetooth"
+                  : "bluetooth_disabled"
+              }}
+              <!-- "bluetooth_connected" -->
+            </v-icon></v-btn
+          >
+        </v-col>
+      </v-row>
+    </v-container>
+
     <v-main>
       <!-- <v-btn @click="tes2">test</v-btn> -->
 
@@ -20,6 +47,10 @@
               未接続...
             </span>
           </v-col>
+        </v-row>
+        <v-row>
+          <v-btn @click="test">test</v-btn>
+          <div>{{ currentBleState.bluetoothState }}</div>
         </v-row>
       </v-container>
       <v-container id="userIconComponent" v-if="false">
@@ -57,6 +88,8 @@
 import TopHeader from "@/components/TopHeader.vue";
 import TopFooter from "@/components/TopFooter.vue";
 import ListItemUnit from "@/components/ListItemUnit.vue";
+import IconBtnTransition from "@/components/IconBtnTransition.vue";
+
 import bleMixin from "@/mixins/bleMixin.js";
 
 export default {
@@ -265,11 +298,48 @@ export default {
     currentBleConnectDevice() {
       return this.$store.getters["settingState/getCurrentBleConnectDevice"];
     },
+    currentBleState() {
+      return this.$store.getters["checkDeviceState/getCurrentBleState"];
+    },
+    currentBleIsAvailable() {
+      return this.$store.getters["checkDeviceState/getCurrentBleState"]
+        .isBluetoothAvailable;
+    },
   },
   methods: {
     test() {
       console.log("tess");
+      // this.$store.dispatch("checkDeviceState/open_bluetooth_setting");
+      // this.$state.store.checkDeviceState.deviceState.bluetooth.isBluetoothAvailable = ture;
+      let tes = this.$store.state.checkDeviceState.deviceState.bluetooth
+        .isBluetoothAvailable;
+      if (tes === true)
+        this.$store.state.checkDeviceState.deviceState.bluetooth.isBluetoothAvailable = false;
+      else
+        this.$store.state.checkDeviceState.deviceState.bluetooth.isBluetoothAvailable = true;
+
+      console.log(this.$store.state.checkDeviceState.deviceState.bluetooth);
+      console.log("currentBleIsAvailable", this.currentBleIsAvailable);
+      let tes2 = [
+        {
+          title: "aa2",
+          click: () => {
+            // window.alert("aa");
+            this.goto("settingBle");
+          },
+          style: { color: "red" },
+        },
+        {
+          title: "bb",
+        },
+      ];
+      // this.helper.snackFire({
+      //   message: "tes",
+      //   timeout: "10000",
+      //   btnArry: tes2,
+      // });
     },
+
     tes2() {
       // window.alert("tesss");
       // this.updateDisplayMode("ECO");
@@ -279,6 +349,34 @@ export default {
     //utils
     goto(where) {
       this.$router.push(where);
+    },
+    notifyBleSetting() {
+      //
+      this.helper.snackFire({
+        message: "BluetoothがOFFです",
+        timeout: "100000",
+        btnArry: [
+          {
+            title: "設定を開く",
+            click: () => {
+              // this.goto("settingBle");
+              this.$store.dispatch("checkDeviceState/open_bluetooth_setting");
+            },
+            // style: { color: "red" },
+            isIcon: false,
+          },
+          {
+            title: "×",
+            click: () => {
+              // this.goto("settingBle");
+              // this.$store.dispatch("checkDeviceState/open_bluetooth_setting");
+              this.$store.dispatch("snackBarState/setIsSnackbar", false);
+            },
+            style: { color: "white" },
+            isIcon: true,
+          },
+        ],
+      });
     },
     updateDisplayMode(obj) {
       //バイクの走行モードの表示を変更
@@ -351,13 +449,17 @@ export default {
   beforeCreate() {},
   mounted() {
     this.checkBikeIsConnected();
+    // this.$store.dispatch("checkDeviceState/checkState");
+    this.$store.dispatch("checkDeviceState/checkState");
     // this.autoConnectBle();
   },
+  created() {},
   mixins: [bleMixin],
   components: {
     TopHeader,
     TopFooter,
     ListItemUnit,
+    IconBtnTransition,
   },
 };
 </script>
@@ -367,6 +469,20 @@ export default {
   overflow-y: scroll;
 
   height: 100vh;
+
+  #topHeader_here {
+    background-color: rgba(0, 0, 0, 0);
+    height: $__header-tab-height;
+    .ble-state-button {
+      .v-icon {
+        font-size: 3rem;
+        background-color: rgba(0, 0, 0, 0);
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+      }
+    }
+  }
 
   .v-main {
     margin-top: $__header-tab-height;
