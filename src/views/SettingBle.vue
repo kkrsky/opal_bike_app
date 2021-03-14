@@ -1,6 +1,24 @@
 <template>
   <div id="SettingBle">
     <top-header :title="title" :right="rightBtnList"></top-header>
+    <v-col cols="2" id="topHeader_here">
+      <v-btn
+        icon
+        class="ble-state-button"
+        @click="currentBleIsAvailable ? null : notifyBleSetting()"
+      >
+        <v-icon>
+          {{
+            currentBleIsAvailable
+              ? currentBleConnectDevice.isConnect
+                ? "bluetooth_connected"
+                : "bluetooth"
+              : "bluetooth_disabled"
+          }}
+          <!-- "bluetooth_connected" -->
+        </v-icon></v-btn
+      >
+    </v-col>
     <v-main app>
       <div class="mt-5"></div>
 
@@ -57,6 +75,18 @@ export default {
       title: "Bluetooth接続",
       // leftBtn: {},
       rightBtnList: {},
+      // {
+      //   id: 1,
+      //   title: "back",
+      //   icon: this.currentBleIsAvailable
+      //     ? this.currentBleConnectDevice.isConnect
+      //       ? "bluetooth_connected"
+      //       : "bluetooth"
+      //     : "bluetooth_disabled",
+      //   goto: "back",
+      //   propItems: null,
+      //   addCss: {},
+      // },
       scanDeviceList: [
         {
           id: 1,
@@ -215,6 +245,34 @@ export default {
         }
       }
     },
+    notifyBleSetting() {
+      //
+      this.helper.snackFire({
+        message: "BluetoothがOFFです",
+        timeout: "10000",
+        btnArry: [
+          {
+            title: "設定を開く",
+            click: () => {
+              // this.goto("settingBle");
+              this.$store.dispatch("checkDeviceState/open_bluetooth_setting");
+            },
+            // style: { color: "red" },
+            isIcon: false,
+          },
+          {
+            title: "×",
+            click: () => {
+              // this.goto("settingBle");
+              // this.$store.dispatch("checkDeviceState/open_bluetooth_setting");
+              this.$store.dispatch("snackBarState/setIsSnackbar", false);
+            },
+            style: { color: "white" },
+            isIcon: true,
+          },
+        ],
+      });
+    },
   },
   computed: {
     currentBleConnectDevice() {
@@ -236,6 +294,13 @@ export default {
         return currentBleConnectDevice;
       }
     },
+    currentBleIsAvailable() {
+      return this.$store.getters["checkDeviceState/getCurrentBleState"]
+        .isBluetoothAvailable;
+    },
+    currentBleConnectDevice() {
+      return this.$store.getters["settingState/getCurrentBleConnectDevice"];
+    },
   },
   components: {
     TopHeader,
@@ -244,4 +309,28 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+#SettingBle {
+  #topHeader_here {
+    position: absolute;
+    // top: 7vh;
+    right: 0px;
+    background-color: rgba(0, 0, 0, 0);
+    height: $__header-tab-height;
+    padding: 0px;
+    z-index: 100000;
+    * {
+      height: 100%;
+    }
+    .ble-state-button {
+      .v-icon {
+        font-size: 3rem;
+        background-color: rgba(0, 0, 0, 0);
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+</style>

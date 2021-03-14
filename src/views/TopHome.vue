@@ -473,6 +473,10 @@ export default {
   #topHeader_here {
     background-color: rgba(0, 0, 0, 0);
     height: $__header-tab-height;
+    padding: 2vh 2vh 0px 0px;
+    * {
+      height: 100%;
+    }
     .ble-state-button {
       .v-icon {
         font-size: 3rem;

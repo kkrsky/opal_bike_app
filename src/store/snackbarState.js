@@ -40,10 +40,16 @@ let snackbarState = {
   actions: {
     //APIs
     fire({ state, dispatch }, { message, timeout, btnArry }) {
+      dispatch("resetState");
       message ? dispatch("setMessage", message) : null;
       timeout ? (state.timeout = timeout) : null;
       btnArry ? dispatch("setBtnArry", btnArry) : [];
       dispatch("setIsSnackbar", true);
+    },
+    resetState({ state }) {
+      state.isSnackbar = false;
+      state.message = "";
+      state.btnArry = [];
     },
     //setter
     setIsSnackbar({ state }, bool) {
