@@ -125,4 +125,20 @@ export default {
   animation-duration: 1s;
   background-color: red;
 }
+
+.disable-all {
+  background-color: rgba(190, 190, 190, 0.5);
+  cursor: not-allowed;
+  * {
+    color: rgba(190, 190, 190, 1) !important;
+  }
+}
+
+.able-all {
+  background-color: white;
+  cursor: pointer;
+  * {
+    color: black;
+  }
+}
 </style>

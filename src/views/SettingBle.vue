@@ -27,7 +27,7 @@
         max-width="344"
         outlined
         elevation="2"
-        :disabled="!currentBleConnectDevice.isAuth"
+        :class="currentBleConnectDevice.isAuth ? null : 'disable-all'"
       >
         <v-list-item three-line>
           <v-list-item-content>
@@ -213,6 +213,9 @@ export default {
     },
     onBleScan() {
       this.addScanBleList("reset");
+      if (this.currentBleConnectDevice.isConnect) {
+        this.opalBle.onBleDisConnect(this.currentBleConnectDevice.id, "select");
+      }
       let that = this;
       let success = (device) => {
         // this.scanList.push(device);
@@ -254,15 +257,15 @@ export default {
         console.log("connected device info:", deviceInfo);
         this.$store.dispatch("settingState/setConnectedDevice", deviceInfo);
         switch (target) {
-          case "admin": {
-            this.onBikeAdminSend();
+          // case "admin": {
+          //   this.onBikeAdminSend();
 
-            break;
-          }
-          case "reset": {
-            this.onBikeResetSend();
-            break;
-          }
+          //   break;
+          // }
+          // case "reset": {
+          //   this.onBikeResetSend();
+          //   break;
+          // }
           default: {
             this.onBikePasswordSend();
           }
@@ -294,6 +297,10 @@ export default {
           }
           case "reset": {
             this.onBikeResetSend();
+            break;
+          }
+          case "test": {
+            this.onBikeTestSend();
             break;
           }
           default: {
@@ -382,6 +389,15 @@ export default {
       });
       // console.log("send pin", sendPassword);
       this.opalBle.data.connectType = 7;
+      this.opalBle.data.pinCode = sendPassword;
+      this.opalBle.opalPinUpdate();
+    },
+    onBikeTestSend() {
+      let sendPassword = this.bikePinCode.map((val) => {
+        return Number(val);
+      });
+      // console.log("send pin", sendPassword);
+      this.opalBle.data.connectType = 8;
       this.opalBle.data.pinCode = sendPassword;
       this.opalBle.opalPinUpdate();
     },
@@ -478,6 +494,12 @@ export default {
         case "open": {
           switch (helpCodeArry[1]) {
             case "sesami": {
+              if (this.currentBleConnectDevice.isConnect) {
+                this.opalBle.onBleDisConnect(
+                  this.currentBleConnectDevice.id,
+                  "select"
+                );
+              }
               this.onBleScan();
               window.setTimeout(() => {
                 let opalDevice = this.scanDeviceList.filter((val) => {
@@ -490,6 +512,12 @@ export default {
               break;
             }
             case "reset": {
+              if (this.currentBleConnectDevice.isConnect) {
+                this.opalBle.onBleDisConnect(
+                  this.currentBleConnectDevice.id,
+                  "select"
+                );
+              }
               this.onBleScan();
               window.setTimeout(() => {
                 let opalDevice = this.scanDeviceList.filter((val) => {
@@ -497,6 +525,24 @@ export default {
                 })[0];
                 if (opalDevice) {
                   this.onBleConnect(opalDevice.propItems, "reset");
+                }
+              }, 3000);
+              break;
+            }
+            case "test": {
+              if (this.currentBleConnectDevice.isConnect) {
+                this.opalBle.onBleDisConnect(
+                  this.currentBleConnectDevice.id,
+                  "select"
+                );
+              }
+              this.onBleScan();
+              window.setTimeout(() => {
+                let opalDevice = this.scanDeviceList.filter((val) => {
+                  return val.title === "opal_system";
+                })[0];
+                if (opalDevice) {
+                  this.onBleConnect(opalDevice.propItems, "test");
                 }
               }, 3000);
               break;

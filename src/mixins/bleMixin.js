@@ -161,7 +161,7 @@ export default {
       writeData[2] = Number(pinCode[1]);
       writeData[3] = Number(pinCode[2]);
       writeData[4] = Number(pinCode[3]);
-
+      console.log("opalPinUpdate", writeData);
       ble.write(
         device_id,
         this.opalBle.data.service_uuid,
@@ -292,7 +292,7 @@ export default {
         case "select": {
           success = () => {
             // window.alert("success disconnect: " + getID);
-            this.helper.snackFire({ message: "接続解除2" });
+            this.helper.snackFire({ message: "接続を解除しました。" });
             this.$store.dispatch("settingState/setDisconnectState", deviceId);
           };
           break;
