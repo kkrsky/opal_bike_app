@@ -49,6 +49,7 @@ let snackbarState = {
     resetState({ state }) {
       state.isSnackbar = false;
       state.message = "";
+      state.timeout = 2000;
       state.btnArry = [];
     },
     //setter

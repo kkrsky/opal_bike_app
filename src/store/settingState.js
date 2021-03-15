@@ -11,6 +11,7 @@ let settingState = {
         rssi: 0,
         isConnect: false,
         isAutoConnect: false,
+        isAuth: false,
       },
       currentConnectDevice: {
         name: "接続していません。",
@@ -20,6 +21,7 @@ let settingState = {
         rssi: 0,
         isConnect: false,
         isAutoConnect: false,
+        isAuth: false,
       },
       connectedList: [],
     },
@@ -34,6 +36,9 @@ let settingState = {
     //ble actions
 
     //setter
+    setConnectedDeviceIsAuth({ state }, isAuth) {
+      state.ble.currentConnectDevice.isAuth = isAuth;
+    },
     setConnectedDevice({ state }, deviceInfo) {
       let deviceId = deviceInfo.id;
       let ls = state.ble.connectedList;

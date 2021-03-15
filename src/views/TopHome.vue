@@ -16,7 +16,7 @@
             <v-icon>
               {{
                 currentBleIsAvailable
-                  ? currentBleConnectDevice.isConnect
+                  ? currentBleConnectDevice.isAuth
                     ? "bluetooth_connected"
                     : "bluetooth"
                   : "bluetooth_disabled"
@@ -35,13 +35,11 @@
         <v-row no-gutters class="logo-container__row">
           <v-col
             class="logo-container btn"
-            @click="
-              currentBleConnectDevice.isConnect ? null : goto('settingBle')
-            "
+            @click="currentBleConnectDevice.isAuth ? null : goto('settingBle')"
           >
             <v-img alt="" src="../assets/logo.png"></v-img>
             <span
-              v-show="!currentBleConnectDevice.isConnect"
+              v-show="!currentBleConnectDevice.isAuth"
               class="disconnectedMessage"
             >
               未接続...
@@ -132,14 +130,14 @@ export default {
             if (this.checkBikeIsConnected()) {
               if (self.title === "鍵を開ける") {
                 //open
-                this.opalBle.opalModeSetter("connect");
-                this.opalBle.opalModeUpdate();
+                this.opalBle.opalModeSetter("open");
+                this.opalBle.opalModeUpdate("unlock");
                 self.title = "鍵を閉める";
                 self.iconLeft = "lock_open";
               } else {
                 //close
-                this.opalBle.opalModeSetter("disConnect");
-                this.opalBle.opalModeUpdate();
+                this.opalBle.opalModeSetter("close");
+                this.opalBle.opalModeUpdate("lock");
                 self.title = "鍵を開ける";
                 self.iconLeft = "lock";
               }
@@ -390,7 +388,7 @@ export default {
     checkBikeIsConnected() {
       //バイクが接続状態なのか確認する
 
-      // console.log("check", this.currentBleConnectDevice.isConnect);
+      // console.log("check", this.currentBleConnectDevice.isAuth);
       // this.currentBleConnectDevice = this.currentBleConnectDevice_state;
 
       //接続していなければ非表示にするリストID
@@ -401,7 +399,7 @@ export default {
         });
       });
 
-      if (this.currentBleConnectDevice.isConnect) {
+      if (this.currentBleConnectDevice.isAuth) {
         disableListArry.forEach((item) => {
           item.isDisable = false;
         });
@@ -419,7 +417,7 @@ export default {
     },
     autoConnectBle() {
       console.log("1:", window.localStorage.getItem("connectDeviceId"));
-      console.log("2:", this.currentBleConnectDevice.isConnect);
+      console.log("2:", this.currentBleConnectDevice.isAuth);
       if (window.localStorage.getItem("connectDeviceId")) {
         let deviceId = window.localStorage.getItem("connectDeviceId");
         let failed = (e) => {

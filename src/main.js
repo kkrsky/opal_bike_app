@@ -15,6 +15,7 @@ import virtualCordova from "./virtualCordova.js";
 import "vuetify/dist/vuetify.min.css";
 // import "../node_modules/leaflet/dist/leaflet.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
+import "@mdi/font/css/materialdesignicons.css";
 
 //ライブラリ宣言
 Vue.config.productionTip = false;

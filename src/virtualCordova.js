@@ -2180,6 +2180,7 @@ let virtualCordova = {
 
       //////////////////////////
       let id = this.idWrapper;
+      // let id = "false";
       let passItem = this.passItemWrapper;
       //////////////////////////
       id === "success"
