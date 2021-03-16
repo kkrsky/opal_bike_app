@@ -30,6 +30,10 @@ let settingState = {
     getCurrentBleConnectDevice: (state) => {
       return state.ble.currentConnectDevice;
     },
+    getCurrentBleConnectDeviceIsAuth: (state) => {
+      // console.log("cc", state.ble.currentConnectDevice.isAuth);
+      return state.ble.currentConnectDevice.isAuth;
+    },
   },
   mutations: {},
   actions: {
@@ -46,9 +50,6 @@ let settingState = {
       let maxListId = null;
 
       //
-      state.ble.currentConnectDeviceId = deviceId;
-      state.ble.currentConnectDevice = deviceInfo;
-      //
       duplicate = ls.find((device) => {
         return device.id === deviceId;
       });
@@ -64,6 +65,7 @@ let settingState = {
       //obj wrapper
       deviceInfo.isAutoConnect = true;
       deviceInfo.isConnect = true;
+      deviceInfo.isAuth = false;
       deviceInfo.listId = maxListId + 1;
 
       //output
@@ -81,28 +83,39 @@ let settingState = {
         ls[infoIndex] = deviceInfo;
         console.log("device info is updated:", deviceInfo.id);
       }
+
+      //
+      state.ble.currentConnectDeviceId = deviceId;
+      state.ble.currentConnectDevice = deviceInfo;
     },
     setDisconnectState({ state }, deviceId) {
-      let ls = state.ble.connectedList;
-      let duplicate = ls.find((device) => {
-        return device.id === deviceId;
-      });
+      if (deviceId) {
+        //device idがある場合は、選択削除
+        let ls = state.ble.connectedList;
+        let duplicate = ls.find((device) => {
+          return device.id === deviceId;
+        });
 
-      // console.log("duplicate", duplicate);
-      let deleteIndex = null;
-      ls.some((deviceInfo, i) => {
-        if (deviceInfo.listId === duplicate.listId) {
-          deleteIndex = i;
-          deviceInfo.isAutoConnect = false;
-          deviceInfo.isConnect = false;
-          return true;
-        }
-      });
+        // console.log("duplicate", duplicate);
+        let deleteIndex = null;
+        ls.some((deviceInfo, i) => {
+          if (deviceInfo.listId === duplicate.listId) {
+            deleteIndex = i;
+            deviceInfo.isAutoConnect = false;
+            deviceInfo.isConnect = false;
+            return true;
+          }
+        });
 
-      state.ble.currentConnectDevice = JSON.parse(
-        JSON.stringify(state.ble.deviceNoneTemplate)
-      );
-      // console.log("deleteIndex", deleteIndex);
+        state.ble.currentConnectDevice = JSON.parse(
+          JSON.stringify(state.ble.deviceNoneTemplate)
+        );
+        // console.log("deleteIndex", deleteIndex);
+      } else {
+        state.ble.currentConnectDevice = JSON.parse(
+          JSON.stringify(state.ble.deviceNoneTemplate)
+        );
+      }
     },
   },
 };

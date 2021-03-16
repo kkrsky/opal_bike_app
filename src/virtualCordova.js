@@ -27,6 +27,13 @@ let func = (elm1, elm2, elm3) => {
   console.log('elm3', elm3)
   */
 };
+let waitFunc = (func, item, time) => {
+  if (!time) time = 2000;
+  // console.log(func, item, time);
+  window.setTimeout(() => {
+    func(item);
+  }, time);
+};
 //system
 function check_id(id, success_func, failed_func) {
   let origin_id = "001";
@@ -2223,9 +2230,18 @@ let virtualCordova = {
       console.log(c.cyan + "[ble start]", "read");
       //////////////////////////
       let id = this.idWrapper;
-      let passItem = this.passItemWrapper;
+      // let passItem = ["0", "1", "2", "3", "4"];
+      // let passItem = [1, 2, 3, 49, 50]; //適性
+      let passItem = [1, 2, 3, 17, 50]; //運転中
+      // let passItem = [1, 2, 3, 33, 50]; //拒否
       //////////////////////////
-      id === "success" ? successCallback(passItem) : errorCallback(passItem);
+      let tes = (e) => {
+        console.log("w", e);
+      };
+      // waitFunc(tes, "aa", 2000);
+      id === "success"
+        ? waitFunc(successCallback, passItem)
+        : waitFunc(errorCallback, passItem);
     },
     readRSSI: function(elm1, successCallback, errorCallback) {
       console.log(c.cyan + "[ble start]", "readRSSI");
@@ -2241,7 +2257,10 @@ let virtualCordova = {
       let id = this.idWrapper;
       let passItem = this.passItemWrapper;
       //////////////////////////
-      id === "success" ? successCallback(passItem) : errorCallback(passItem);
+      id === "success"
+        ? waitFunc(successCallback, passItem, 500)
+        : waitFunc(errorCallback, passItem, 500);
+      // id === "success" ? successCallback(passItem) : errorCallback(passItem);
     },
     writeWithoutResponse: function(
       elm1,
@@ -2256,7 +2275,10 @@ let virtualCordova = {
       let id = this.idWrapper;
       let passItem = this.passItemWrapper;
       //////////////////////////
-      id === "success" ? successCallback(passItem) : errorCallback(passItem);
+      id === "success"
+        ? waitFunc(successCallback, passItem, 500)
+        : waitFunc(errorCallback, passItem, 500);
+      // id === "success" ? successCallback(passItem) : errorCallback(passItem);
     },
     writeCommand: function(
       elm1,
@@ -2277,9 +2299,16 @@ let virtualCordova = {
       console.log(c.cyan + "[ble start]", "notify");
       //////////////////////////
       let id = this.idWrapper;
-      let passItem = this.passItemWrapper;
+      let passItem = ["0", "1", "2", "33", "40"];
+
       //////////////////////////
-      id === "success" ? successCallback(passItem) : errorCallback(passItem);
+      for (let i = 0; i < 5; i++) {
+        console.log("a");
+        id === "success"
+          ? waitFunc(successCallback, passItem, 100)
+          : waitFunc(errorCallback, passItem, 100);
+      }
+      // id === "success" ? successCallback(passItem) : errorCallback(passItem);
     },
     startNotification: function(
       elm1,
@@ -2291,9 +2320,19 @@ let virtualCordova = {
       console.log(c.cyan + "[ble start]", "startNotification");
       //////////////////////////
       let id = this.idWrapper;
-      let passItem = this.passItemWrapper;
+      // let passItem = [1, 2, 3, 49, 50]; //適性
+      let passItem = [1, 2, 3, 17, 50]; //運転中
+      // let passItem = [1, 2, 3, 33, 50]; //拒否
+
       //////////////////////////
-      id === "success" ? successCallback(passItem) : errorCallback(passItem);
+      for (let i = 0; i < 5; i++) {
+        passItem[4] += i;
+        passItem = passItem.slice();
+        id === "success"
+          ? waitFunc(successCallback, passItem, 100)
+          : waitFunc(errorCallback, passItem, 100);
+      }
+      // id === "success" ? successCallback(passItem) : errorCallback(passItem);
     },
     stopNotification: function(
       elm1,
@@ -2309,13 +2348,16 @@ let virtualCordova = {
       //////////////////////////
       id === "success" ? successCallback(passItem) : errorCallback(passItem);
     },
-    isConnected: function(elm1, successCallback, errorCallback) {
+    isConnected: async function(elm1, successCallback, errorCallback) {
       console.log(c.cyan + "[ble start]", "isConnected");
       //////////////////////////
       let id = this.idWrapper;
       let passItem = this.passItemWrapper;
       //////////////////////////
-      id === "success" ? successCallback(passItem) : errorCallback(passItem);
+      id === "success2"
+        ? waitFunc(successCallback, passItem, 100)
+        : waitFunc(errorCallback, passItem, 100);
+      // id === "success" ? successCallback(passItem) : errorCallback(passItem);
     },
     isEnabled: function(successCallback, errorCallback) {
       console.log(c.cyan + "[ble start]", "isEnabled");

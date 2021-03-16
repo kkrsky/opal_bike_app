@@ -10,13 +10,15 @@
             icon
             class="ble-state-button"
             @click="
-              currentBleIsAvailable ? goto('settingBle') : notifyBleSetting()
+              opalBle.currentBleIsAvailable
+                ? goto('settingBle')
+                : notifyBleSetting()
             "
           >
             <v-icon>
               {{
-                currentBleIsAvailable
-                  ? currentBleConnectDevice.isAuth
+                opalBle.currentBleIsAvailable
+                  ? opalBle.currentBleConnectDeviceIsAuth
                     ? "bluetooth_connected"
                     : "bluetooth"
                   : "bluetooth_disabled"
@@ -35,23 +37,26 @@
         <v-row no-gutters class="logo-container__row">
           <v-col
             class="logo-container btn"
-            @click="currentBleConnectDevice.isAuth ? null : goto('settingBle')"
+            @click="
+              opalBle.currentBleConnectDeviceIsAuth ? null : goto('settingBle')
+            "
           >
             <v-img alt="" src="../assets/logo.png"></v-img>
-            <span
-              v-show="!currentBleConnectDevice.isAuth"
-              class="disconnectedMessage"
-            >
-              未接続...
+            <span>
+              <v-icon
+                v-show="!opalBle.currentBleConnectDeviceIsAuth"
+                class="disconnectedMessage"
+                >lock</v-icon
+              >
             </span>
           </v-col>
         </v-row>
         <v-row>
           <v-btn @click="test">test</v-btn>
-          <div>{{ currentBleState.bluetoothState }}</div>
+          <v-btn @click="tes2">test2</v-btn>
         </v-row>
       </v-container>
-      <v-container id="userIconComponent" v-if="false">
+      <!-- <v-container id="userIconComponent" v-if="false">
         <v-row no-gutters class="use-icon-container__row ">
           <v-col class="use-icon-container btn" @click="goto('topSetting')">
             <v-icon class="material-icons">account_circle</v-icon>
@@ -63,8 +68,14 @@
             <p class="user-status">ステータス:something</p>
           </v-col>
         </v-row>
-      </v-container>
-      <v-container>
+      </v-container> -->
+      <v-container
+        v-bind="
+          opalBle.currentBleConnectDeviceIsAuth
+            ? checkBikeIsConnected()
+            : checkBikeIsConnected()
+        "
+      >
         <div v-for="listItem in myBikeItems" :key="listItem.id">
           <list-item-unit
             :listItem="listItem"
@@ -89,6 +100,7 @@ import ListItemUnit from "@/components/ListItemUnit.vue";
 import IconBtnTransition from "@/components/IconBtnTransition.vue";
 
 import bleMixin from "@/mixins/bleMixin.js";
+import updateMixin from "@/mixins/updateMixin.js";
 
 export default {
   data() {
@@ -218,41 +230,41 @@ export default {
           isDisable: false,
           reload: 0,
         },
-        {
-          id: 5,
-          attribute: "item",
-          title: "デバイス連動",
-          iconRight: "arrow_forward_ios",
-          iconLeft: "lock",
-          pictureLeftSrc: null,
-          goto: () => {
-            let self = this.myBikeItems.find((item) => {
-              return item.id === 5;
-            });
+        // {
+        //   id: 5,
+        //   attribute: "item",
+        //   title: "デバイス連動",
+        //   iconRight: "arrow_forward_ios",
+        //   iconLeft: "lock",
+        //   pictureLeftSrc: null,
+        //   goto: () => {
+        //     let self = this.myBikeItems.find((item) => {
+        //       return item.id === 5;
+        //     });
 
-            if (this.checkBikeIsConnected()) {
-              if (self.title === "デバイス連動") {
-                //open
-                this.opalBle.opalModeSetter("continuous");
-                this.opalBle.opalModeUpdate();
-                self.title = "デバイス非連動";
-                self.iconLeft = "lock_open";
-              } else {
-                //close
-                this.opalBle.opalModeSetter("disconnectLock");
-                this.opalBle.opalModeUpdate();
-                self.title = "デバイス連動";
-                self.iconLeft = "lock";
-              }
-            }
-          },
-          propItems: null,
-          addCss: {},
-          active: false,
-          subItems: null,
-          isDisable: false,
-          reload: 0,
-        },
+        //     if (this.checkBikeIsConnected()) {
+        //       if (self.title === "デバイス連動") {
+        //         //open
+        //         this.opalBle.opalModeSetter("continuous");
+        //         this.opalBle.opalModeUpdate();
+        //         self.title = "デバイス非連動";
+        //         self.iconLeft = "lock_open";
+        //       } else {
+        //         //close
+        //         this.opalBle.opalModeSetter("disconnectLock");
+        //         this.opalBle.opalModeUpdate();
+        //         self.title = "デバイス連動";
+        //         self.iconLeft = "lock";
+        //       }
+        //     }
+        //   },
+        //   propItems: null,
+        //   addCss: {},
+        //   active: false,
+        //   subItems: null,
+        //   isDisable: false,
+        //   reload: 0,
+        // },
         // {
         //   id: 6,
         //   attribute: "item",
@@ -292,21 +304,11 @@ export default {
       // },
     };
   },
-  computed: {
-    currentBleConnectDevice() {
-      return this.$store.getters["settingState/getCurrentBleConnectDevice"];
-    },
-    currentBleState() {
-      return this.$store.getters["checkDeviceState/getCurrentBleState"];
-    },
-    currentBleIsAvailable() {
-      return this.$store.getters["checkDeviceState/getCurrentBleState"]
-        .isBluetoothAvailable;
-    },
-  },
+  computed: {},
   methods: {
     test() {
       console.log("tess");
+      this.opalBle.isBleConnect();
       // this.$store.dispatch("checkDeviceState/open_bluetooth_setting");
       // this.$state.store.checkDeviceState.deviceState.bluetooth.isBluetoothAvailable = ture;
       let tes = this.$store.state.checkDeviceState.deviceState.bluetooth
@@ -316,32 +318,36 @@ export default {
       else
         this.$store.state.checkDeviceState.deviceState.bluetooth.isBluetoothAvailable = true;
 
-      console.log(this.$store.state.checkDeviceState.deviceState.bluetooth);
-      console.log("currentBleIsAvailable", this.currentBleIsAvailable);
-      let tes2 = [
-        {
-          title: "aa2",
-          click: () => {
-            // window.alert("aa");
-            this.goto("settingBle");
-          },
-          style: { color: "red" },
-        },
-        {
-          title: "bb",
-        },
-      ];
+      // console.log(this.$store.state.checkDeviceState.deviceState.bluetooth);
+      // console.log("currentBleIsAvailable", this.currentBleIsAvailable);
+      // let tes2 = [
+      //   {
+      //     title: "aa2",
+      //     click: () => {
+      //       // window.alert("aa");
+      //       this.goto("settingBle");
+      //     },
+      //     style: { color: "red" },
+      //   },
+      //   {
+      //     title: "bb",
+      //   },
+      // ];
       // this.helper.snackFire({
       //   message: "tes",
       //   timeout: "10000",
       //   btnArry: tes2,
       // });
+      console.log("bb", this.opalBle.currentBikeState);
     },
 
     tes2() {
       // window.alert("tesss");
       // this.updateDisplayMode("ECO");
-      this.test();
+      // this.test();
+      let tes = this.$store.getters["checkDeviceState/getCurrentBikeState"];
+
+      console.log("bb", tes);
     },
 
     //utils
@@ -382,13 +388,18 @@ export default {
       this.opalBle.opalModeSetter(this.selectMode);
       this.myBikeItems[2].title = obj.label;
       if (this.opalBle.data.connectType === 1) {
-        this.opalBle.opalModeUpdate();
+        this.opalBle.opalModeUpdate("モード変更");
       }
+    },
+    updateDisplayAll() {
+      // console.log("updateDisplayAll");
+      this.myBikeItems = this.opalBle.changeDisplay();
+      console.log("updateDisplayAll", this.myBikeItems);
     },
     checkBikeIsConnected() {
       //バイクが接続状態なのか確認する
 
-      // console.log("check", this.currentBleConnectDevice.isAuth);
+      // console.log("check", this.opalBle.currentBleConnectDeviceIsAuth);
       // this.currentBleConnectDevice = this.currentBleConnectDevice_state;
 
       //接続していなければ非表示にするリストID
@@ -399,7 +410,7 @@ export default {
         });
       });
 
-      if (this.currentBleConnectDevice.isAuth) {
+      if (this.opalBle.currentBleConnectDeviceIsAuth) {
         disableListArry.forEach((item) => {
           item.isDisable = false;
         });
@@ -417,7 +428,7 @@ export default {
     },
     autoConnectBle() {
       console.log("1:", window.localStorage.getItem("connectDeviceId"));
-      console.log("2:", this.currentBleConnectDevice.isAuth);
+      console.log("2:", this.opalBle.currentBleConnectDeviceIsAuth);
       if (window.localStorage.getItem("connectDeviceId")) {
         let deviceId = window.localStorage.getItem("connectDeviceId");
         let failed = (e) => {
@@ -447,12 +458,17 @@ export default {
   beforeCreate() {},
   mounted() {
     this.checkBikeIsConnected();
-    // this.$store.dispatch("checkDeviceState/checkState");
     this.$store.dispatch("checkDeviceState/checkState");
+    // this.$store.dispatch("checkDeviceState/checkState");
     // this.autoConnectBle();
+    // this.update.doUpdate();
+    this.opalBle.initBleEventListener();
+    this.helper.eventListen("updateDisplayAll", this.updateDisplayAll);
+    this.updateDisplayAll();
+    // this.opalBle.isBleConnect();
   },
   created() {},
-  mixins: [bleMixin],
+  mixins: [bleMixin, updateMixin],
   components: {
     TopHeader,
     TopFooter,
@@ -501,9 +517,10 @@ export default {
           top: 50%;
           left: 50%;
           transform: (translate(-50%, -50%));
-          font-size: 1rem;
+          font-size: 5rem;
           font-weight: bold;
-          background-color: red;
+          // background-color: red;
+          color: rgba(47, 54, 57, 1);
         }
       }
     }

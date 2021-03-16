@@ -7,6 +7,8 @@ let helpers = {
         _cp: this._cp,
         //void
         snackFire: this.snackFire,
+        eventFire: this.eventFire,
+        eventListen: this.eventListen,
       },
     };
   },
@@ -59,6 +61,13 @@ let helpers = {
         timeout: timeout ? timeout : null,
         btnArry: btnArry ? btnArry : null,
       });
+    },
+    eventFire(eventName, propObj) {
+      const ev = new CustomEvent(eventName, { detail: propObj });
+      window.document.dispatchEvent(ev);
+    },
+    eventListen(eventName, callback) {
+      window.document.addEventListener(eventName, callback, false);
     },
   },
   watch: {},

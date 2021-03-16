@@ -5,12 +5,12 @@
       <v-btn
         icon
         class="ble-state-button"
-        @click="currentBleIsAvailable ? null : notifyBleSetting()"
+        @click="opalBle.currentBleIsAvailable ? null : notifyBleSetting()"
       >
         <v-icon>
           {{
-            currentBleIsAvailable
-              ? currentBleConnectDevice.isAuth
+            opalBle.currentBleIsAvailable
+              ? opalBle.currentBleConnectDeviceIsAuth
                 ? "bluetooth_connected"
                 : "bluetooth"
               : "bluetooth_disabled"
@@ -27,7 +27,7 @@
         max-width="344"
         outlined
         elevation="2"
-        :class="currentBleConnectDevice.isAuth ? null : 'disable-all'"
+        :class="opalBle.currentBleConnectDeviceIsAuth ? null : 'disable-all'"
       >
         <v-list-item three-line>
           <v-list-item-content>
@@ -36,7 +36,11 @@
               <v-divider></v-divider>
             </div>
             <v-list-item-title class="headline mb-1">
-              {{ currentBleConnectDevice.name }}
+              {{
+                currentBleConnectDevice.name
+                  ? currentBleConnectDevice.name
+                  : "opal_system"
+              }}
             </v-list-item-title>
             <v-list-item-subtitle
               >RSSI:{{ currentBleConnectDevice.rssi }}</v-list-item-subtitle
@@ -97,7 +101,7 @@
 
       <div
         class="bluetooth-search-container"
-        v-if="!currentBleConnectDevice.isAuth"
+        v-if="!opalBle.currentBleConnectDeviceIsAuth"
       >
         <div class="mt-5"></div>
 
@@ -112,27 +116,43 @@
       </div>
       <div
         class="bluetooth-connected-container"
-        v-if="currentBleConnectDevice.isAuth"
+        v-if="opalBle.currentBleConnectDeviceIsAuth"
       >
         <v-card class="mx-auto" max-width="344" outlined elevation="2">
           <v-container class="bike-password-container">
-            <v-btn
-              block
-              color="warning"
-              class="bike-password-title"
-              :style="{ fontWeight: 'bold' }"
-              @click="onBikePasswordOverwrite()"
-              >PINコード上書き
-            </v-btn>
-            <div class="mt-3"></div>
-            <v-btn
-              block
-              color="warning"
-              class="bike-password-title"
-              :style="{ fontWeight: 'bold' }"
-              @click="onBikePasswordSend()"
-              >PINコード送信
-            </v-btn>
+            <v-row no-gutters>
+              <v-btn
+                block
+                color="warning"
+                class="bike-password-title"
+                :style="{ fontWeight: 'bold' }"
+                @click="onBikePasswordOverwrite()"
+                >PINコード上書き
+              </v-btn>
+            </v-row>
+
+            <v-row no-gutters class="bike-state-select-container">
+              <v-col cols="10">
+                <v-select
+                  :items="bikeStateSelectItems"
+                  v-model="bikeStateSelectItem"
+                  item-text="label"
+                  item-value="value"
+                  label="モード選択"
+                  outlined
+                  color="warning"
+                  class="bike-state-select"
+                  >{{ bikeStateSelectItem }}</v-select
+                >
+              </v-col>
+              <v-col cols="2"
+                ><v-btn
+                  class="bike-state-select-submit"
+                  @click="onBikeStateSend()"
+                  >送信</v-btn
+                ></v-col
+              >
+            </v-row>
           </v-container>
         </v-card>
       </div>
@@ -154,11 +174,20 @@ export default {
       title: "Bluetooth接続",
       // leftBtn: {},
       rightBtnList: {},
+      bikeStateSelectItems: [
+        { label: "スマホ認証を有効", value: "phone-with-Lock" },
+        { label: "スマホ認証を無効", value: "phone-no-Lock" },
+      ],
+      bikeStateSelectItem: {
+        label: "スマホ認証を有効",
+        value: "phone-with-Lock",
+      },
+
       // {
       //   id: 1,
       //   title: "back",
-      //   icon: this.currentBleIsAvailable
-      //     ? this.currentBleConnectDevice.isAuth
+      //   icon: this.opalBle.currentBleIsAvailable
+      //     ? this.opalBle.currentBleConnectDeviceIsAuth
       //       ? "bluetooth_connected"
       //       : "bluetooth"
       //     : "bluetooth_disabled",
@@ -185,7 +214,6 @@ export default {
       isSavePassword: false,
       isFilledPassword: false,
       bikePinCode: ["", "", "", ""],
-      bikePasswordKey: "bikePinCode",
       isHelpDisplay: false,
       helpCode: "",
       // bikePassword: "",
@@ -207,9 +235,16 @@ export default {
 
       // console.log(this.helper);
       this.helper.snackFire({ message: "tes" });
-      console.log(this.bikePinCode);
-      console.log(this.getSavedBikePinCode());
+      // console.log(this.bikePinCode);
+      // console.log(this.getSavedBikePinCode());
       // window.localStorage.removeItem(this.bikePasswordKey);
+      console.log(this.currentBleConnectDevice);
+      let tes = this.$store.state.checkDeviceState.deviceState.bluetooth
+        .isBluetoothAvailable;
+      if (tes === true)
+        this.$store.state.checkDeviceState.deviceState.bluetooth.isBluetoothAvailable = false;
+      else
+        this.$store.state.checkDeviceState.deviceState.bluetooth.isBluetoothAvailable = true;
     },
     onBleScan() {
       this.addScanBleList("reset");
@@ -242,50 +277,40 @@ export default {
         }
       }, 5000);
     },
-    onBleAutoConnect(id, target) {
-      //disconnectを呼ぶと、自動接続が解除される
-      // console.log(e);
-      let deviceId = id;
-      console.log("connect device id:", deviceId);
-      let success = (deviceInfo) => {
-        // window.alert("success AutoConnect: ");
-        // window.alert("接続成功");
-        // window.localStorage.setItem("connectDeviceId", deviceId);
-        //success fire
-        // this.helper.snackFire({ message: "接続しました。" });
+    // onBleAutoConnect(id, target) {
+    //   //disconnectを呼ぶと、自動接続が解除される
+    //   // console.log(e);
+    //   let deviceId = id;
+    //   console.log("connect device id:", deviceId);
+    //   let success = (deviceInfo) => {
+    //     console.log("connected device info:", deviceInfo);
+    //     this.$store.dispatch("settingState/setConnectedDevice", deviceInfo);
+    //     switch (target) {
+    //       // case "admin": {
+    //       //   this.onBikeAdminSend();
 
-        console.log("connected device info:", deviceInfo);
-        this.$store.dispatch("settingState/setConnectedDevice", deviceInfo);
-        switch (target) {
-          // case "admin": {
-          //   this.onBikeAdminSend();
-
-          //   break;
-          // }
-          // case "reset": {
-          //   this.onBikeResetSend();
-          //   break;
-          // }
-          default: {
-            this.onBikePasswordSend();
-          }
-        }
-        this.opalBle.opalModeNotifyStart_isAuth({ deviceId });
-
-        // this.$router.push({ name: "testBle" });
-        // this.$router.push({ name: "topSetting" });
-      };
-      let failed = (e) => {
-        console.log("auto connect error:", e);
-        // window.alert("接続できませんでした。");
-        //failed fire
-        this.helper.snackFire({ message: "接続できませんでした。" });
-
-        // this.onBleConnect(deviceId);
-      };
-      ble.autoConnect(deviceId, success, failed);
-    },
-    onBleConnect(id, target) {
+    //       //   break;
+    //       // }
+    //       // case "reset": {
+    //       //   this.onBikeResetSend();
+    //       //   break;
+    //       // }
+    //       default: {
+    //         this.onBikePasswordSend();
+    //       }
+    //     }
+    //     this.opalBle.opalModeNotifyStart_isAuth({ deviceId, deviceInfo });
+    //   };
+    //   let failed = (e) => {
+    //     console.log("auto connect error:", e);
+    //     // window.alert("接続できませんでした。");
+    //     //failed fire
+    //     this.helper.snackFire({ message: "接続できませんでした。" });
+    //     // this.onBleConnect(deviceId);
+    //   };
+    //   ble.autoConnect(deviceId, success, failed);
+    // },
+    onBleConnect({ id, pinCode, target }) {
       let deviceId = id;
       let success = (deviceInfo) => {
         console.log("connected device info:", deviceInfo);
@@ -304,13 +329,13 @@ export default {
             break;
           }
           default: {
-            this.onBikePasswordSend();
+            this.opalBle.onBikePasswordSend({ id, pinCode, target: "auto" });
           }
         }
         this.opalBle.opalModeNotifyStart_isAuth({ deviceId });
       };
       let failed = (e) => {
-        console.log("auto connect error:", e);
+        console.log("connect error:", e);
 
         this.helper.snackFire({ message: "接続できませんでした。" });
       };
@@ -334,7 +359,7 @@ export default {
           };
 
           window.localStorage.setItem(
-            this.bikePasswordKey,
+            this.opalBle.data.bikePasswordKey,
             JSON.stringify(obj)
           );
           break;
@@ -347,15 +372,15 @@ export default {
           };
           if (this.isSavePassword)
             window.localStorage.setItem(
-              this.bikePasswordKey,
+              this.opalBle.data.bikePasswordKey,
               JSON.stringify(obj)
             );
         }
       }
     },
-    getSavedBikePinCode() {
-      return JSON.parse(window.localStorage.getItem(this.bikePasswordKey));
-    },
+    // getSavedBikePinCode() {
+    //   return JSON.parse(window.localStorage.getItem(this.bikePasswordKey));
+    // },
     onBikePasswordOverwrite() {
       let writePassword = this.bikePinCode.map((val) => {
         return Number(val);
@@ -365,15 +390,7 @@ export default {
       this.opalBle.data.pinCode = writePassword;
       this.opalBle.opalPinUpdate("PINを書き換えました。");
     },
-    onBikePasswordSend() {
-      let sendPassword = this.bikePinCode.map((val) => {
-        return Number(val);
-      });
-      console.log("send pin", sendPassword);
-      this.opalBle.data.connectType = 5;
-      this.opalBle.data.pinCode = sendPassword;
-      this.opalBle.opalPinUpdate();
-    },
+
     onBikeAdminSend() {
       let sendPassword = this.bikePinCode.map((val) => {
         return Number(val);
@@ -391,6 +408,19 @@ export default {
       this.opalBle.data.connectType = 7;
       this.opalBle.data.pinCode = sendPassword;
       this.opalBle.opalPinUpdate();
+    },
+    async onBikeStateSend() {
+      this.opalBle.data.connectType = 3;
+      this.opalBle.data.modeType = 0;
+      this.opalBle.data.stateType = 3;
+      let isUpdate = await this.opalBle.opalModeUpdate("モード変更");
+      console.log("isUpdate", isUpdate);
+      if (isUpdate) {
+        window.localStorage.setItem(
+          this.opalBle.data.bikePhoneStateKey,
+          JSON.stringify(this.bikeStateSelectItem)
+        );
+      }
     },
     onBikeTestSend() {
       let sendPassword = this.bikePinCode.map((val) => {
@@ -419,7 +449,11 @@ export default {
           let maxId = this.scanDeviceList.reduce((acc, val) => {
             return acc.id > val.id ? acc : val;
           }).id;
-
+          let obj = {
+            id: id,
+            pinCode: this.bikePinCode,
+            target: "first2",
+          };
           // console.log(maxId);
           let addObj = {
             id: maxId + 1,
@@ -428,8 +462,8 @@ export default {
             iconRight: null,
             iconLeft: "bluetooth",
             pictureLeftSrc: null,
-            goto: this.onBleAutoConnect,
-            propItems: id,
+            goto: this.opalBle.onBleAutoConnect,
+            propItems: obj,
             addCss: {},
             active: false,
             subItems: null,
@@ -467,7 +501,8 @@ export default {
       });
     },
     checkReload() {
-      let savedBikePinCode = this.getSavedBikePinCode();
+      //PINコード保存状況
+      let savedBikePinCode = this.opalBle.getSavedBikePinCode();
       if (savedBikePinCode) {
         this.isSavePassword = savedBikePinCode.isSavePassword;
         savedBikePinCode.bikePinCode
@@ -475,12 +510,25 @@ export default {
           : null;
         this.isFilledPassword = savedBikePinCode.isFilledPassword;
       }
+
+      //BIkePhoneState保存状況確認
+      let savedBikePhoneState = JSON.parse(
+        window.localStorage.getItem(this.opalBle.data.bikePhoneStateKey)
+      );
+      if (savedBikePhoneState === null) {
+        window.localStorage.setItem(
+          this.opalBle.data.bikePhoneStateKey,
+          JSON.stringify(this.bikeStateSelectItem)
+        );
+      } else {
+        this.bikeStateSelectItem = savedBikePhoneState;
+      }
     },
     checkBeforeScan() {
-      if (this.currentBleIsAvailable && this.isFilledPassword) {
+      if (this.opalBle.currentBleIsAvailable && this.isFilledPassword) {
         //Bluetooth OK && PINコード入力済み
         return true;
-      } else if (!this.currentBleIsAvailable) {
+      } else if (!this.opalBle.currentBleIsAvailable) {
         this.notifyBleSetting();
         return false;
       } else if (!this.isFilledPassword) {
@@ -506,7 +554,8 @@ export default {
                   return val.title === "opal_system";
                 })[0];
                 if (opalDevice) {
-                  this.onBleConnect(opalDevice.propItems, "admin");
+                  opalDevice.propItems.target = "admin";
+                  this.onBleConnect(opalDevice.propItems);
                 }
               }, 3000);
               break;
@@ -524,7 +573,9 @@ export default {
                   return val.title === "opal_system";
                 })[0];
                 if (opalDevice) {
-                  this.onBleConnect(opalDevice.propItems, "reset");
+                  opalDevice.propItems.target = "reset";
+
+                  this.onBleConnect(opalDevice.propItems);
                 }
               }, 3000);
               break;
@@ -542,7 +593,8 @@ export default {
                   return val.title === "opal_system";
                 })[0];
                 if (opalDevice) {
-                  this.onBleConnect(opalDevice.propItems, "test");
+                  opalDevice.propItems.target = "test";
+                  this.onBleConnect(opalDevice.propItems);
                 }
               }, 3000);
               break;
@@ -564,26 +616,14 @@ export default {
       //   rssi: 10000,
       //   isConnect: false,
       //   isAutoConnect: false,
+      //   isAuth:false,
       // },
-      let currentBleConnectDevice = this.$store.getters[
-        "settingState/getCurrentBleConnectDevice"
-      ];
-      if (currentBleConnectDevice.isAuth) {
-        return currentBleConnectDevice;
-      } else {
-        return currentBleConnectDevice;
-      }
-    },
-    currentBleIsAvailable() {
-      return this.$store.getters["checkDeviceState/getCurrentBleState"]
-        .isBluetoothAvailable;
-    },
-    currentBleConnectDevice() {
       return this.$store.getters["settingState/getCurrentBleConnectDevice"];
     },
   },
   mounted() {
     this.checkReload();
+    this.opalBle.initBleEventListener();
   },
 
   mixins: [bleMixin],
@@ -628,6 +668,7 @@ export default {
   .bike-password-container {
     background-color: white;
     display: grid;
+    height: 100%;
 
     // justify-content: center;
     justify-items: center;
@@ -641,6 +682,17 @@ export default {
     }
     .bike-help-input {
       transform: translate(0%, 25%);
+    }
+
+    .bike-state-select-container {
+      justify-items: center;
+      align-items: center;
+      .bike-state-select-submit {
+        align-self: center;
+      }
+      .bike-state-select {
+        margin-top: 2vh;
+      }
     }
   }
 }

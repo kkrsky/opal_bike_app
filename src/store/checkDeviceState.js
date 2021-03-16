@@ -9,6 +9,10 @@ let checkDeviceState = {
     isDevice: false,
     isGeolocation: false,
     isBluetooth: false,
+    bikeState: {
+      connectType: 0,
+      modeType: 0,
+    },
     deviceState: {
       bluetooth: {
         bluetoothState: null,
@@ -47,14 +51,19 @@ let checkDeviceState = {
     getCurrentBleState: (state) => {
       return state.deviceState.bluetooth;
     },
+    getCurrentBikeState: (state) => {
+      return state.bikeState;
+    },
   },
   actions: {
     checkState({ commit, dispatch }) {
       let onDeviceReady = () => {
         console.log("[start] checkDeviceState");
-
+        let deviceBleChangeEventCallback = () => {};
         commit("init");
-        dispatch("checState_bluetooth_init");
+        dispatch("checState_bluetooth_init", {
+          eventCallback: deviceBleChangeEventCallback,
+        });
         // dispatch("checState_location_init");
         // dispatch("checState_network_init");
       };
@@ -86,11 +95,17 @@ let checkDeviceState = {
     },
 
     //bluetooth
-    checState_bluetooth_init({ state }) {
-      checkDeviceState_bluetooth.init({ state });
+    checState_bluetooth_init({ state }, { eventCallback }) {
+      checkDeviceState_bluetooth.init({ state, eventCallback });
     },
     open_bluetooth_setting({ state }) {
       checkDeviceState_bluetooth.openSetting({ state });
+    },
+
+    //bike state
+    setBikeState({ state }, { connectType, modeType }) {
+      state.bikeState.connectType = connectType;
+      state.bikeState.modeType = modeType;
     },
   },
   mutations: {

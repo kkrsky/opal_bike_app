@@ -109,18 +109,18 @@ export default {
   data() {
     const { fields } = this;
     let values_before = this.values;
-    console.log(values_before);
+    // console.log(values_before);
     if (values_before.length !== fields) {
       values_before = [];
       for (let i = 0; i < fields; i++) {
         values_before.push("");
-        console.log(i);
+        // console.log(i);
       }
-      console.log(values_before);
+      // console.log(values_before);
     }
 
     this.values = values_before;
-    const values = values_before;
+    var values = values_before;
 
     let vals;
     let autoFocusIndex = 0;
@@ -160,7 +160,7 @@ export default {
       }
       let next;
       const value = e.target.value;
-      let { values } = this;
+      var { values } = this;
       values = Object.assign([], values);
       if (value.length > 1) {
         let nextIndex = value.length + index - 1;
