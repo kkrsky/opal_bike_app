@@ -52,8 +52,8 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-btn @click="test">test</v-btn>
-          <v-btn @click="tes2">test2</v-btn>
+          <!-- <v-btn @click="test">test</v-btn> -->
+          <!-- <v-btn @click="tes2">test2</v-btn> -->
         </v-row>
       </v-container>
       <!-- <v-container id="userIconComponent" v-if="false">
@@ -345,9 +345,10 @@ export default {
       // window.alert("tesss");
       // this.updateDisplayMode("ECO");
       // this.test();
-      let tes = this.$store.getters["checkDeviceState/getCurrentBikeState"];
-
-      console.log("bb", tes);
+      // let tes = this.$store.getters["checkDeviceState/getCurrentBikeState"];
+      // console.log("bb", tes);
+      // this.opalBle.checkBleConnect();
+      this.opalBle.checkBleConnect();
     },
 
     //utils

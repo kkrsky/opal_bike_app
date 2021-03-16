@@ -3,6 +3,7 @@ export default {
     return {
       test2: "test",
       readData_for_auth: [],
+
       opalBle: {
         data: {
           //constant
@@ -18,6 +19,7 @@ export default {
           pinCode: [0, 0, 0, 0],
           //read
           readData: [],
+          checkIntervalId: null,
         },
         getDisplayBleReadData: this.getDisplayBleReadData,
         currentBleConnectDevice: this.currentBleConnectDevice,
@@ -41,6 +43,7 @@ export default {
         checkCurrentBikeState: this.checkCurrentBikeState,
         changeDisplay: this.changeDisplay,
         checkBleConnect: this.checkBleConnect,
+        checkInterval: this.checkInterval,
 
         //computed
         currentBleIsAvailable: this.currentBleIsAvailable,
@@ -386,6 +389,16 @@ export default {
           };
           break;
         }
+        case "bike": {
+          success = () => {
+            this.$store.dispatch("settingState/setDisconnectState");
+            this.helper.snackFire({
+              message: "バイクの電源が切れた可能性があります。",
+            });
+            // console.log("サイレント接続解除");
+          };
+          break;
+        }
         default: {
           success = () => {
             console.log("予期せぬ接続解除");
@@ -429,33 +442,48 @@ export default {
         //failed fire
         this.helper.snackFire({ message: "接続できませんでした。" });
         // this.onBleConnect(deviceId);
+        //Bluetooth がONにもかかわらず、接続されていない
+        this.$store.dispatch("settingState/setDisconnectState");
+        this.opalBle.checkInterval();
       };
       ble.autoConnect(deviceId, success, failed);
     },
     async onBleAutoConnect_woAuth({ id, pinCode, target }) {
       let promise = new Promise((resolve, reject) => {
+        if (!id) id = this.opalBle.getSavedDeviceId();
         let deviceId = id;
+        let timerId = window.setTimeout(() => {
+          console.error("[timeout] ble connect is not found");
+          reject(false);
+        }, 5000);
+
         console.log("connect device id [wo auth]:", deviceId, pinCode);
         let success = (deviceInfo) => {
+          window.clearTimeout(timerId);
           console.log("connected device info:", deviceInfo);
           this.$store.dispatch("settingState/setConnectedDevice", deviceInfo);
           this.$store.dispatch("settingState/setConnectedDeviceIsAuth", true);
           this.$router.push("/");
-
-          console.log("pin", this.opalBle.getSavedBikePinCode());
-          resolve();
+          resolve(true);
         };
         let failed = (e) => {
+          window.clearTimeout(timerId);
           console.log("auto connect error:", e);
-          // window.alert("接続できませんでした。");
-          //failed fire
-          this.helper.snackFire({ message: "接続できませんでした。" });
-          // this.onBleConnect(deviceId);
+          this.$store.dispatch("settingState/setDisconnectState");
+          this.opalBle.checkInterval();
+
+          reject(false);
         };
         ble.autoConnect(deviceId, success, failed);
-      }).then(() => {
-        this.opalBle.checkCurrentBikeState();
-      });
+      })
+        .then((bool) => {
+          if (bool) this.opalBle.checkCurrentBikeState();
+          return bool;
+        })
+        .catch(() => {
+          return false;
+        });
+
       return promise;
     },
     onBikePasswordSend(sendPassword) {
@@ -500,6 +528,9 @@ export default {
     },
     changeDisplay() {
       let { connectType, modeType, stateType } = this.opalBle.currentBikeState;
+      let bikeState = JSON.parse(
+        window.localStorage.getItem(this.opalBle.data.bikePhoneStateKey)
+      );
       // let { connectType, modeType, stateType } = this.opalBle.data;
       let template = {
         //(*1):attribute=titleの時は無効
@@ -517,41 +548,63 @@ export default {
         isDisable: false,
         reload: 0,
       };
-      let lockTile = {
-        id: 2,
-        attribute: "item",
-        title: "鍵を開ける",
-        iconRight: "arrow_forward_ios",
-        iconLeft: "lock",
-        pictureLeftSrc: null,
-        goto: () => {
-          let self = this.myBikeItems.find((item) => {
-            return item.id === 2;
-          });
+      let lockTile;
+      if (bikeState === "phone-no-Lock") {
+        lockTile = {
+          id: 2,
+          attribute: "item",
+          title: "鍵を閉める",
+          iconRight: "arrow_forward_ios",
+          iconLeft: "lock_open",
+          pictureLeftSrc: null,
+          goto: () => {
+            this.opalBle.opalModeUpdate("unlock");
+          },
+          propItems: null,
+          addCss: {},
+          active: false,
+          subItems: null,
+          isDisable: false,
+          reload: 0,
+        };
+      } else {
+        lockTile = {
+          id: 2,
+          attribute: "item",
+          title: "鍵を開ける",
+          iconRight: "arrow_forward_ios",
+          iconLeft: "lock",
+          pictureLeftSrc: null,
+          goto: () => {
+            let self = this.myBikeItems.find((item) => {
+              return item.id === 2;
+            });
 
-          if (this.checkBikeIsConnected()) {
-            if (self.title === "鍵を開ける") {
-              //open
-              this.opalBle.opalModeSetter("open");
-              this.opalBle.opalModeUpdate("unlock");
-              self.title = "鍵を閉める";
-              self.iconLeft = "lock_open";
-            } else {
-              //close
-              this.opalBle.opalModeSetter("close");
-              this.opalBle.opalModeUpdate("lock");
-              self.title = "鍵を開ける";
-              self.iconLeft = "lock";
+            if (this.checkBikeIsConnected()) {
+              if (self.title === "鍵を開ける") {
+                //open
+                this.opalBle.opalModeSetter("open");
+                this.opalBle.opalModeUpdate("unlock");
+                self.title = "鍵を閉める";
+                self.iconLeft = "lock_open";
+              } else {
+                //close
+                this.opalBle.opalModeSetter("close");
+                this.opalBle.opalModeUpdate("lock");
+                self.title = "鍵を開ける";
+                self.iconLeft = "lock";
+              }
             }
-          }
-        },
-        propItems: null,
-        addCss: {},
-        active: false,
-        subItems: null,
-        isDisable: false,
-        reload: 0,
-      };
+          },
+          propItems: null,
+          addCss: {},
+          active: false,
+          subItems: null,
+          isDisable: false,
+          reload: 0,
+        };
+      }
+
       let modeTile = {
         id: 3,
         attribute: "dialog",
@@ -710,30 +763,70 @@ export default {
     //check state
     async isBleConnect() {
       //実際に通信してチェック
-      let isBleConnect = null;
       let promise = new Promise((resolve, reject) => {
         ble.isConnected(
           this.opalBle.getSavedDeviceId(),
           () => {
-            isBleConnect = true;
-            resolve();
+            resolve(true);
           },
           () => {
-            isBleConnect = false;
-            resolve();
+            resolve(false);
           }
         );
-      }).then(() => {
-        return isBleConnect;
+      }).then((bool) => {
+        return bool;
       });
+
       return promise;
     },
     async checkBleConnect() {
       //接続していなければdisconnect
-      if (await this.opalBle.isBleConnect) {
+      let isConnect = await this.opalBle.isBleConnect();
+      console.log("isBleConnect", isConnect);
+      if (isConnect) {
+        //none
+        // console.log("[connect]");
+      } else {
+        // console.log("[not connect]");
+
+        if (
+          this.opalBle.currentBleIsAvailable &&
+          this.opalBle.getSavedDeviceId() !== null &&
+          this.opalBle.getSavedBikePinCode() !== null
+        ) {
+          // console.log("[on BLE && savedData]");
+
+          //Bluetooth がONにもかかわらず、接続されていない
+          this.$store.dispatch("settingState/setDisconnectState");
+          let isLogin = await this.opalBle.onBleAutoConnect_woAuth({
+            id: this.opalBle.getSavedDeviceId(),
+          });
+          console.log("onBleAutoConnect_woAuth", isLogin);
+          if (isLogin) {
+            //none
+            // console.log("[woAuth login] checkBleConnect");
+          } else {
+            // this.helper.snackFire({
+            //   message: "バイクの電源が切れた可能性があります。",
+            // });
+          }
+        }
       }
     },
-
+    async checkInterval() {
+      if (this.opalBle.data.checkIntervalId !== null) {
+        //既に登録されている
+      } else {
+        this.opalBle.data.checkIntervalId = window.setInterval(async () => {
+          if (await this.opalBle.isBleConnect()) {
+            window.clearInterval(this.opalBle.data.checkIntervalId);
+            this.opalBle.data.checkIntervalId = null;
+          } else {
+            this.opalBle.checkBleConnect();
+          }
+        }, 8000);
+      }
+    },
     async onBluetooth_on(e) {
       let obj = e.detail;
       console.log("[state] Bluetooth on");
@@ -785,6 +878,7 @@ export default {
     // console.log("aa", this.opalBle.currentBikeState);
     this.opalBle.data.connectType = this.opalBle.currentBikeState.connectType;
     this.opalBle.data.modeType = this.opalBle.currentBikeState.modeType;
+    // this.opalBle.checkInterval();
   },
   watch: {
     currentBleIsAvailable(bool) {

@@ -21,7 +21,7 @@
     </v-col>
     <v-main app>
       <div class="mt-5"></div>
-      <v-btn @click="test01">test</v-btn>
+      <!-- <v-btn @click="test01">test</v-btn> -->
       <v-card
         class="mx-auto"
         max-width="344"
@@ -59,6 +59,7 @@
           </v-btn>
         </v-card-actions>
       </v-card>
+      <div class="mt-5"></div>
       <v-card class="mx-auto" max-width="344" outlined elevation="2">
         <v-container class="bike-password-container">
           <v-row no-gutters>
@@ -214,6 +215,7 @@ export default {
       isSavePassword: false,
       isFilledPassword: false,
       bikePinCode: ["", "", "", ""],
+      // bikePinCode: [0, 0, 0, 0],
       isHelpDisplay: false,
       helpCode: "",
       // bikePassword: "",
@@ -410,9 +412,21 @@ export default {
       this.opalBle.opalPinUpdate();
     },
     async onBikeStateSend() {
-      this.opalBle.data.connectType = 3;
-      this.opalBle.data.modeType = 0;
-      this.opalBle.data.stateType = 3;
+      switch (this.bikeStateSelectItem) {
+        case "phone-with-Lock": {
+          this.opalBle.data.connectType = 3;
+          this.opalBle.data.modeType = 0;
+          this.opalBle.data.stateType = 2;
+          break;
+        }
+        case "phone-no-Lock": {
+          this.opalBle.data.connectType = 3;
+          this.opalBle.data.modeType = 0;
+          this.opalBle.data.stateType = 3;
+          break;
+        }
+      }
+
       let isUpdate = await this.opalBle.opalModeUpdate("モード変更");
       console.log("isUpdate", isUpdate);
       if (isUpdate) {
@@ -597,6 +611,14 @@ export default {
                   this.onBleConnect(opalDevice.propItems);
                 }
               }, 3000);
+              break;
+            }
+            case "extreme": {
+              this.opalBle.data.modeType = 10;
+              this.opalBle.data.connectType = 3;
+              this.opalBle.opalModeUpdate("エクストリーム モード変更");
+              // this.$router.push("/");
+
               break;
             }
           }
