@@ -13,7 +13,8 @@
     "android -e": "npm run build && cordova run android -emulator",
     "ios": "npm run build && cordova run ios",
     "dev": "vue-cli-service serve",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rel": "cordova build android -release && cp /Users/kkrsky/dev/android_test/opal_bike_app/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk ./ && jarsigner -verbose -tsa http://timestamp.digicert.com -keystore .keystore_opal app-release-unsigned.apk e-xross -sigalg SHA1withRSA -digestalg SHA1 && /Users/kkrsky/Library/Android/sdk/build-tools/30.0.1/zipalign -v 4 app-release-unsigned.apk app-release-signed.apk"
   },
   "main": "index.js",
   "dependencies": {

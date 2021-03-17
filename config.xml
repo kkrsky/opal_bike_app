@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 
-<widget id="jp.opal.bike.app.rel" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/assets/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="jp.opal.bike.app.rel" version="1.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/assets/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>e-xross</name>
     <description>
         A sample opal_bike_app
@@ -52,7 +52,7 @@
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-            <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
             <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
             <!-- <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> -->
             <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
