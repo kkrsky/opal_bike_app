@@ -1,10 +1,10 @@
 {
   "name": "jp.opal.bike.app.rel",
-  "version": "1.0.0",
+  "version": "1.2.5",
   "private": true,
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "description": "support bike connection",
   "author": {
-    "name": "Apache Cordova Team"
+    "name": "opal Team"
   },
   "scripts": {
     "build": "vue-cli-service build",
@@ -14,7 +14,9 @@
     "ios": "npm run build && cordova run ios",
     "dev": "vue-cli-service serve",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "rel": "cordova build android -release && cp /Users/kkrsky/dev/android_test/opal_bike_app/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk ./ && jarsigner -verbose -tsa http://timestamp.digicert.com -keystore .keystore_opal app-release-unsigned.apk e-xross -sigalg SHA1withRSA -digestalg SHA1 && /Users/kkrsky/Library/Android/sdk/build-tools/30.0.1/zipalign -v 4 app-release-unsigned.apk app-release-signed.apk"
+    "rel": "npm run build && cordova build android -release && cp /Users/kkrsky/dev/android_test/opal_bike_app/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk ./ && jarsigner -verbose -tsa http://timestamp.digicert.com -keystore .keystore_rel_e-xross app-release-unsigned.apk e-xross -sigalg SHA1withRSA -digestalg SHA1 && /Users/kkrsky/Library/Android/sdk/build-tools/30.0.1/zipalign -v 4 app-release-unsigned.apk app-release-signed.apk",
+    "rel2": "cordova build android -release && cp /Users/kkrsky/dev/android_test/opal_bike_app/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk ./ && jarsigner -verbose -tsa http://timestamp.digicert.com -keystore .keystore_rel app-release-unsigned.apk e-xross -sigalg SHA1withRSA -digestalg SHA1 && /Users/kkrsky/Library/Android/sdk/build-tools/30.0.1/zipalign -v 4 app-release-unsigned.apk app-release-signed.apk",
+    "rel3": "jarsigner -verbose -tsa http://timestamp.digicert.com -keystore .keystore_test app-release-unsigned.apk e-xross -sigalg SHA1withRSA -digestalg SHA1 && /Users/kkrsky/Library/Android/sdk/build-tools/30.0.1/zipalign -v 4 app-release-unsigned.apk app-release-signed.apk"
   },
   "main": "index.js",
   "dependencies": {
@@ -52,7 +54,7 @@
     "last 2 versions",
     "not dead"
   ],
-  "_id": "jp.opal.bike.app.rel@1.0.0",
+  "_id": "jp.opal.bike.app.rev@1.0.0",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},

@@ -249,9 +249,9 @@ public class Diagnostic_Location extends CordovaPlugin{
         permissionsToRequest.put(gpsLocationPermission);
         permissionsToRequest.put(networkLocationPermission);
 
-        if(shouldRequestBackground && Build.VERSION.SDK_INT >= 29 ){
-            // permissionsToRequest.put(backgroundLocationPermission);
-        }
+        // if(shouldRequestBackground && Build.VERSION.SDK_INT >= 29 ){
+        //     permissionsToRequest.put(backgroundLocationPermission);
+        // }
 
         int requestId = Diagnostic.instance.storeContextByRequestId(callbackContext);
         Diagnostic.instance._requestRuntimePermissions(permissionsToRequest, requestId);

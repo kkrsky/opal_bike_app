@@ -34,6 +34,7 @@ export default {
         onBleDisConnect: this.onBleDisConnect,
         onBleAutoConnect: this.onBleAutoConnect,
         onBleAutoConnect_woAuth: this.onBleAutoConnect_woAuth,
+        onBikeAdminSend: this.onBikeAdminSend,
         getSavedDeviceId: this.getSavedDeviceId,
         getSavedBikePinCode: this.getSavedBikePinCode,
         onBikePasswordSend: this.onBikePasswordSend,
@@ -83,7 +84,7 @@ export default {
         //connect type
         case "close": {
           //disConnect
-          this.opalBle.data.connectType = 0;
+          this.opalBle.data.connectType = 3;
           break;
         }
         case "open": {
@@ -460,6 +461,7 @@ export default {
         console.log("connect device id [wo auth]:", deviceId, pinCode);
         let success = (deviceInfo) => {
           window.clearTimeout(timerId);
+          // this.opalBle.onBikeAdminSend();
           console.log("connected device info:", deviceInfo);
           this.$store.dispatch("settingState/setConnectedDevice", deviceInfo);
           this.$store.dispatch("settingState/setConnectedDeviceIsAuth", true);
@@ -498,6 +500,16 @@ export default {
         this.opalBle.data.pinCode = sendPassword;
         this.opalBle.opalPinUpdate();
       }
+    },
+
+    onBikeAdminSend() {
+      // let sendPassword = this.bikePinCode.map((val) => {
+      //   return Number(val);
+      // });
+
+      this.opalBle.data.connectType = 6;
+      this.opalBle.data.pinCode = [0, 0, 0, 0];
+      this.opalBle.opalPinUpdate();
     },
     getSavedBikePinCode() {
       return JSON.parse(

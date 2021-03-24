@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="jp.opal.bike.app.rel" version="1.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/assets/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="jp.opal.bike.app.rel" version="1.2.5" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/assets/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="BLE">
+        <param name="android-package" value="com.megster.cordova.ble.central.BLECentralPlugin" />
+    </feature>
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
@@ -13,9 +16,6 @@
     <feature name="Whitelist">
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
-    </feature>
-    <feature name="BLE">
-        <param name="android-package" value="com.megster.cordova.ble.central.BLECentralPlugin" />
     </feature>
     <feature name="Diagnostic">
         <param name="android-package" value="cordova.plugins.Diagnostic" />
@@ -51,7 +51,7 @@
     </feature>
     <name>e-xross</name>
     <description>
-        A sample opal_bike_app
+        for support bike connection
     </description>
     <author email="ryohei.kure@gmail.com">
         ryohei

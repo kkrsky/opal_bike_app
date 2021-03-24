@@ -97,6 +97,12 @@
               ></v-col
             >
           </v-row>
+          <v-row no-gutters>
+            <a
+              href="https://docs.google.com/document/d/1xLWRx4SxKp0Hs1eJ6zCnHLvFA0t-6yV0oF62pYKiSg8/edit?usp=sharing"
+              >Privacy Policy</a
+            >
+          </v-row>
         </v-container>
       </v-card>
 
