@@ -719,7 +719,7 @@ public class BLECentralPlugin extends CordovaPlugin {
                 this.scanSeconds = scanSeconds;
 
                 String[] permissions = {
-                        // Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
                         // "android.permission.ACCESS_BACKGROUND_LOCATION"     // (API 29) Manifest.permission.ACCESS_BACKGROUND_LOCATION
                 };
 

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 
-<widget id="jp.opal.bike.app.rel" version="1.2.5" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/assets/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="jp.opal.bike.app.rev" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/assets/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>e-xross</name>
     <description>
         for support bike connection
@@ -53,7 +53,7 @@
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
             <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-            <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
             <!-- <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> -->
             <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
             <!-- <uses-permission android:name="android.permission.READ_CALENDAR" /> -->
@@ -71,8 +71,11 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-        <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+        <!-- <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
             <string>need location access to find things nearby</string>
-        </edit-config> 
+        </edit-config>  -->
+        <edit-config target="NSBluetoothAlwaysUsageDescription" file="*-Info.plist" mode="merge">
+            <string>need to connect bike with BLE </string>
+        </edit-config>
     </platform>
 </widget>

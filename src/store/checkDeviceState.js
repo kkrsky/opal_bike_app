@@ -64,6 +64,32 @@ let checkDeviceState = {
         dispatch("checState_bluetooth_init", {
           eventCallback: deviceBleChangeEventCallback,
         });
+        let permissions = cordova.plugins.permissions;
+        permissions.checkPermission(
+          permissions.ACCESS_FINE_LOCATION,
+          checkPermissionSuccessCallback,
+          (error) => {
+            console.error("checkPermissionError error:", error);
+          }
+        );
+        function checkPermissionSuccessCallback(status) {
+          if (status.hasPermission) {
+            console.log("Permission OK");
+          } else {
+            console.log("Permission not OK");
+            // ask user permission
+            permissions.requestPermission(
+              permissions.ACCESS_FINE_LOCATION,
+              () => {
+                console.log("set permission: ACCESS_FINE_LOCATION");
+              },
+              (error) => {
+                console.error("requestPermission error:", error);
+              }
+            );
+          }
+        }
+
         // dispatch("checState_location_init");
         // dispatch("checState_network_init");
       };

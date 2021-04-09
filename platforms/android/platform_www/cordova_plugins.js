@@ -125,6 +125,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "merges": [
         "cordova.plugins.diagnostic.external_storage"
       ]
+    },
+    {
+      "id": "cordova-plugin-android-permissions.Permissions",
+      "file": "plugins/cordova-plugin-android-permissions/www/permissions.js",
+      "pluginId": "cordova-plugin-android-permissions",
+      "clobbers": [
+        "cordova.plugins.permissions"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -133,6 +141,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-geolocation": "4.0.2",
     "cordova-plugin-splashscreen": "6.0.0",
     "cordova-plugin-whitelist": "1.3.4",
-    "cordova.plugins.diagnostic": "6.0.2"
+    "cordova.plugins.diagnostic": "6.0.2",
+    "cordova-plugin-android-permissions": "1.1.2"
   };
 });

@@ -29,40 +29,48 @@
           "/manifest": [
             {
               "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH\" />",
-              "count": 9
+              "count": 23
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\" />",
-              "count": 9
+              "count": 23
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
-              "count": 8
+              "count": 22
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\" />",
-              "count": 8
+              "count": 22
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
-              "count": 8
+              "count": 22
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-              "count": 8
+              "count": 22
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
-              "count": 8
+              "count": 22
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
-              "count": 9
+              "count": 23
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
+              "count": 23
             }
           ],
           "/*": [
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
               "count": 1
             },
             {
@@ -99,6 +107,10 @@
             },
             {
               "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Permissions\"><param name=\"android-package\" value=\"com.android.plugins.Permissions\" /></feature>",
               "count": 1
             }
           ]
@@ -146,23 +158,26 @@
   },
   "installed_plugins": {
     "cordova-plugin-ble-central": {
-      "PACKAGE_NAME": "jp.opal.bike.app.rel"
+      "PACKAGE_NAME": "jp.opal.bike.app.rev"
     },
     "cordova-plugin-device": {
-      "PACKAGE_NAME": "jp.opal.bike.app.rel"
+      "PACKAGE_NAME": "jp.opal.bike.app.rev"
     },
     "cordova-plugin-geolocation": {
-      "PACKAGE_NAME": "jp.opal.bike.app.rel"
+      "PACKAGE_NAME": "jp.opal.bike.app.rev"
     },
     "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "jp.opal.bike.app.rel"
+      "PACKAGE_NAME": "jp.opal.bike.app.rev"
     },
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "jp.opal.bike.app.rel"
+      "PACKAGE_NAME": "jp.opal.bike.app.rev"
     },
     "cordova.plugins.diagnostic": {
       "ANDROIDX_VERSION": "1.+",
-      "PACKAGE_NAME": "jp.opal.bike.app.rel"
+      "PACKAGE_NAME": "jp.opal.bike.app.rev"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "jp.opal.bike.app.rev"
     }
   },
   "dependent_plugins": {},
@@ -292,6 +307,14 @@
       "merges": [
         "cordova.plugins.diagnostic.external_storage"
       ]
+    },
+    {
+      "id": "cordova-plugin-android-permissions.Permissions",
+      "file": "plugins/cordova-plugin-android-permissions/www/permissions.js",
+      "pluginId": "cordova-plugin-android-permissions",
+      "clobbers": [
+        "cordova.plugins.permissions"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -300,6 +323,7 @@
     "cordova-plugin-geolocation": "4.0.2",
     "cordova-plugin-splashscreen": "6.0.0",
     "cordova-plugin-whitelist": "1.3.4",
-    "cordova.plugins.diagnostic": "6.0.2"
+    "cordova.plugins.diagnostic": "6.0.2",
+    "cordova-plugin-android-permissions": "1.1.2"
   }
 }
